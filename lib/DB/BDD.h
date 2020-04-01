@@ -4,20 +4,28 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Company.h"
+#include "JobSeeker.h"
+#include "Employee.h"
 
 std::vector<Company> getCompanies (std::string fileName) ;
 std::vector<JobSeeker> getJobSeekers (std::string fileName) ;
-std::vector<Occupation> getOccupations (std::string fileName) ;
+std::vector<Job> getJobs (std::string fileName) ;
 std::vector<Employee> getEmployees (std::string fileName) ;
 
-void createCompanyEntry (const &Company c) ;
-void createJobSeekerEntry (const &JobSeeker js) ;
-void createEmployeeEntry (const &Employee e) ;
-void createOccupationEntry (const &Occupation o) ;
+void createCompanyEntry (std::string fileName, const &Company c) ;
+void createJobSeekerEntry (std::string fileName, const &JobSeeker js) ;
+void createEmployeeEntry (std::string fileName, const &Employee e) ;
+void createJobEntry (std::string fileName, const &Job o) ;
 
-void deleteCompanyEntry (const &Company c) ;
-void deleteJobSeekerEntry (const &JobSeeker js) ;
-void deleteEmployeeEntry (const &Employee e) ;
-void deleteOccupationEntry (const &Occupation o) ;
+void updateCompanyEntry (std::string fileName, const &Company c) ;
+void updateJobSeekerEntry (std::string fileName, const &JobSeeker js) ;
+void updateEmployeeEntry (std::string fileName, const &Employee e) ;
+void updateJobEntry (std::string fileName, const &Job o) ;
+
+void deleteCompanyEntry (std::string fileName, const &Company c) ;
+void deleteJobSeekerEntry (std::string fileName, const &JobSeeker js) ;
+void deleteEmployeeEntry (std::string fileName, const &Employee e) ;
+void deleteJobEntry (std::string fileName, const &Job o) ;
 
 #endif
