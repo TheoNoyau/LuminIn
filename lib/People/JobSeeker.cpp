@@ -2,9 +2,44 @@
 
 using namespace std;
 
-JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> colleagues) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
+JobSeeker::JobSeeker(const int id, string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> colleagues) : _id(id), _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
 {
 
+}
+
+int JobSeeker::getId() 
+{
+    return _id ;
+}
+
+string JobSeeker::getName()
+{
+    return _name;
+}
+
+string JobSeeker::getFirstname()
+{
+    return _firstname;
+}
+
+string JobSeeker::getEmail()
+{
+    return _email;
+}
+
+string JobSeeker::getZipcode()
+{
+    return _zipcode;
+}
+
+vector<string> JobSeeker::getSkills()
+{
+    return _skills;
+}
+
+vector<Employee> JobSeeker::getColleagues()
+{
+    return _oldColleagues;
 }
 
 void JobSeeker::createProfile(vector<JobSeeker> &list)

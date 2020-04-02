@@ -5,88 +5,88 @@
 
 using namespace std ;
 
-vector<Company> getCompanies (string fileName) 
+vector<Company> getCompanies () 
 {
     vector<Company> companies ;
     return companies ;
 }
 
-vector<JobSeeker> getJobSeekers (string fileName) 
+vector<JobSeeker> getJobSeekers () 
 {
     vector<JobSeeker> js ;
     return js ;
 }
 
-vector<Job> getJobs (string fileName) 
+vector<Job> getJobs () 
 {
     vector<Job> jobs ;
     return jobs ;
 }
 
-vector<Employee> getEmployees (string fileName) 
+vector<Employee> getEmployees () 
 {
     vector<Employee> employees ;
     return employees ;
 }
 
-void createCompanyEntry (std::string fileName, const Company &c) 
+void createEntry (const Company &c) 
 {
 
 }
 
-void createJobSeekerEntry (std::string fileName, const JobSeeker &js) 
+void createEntry (const JobSeeker &js) 
 {
 
 }
 
-void createEmployeeEntry (std::string fileName, const Employee &e)
+void createEntry (const Employee &e)
 {
 
 }
 
-void createJobEntry (std::string fileName, const Job o) 
-{
-
-}
-
-
-void updateCompanyEntry (std::string fileName, const Company &c) 
-{
-
-}
-
-void updateJobSeekerEntry (std::string fileName, const JobSeeker &js) 
-{
-
-}
-
-void updateEmployeeEntry (std::string fileName, const Employee &e) 
-{
-
-}
-
-void updateJobEntry (std::string fileName, const Job &o) 
+void createEntry (const Job o) 
 {
 
 }
 
 
-void deleteCompanyEntry (std::string fileName, const Company &c) 
+void updateEntry (const Company &c) 
 {
 
 }
 
-void deleteJobSeekerEntry (std::string fileName, const JobSeeker &js) 
+void updateEntry (const JobSeeker &js) 
 {
 
 }
 
-void deleteEmployeeEntry (std::string fileName, const Employee &e) 
+void updateEntry (const Employee &e) 
 {
 
 }
 
-void deleteJobEntry (std::string fileName, const Job &o) 
+void updateEntry (const Job &o) 
+{
+
+}
+
+
+void deleteEntry (const Company &c) 
+{
+
+}
+
+void deleteEntry (const JobSeeker &js) 
+{
+
+}
+
+void deleteEntry (const Employee &e) 
+{
+
+}
+
+void deleteEntry (const Job &o) 
 {
 
 }

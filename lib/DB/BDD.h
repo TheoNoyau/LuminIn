@@ -13,24 +13,47 @@ class Company ;
 class Job ;
 class Company ;
 
-std::vector<Company> getCompanies (std::string fileName) ;
-std::vector<JobSeeker> getJobSeekers (std::string fileName) ;
-std::vector<Job> getJobs (std::string fileName) ;
-std::vector<Employee> getEmployees (std::string fileName) ;
+const std::string CompanyFile = "../test/data/companies.csv";
+const std::string EmployeeFile = "../test/data/employees.csv";
+const std::string JobSeekerFile = "../test/data/jobseekers.csv";
+const std::string JobsFile = "../test/data/jobs.csv";
 
-void createCompanyEntry (std::string fileName, const Company &c) ;
-void createJobSeekerEntry (std::string fileName, const JobSeeker &js) ;
-void createEmployeeEntry (std::string fileName, const Employee &e) ;
-void createJobEntry (std::string fileName, const Job o) ;
+// Read all the companies from the companies database table
+// Return a vector of those Companies
+std::vector<Company> getCompanies () ;
 
-void updateCompanyEntry (std::string fileName, const Company &c) ;
-void updateJobSeekerEntry (std::string fileName, const JobSeeker &js) ;
-void updateEmployeeEntry (std::string fileName, const Employee &e) ;
-void updateJobEntry (std::string fileName, const Job &o) ;
+// Read all the JobSeekers from the jobseekers database table
+// Return a vector of those JobSeekers
+std::vector<JobSeeker> getJobSeekers () ;
 
-void deleteCompanyEntry (std::string fileName, const Company &c) ;
-void deleteJobSeekerEntry (std::string fileName, const JobSeeker &js) ;
-void deleteEmployeeEntry (std::string fileName, const Employee &e) ;
-void deleteJobEntry (std::string fileName, const Job &o) ;
+// Read all the Jobs from the jobs database table
+// Return a vector of those Jobs
+std::vector<Job> getJobs () ;
+
+// Read all the Employees from the employees database table
+// Return a vector of those Employees
+std::vector<Employee> getEmployees () ;
+
+
+// Create a line in the database table
+// The database table will differ according to the object given
+void createEntry (const Company &c) ;
+void createEntry (const JobSeeker &js) ;
+void createEntry (const Employee &e) ;
+void createEntry (const Job o) ;
+
+// Update/modify a line in the database table 
+// The database table will differ according to the object given
+void updateEntry (const Company &c) ;
+void updateEntry (const JobSeeker &js) ;
+void updateEntry (const Employee &e) ;
+void updateEntry (const Job &o) ;
+
+// Delete a line in the database table
+// The database table will differ according to the object given
+void deleteEntry (const Company &c) ;
+void deleteEntry (const JobSeeker &js) ;
+void deleteEntry (const Employee &e) ;
+void deleteEntry (const Job &o) ;
 
 #endif

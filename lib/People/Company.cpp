@@ -2,9 +2,29 @@
 
 using namespace std ;
 
-Company::Company(string name, string zipcode, string email) : _name(name), _zipcode(zipcode), _email(email)
+Company::Company(const int id, string name, string zipcode, string email) : _id(id), _name(name), _zipcode(zipcode), _email(email)
 {
     
+}
+
+int Company::getId ()
+{
+    return _id ;
+}
+
+string Company::getName ()
+{
+    return _name ;
+}
+
+string Company::getZipcode ()
+{
+    return _zipcode ;
+}
+
+string Company::getEmail ()
+{
+    return _email ;
 }
 
 void Company::createProfile(vector<Company> &list) 
