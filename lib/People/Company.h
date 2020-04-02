@@ -9,6 +9,10 @@
 #include "Company.h"
 #include "Job.h"
 
+class JobSeeker ;
+class Employee ;
+class Job ;
+
 class Company
 {
     public:    
@@ -18,8 +22,9 @@ class Company
     void updateProfile(std::string name, std::string zipcode, std::string email) ;
     void deleteProfile(std::vector<Company> &list) ;
     void createJob(std::string title, const std::vector<std::string> skills) ;
-    void deleteJob(&Job j) ;
-    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, const std::vector<std::string> skills, std::string zipcode = "") ;
+    void deleteJob(Job &j) ;
+    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, const std::vector<std::string> skills) ;
+    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, const std::vector<std::string> skills, std::string zipcode) ;
 
     private:
 

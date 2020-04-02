@@ -1,8 +1,8 @@
-#include "Employee.h"
-#include "JobSeeker.h"
-#include "Job.h"
-#include "Company.h"
-#include "BDD.h"
+#include "../lib/People/Employee.h"
+#include "../lib/People/JobSeeker.h"
+#include "../lib/People/Job.h"
+#include "../lib/People/Company.h"
+#include "../lib/DB/BDD.h"
 
 #include <vector>
 #include <string>

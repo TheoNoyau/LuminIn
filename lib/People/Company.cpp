@@ -27,12 +27,19 @@ void Company::createJob(string title, const vector<string> skills)
 
 }
 
-void Company::deleteJob(&Job j) 
+void Company::deleteJob(Job &j) 
 {
 
 }
 
-vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills, string zipcode = "")
+vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills)
 {
-    return NULL ;
+    vector<JobSeeker> js ;
+    return js ;
+}
+
+vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills, string zipcode)
+{
+    vector<JobSeeker> js ;
+    return js ;
 }

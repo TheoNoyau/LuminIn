@@ -17,7 +17,7 @@ void addSkill(string name)
 
 }
 
-void addOldColleague(const &Employee e)
+void addOldColleague(const Employee &e)
 {
 
 }
@@ -37,17 +37,20 @@ void employeeToJobSeeker(vector<Employee> employees, vector<JobSeeker> jobseeker
 
 }
 
-std::vector<Job> searchForJobs(string &jobInfo[5], vector<Job> &list, const vector<string> skills, string zipcode = "")
+std::vector<Job> searchForJobs(vector<Job> &list, const vector<string> skills, string zipcode = "")
 {
-
+    vector<Job> jobs ;
+    return jobs ;
 }
 
-vector<Employee> searchForOldColleagues(vector<Employee> employees, const &Company company)
+vector<Employee> searchForOldColleagues(vector<Employee> employees, const Company &company)
 {
-    return NULL ;
+    vector<Employee> emp ;
+    return emp ;
 }
 
 vector<Employee> searchForOldColleagues(vector<Employee> employees, vector<string> skills)
 {
-    return NULL ;
+    vector<Employee> emp ;
+    return emp ;
 }

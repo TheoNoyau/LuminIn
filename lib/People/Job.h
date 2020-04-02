@@ -7,18 +7,20 @@
 
 #include "Company.h"
 
+class Company ;
+
 class Job
 {
     public:    
 
-    Job(std::string title, std::vector<std::string> skills, const &Company c);
+    Job(std::string title, std::vector<std::string> skills, Company &c);
 
     private:
 
     int _id ;
     std::string _title;
-    std::vector<std::string> skills ;
-    Company _company ;
+    std::vector<std::string> _skills ;
+    Company &_company ;
 };
 
 #endif

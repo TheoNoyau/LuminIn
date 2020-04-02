@@ -2,47 +2,56 @@
 
 using namespace std;
 
-JobSeeker(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<string> skills, std::vector<Employee> colleagues) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list)
+JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> colleagues) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
 {
 
 }
 
-void createProfile(std::vector<JobSeeker> &list)
+void JobSeeker::createProfile(vector<JobSeeker> &list)
 {
 
 }
 
-void addSkills(std::vector<string> skills)
+void JobSeeker::addSkills(vector<string> skills)
 {
 
 }
 
-void addColleague(const &Employee e)
+void JobSeeker::addColleague(const Employee &e)
 {
 
 }
 
-void jobSeekerToEmployee(std::vector<Employee> employees, std::vector<JobSeeker> jobseekers)
+void JobSeeker::jobSeekerToEmployee(vector<Employee> employees, vector<JobSeeker> jobseekers)
 {
 
 }
 
-void deleteProfile(std::vector<JobSeeker> &list)
+void JobSeeker::deleteProfile(vector<JobSeeker> &list)
 {
 
 }
 
-std::vector<Job> searchForJobs(std::vector<Job> &list, const std::vector<string> skills, std::string zipcode = "")
+vector<Job> JobSeeker::searchForJobs(vector<Job> &list, const vector<string> skills)
 {
-    return NULL ;
+    vector<Job> jobs ;
+    return jobs ;
 }
 
-std::vector<Employee> searchForOldColleagues(std::vector<Employee> employees, const &Company company)
+vector<Job> JobSeeker::searchForJobs(vector<Job> &list, const vector<string> skills, string zipcode)
 {
-    return NULL ;
+    vector<Job> jobs ;
+    return jobs ;
 }
 
-std::vector<Employee> searchForOldColleagues(std::vector<Employee> employees, std::vector<string> skills)
+vector<Employee> JobSeeker::searchForOldColleagues(vector<Employee> employees, const Company &company)
 {
-    return NULL ;
+    vector<Employee> emp ;
+    return emp ;
+}
+
+vector<Employee> JobSeeker::searchForOldColleagues(vector<Employee> employees, vector<string> skills)
+{
+    vector<Employee> emp ;
+    return emp ;
 }
