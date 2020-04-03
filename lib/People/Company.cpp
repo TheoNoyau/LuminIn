@@ -1,5 +1,9 @@
 #include "Company.h"
 
+#include "JobSeeker.h"
+#include "Employee.h"
+#include "Job.h"
+
 using namespace std ;
 
 Company::Company(const int id, string name, string zipcode, string email) : _id(id), _name(name), _zipcode(zipcode), _email(email)

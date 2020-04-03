@@ -4,19 +4,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../lib/People/Company.h"
-#include "../lib/People/JobSeeker.h"
-#include "../lib/People/Employee.h"
 
 class JobSeeker ;
 class Company ;
 class Job ;
-class Company ;
-
-const std::string CompanyFile = "../test/data/companies.csv";
-const std::string EmployeeFile = "../test/data/employees.csv";
-const std::string JobSeekerFile = "../test/data/jobseekers.csv";
-const std::string JobsFile = "../test/data/jobs.csv";
+class Employee ;
 
 // Read all the companies from the companies database table
 // Return a vector of those Companies

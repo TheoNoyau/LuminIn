@@ -5,10 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "Company.h"
-#include "Employee.h"
-#include "Job.h"
-
 class Employee ;
 class Company ;
 class Job ;

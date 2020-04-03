@@ -3,7 +3,17 @@
 #include <ostream>
 #include <vector>
 
+#include "People/Company.h"
+#include "People/JobSeeker.h"
+#include "People/Employee.h"
+#include "People/Job.h"
+
 using namespace std ;
+
+const std::string CompanyFile = "../test/data/companies.csv";
+const std::string EmployeeFile = "../test/data/employees.csv";
+const std::string JobSeekerFile = "../test/data/jobseekers.csv";
+const std::string JobsFile = "../test/data/jobs.csv";
 
 vector<Company> getCompanies () 
 {

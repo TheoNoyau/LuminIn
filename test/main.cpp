@@ -1,8 +1,8 @@
-#include "../lib/People/Employee.h"
-#include "../lib/People/JobSeeker.h"
-#include "../lib/People/Job.h"
-#include "../lib/People/Company.h"
-#include "../lib/DB/BDD.h"
+#include "People/Employee.h"
+#include "People/JobSeeker.h"
+#include "People/Job.h"
+#include "People/Company.h"
+#include "DB/BDD.h"
 
 #include <vector>
 #include <string>
@@ -37,7 +37,7 @@ int main()
 {
     // First basic test
     Company c(1, "KerLav", "31", "pro@gmail.com");
-    TEST(!c.getEmail().compare("pro@gmail.com"));
+    TEST(!c.getEmail().compare("pro@gmail.com")); 
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     

@@ -1,5 +1,9 @@
 #include "Employee.h"
 
+#include "JobSeeker.h"
+#include "Company.h"
+#include "Job.h"
+
 using namespace std;
 
 Employee::Employee(const int id, string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> &list) : _id(id), _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list)
