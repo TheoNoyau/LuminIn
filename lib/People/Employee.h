@@ -65,7 +65,7 @@ class Employee
     std::string _email;
     std::string _zipcode;
     std::vector<std::string> _skills ;
-    std::vector<Employee> _oldColleagues ;
+    std::vector<Employee> &_oldColleagues ;
 };
 
 #endif
