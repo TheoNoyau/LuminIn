@@ -6,7 +6,7 @@
 
 using namespace std;
 
-JobSeeker::JobSeeker(const int id, string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> colleagues) : _id(id), _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
+JobSeeker::JobSeeker(const int id, string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> &colleagues) : _id(id), _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
 {
 
 }

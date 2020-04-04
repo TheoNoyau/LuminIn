@@ -40,18 +40,12 @@ int main()
     Company c(1, "KerLav", "31", "pro@gmail.com");
     TEST(!c.getEmail().compare("pro@gmail.com")); 
 
-    fstream companiesIn, employeesIn, jobsIn, jobseekersIn ;
-    fstream companiesOut, employeesOut, jobsOut, jobseekersOut ;
+    fstream companiesTable, employeesTable, jobsTable, jobseekersTable ;
 
-    companiesIn.open("test/data/csv/companies.csv", ios::in) ;
-    employeesIn.open("test/data/csv/employees.csv", ios::in) ;
-    jobsIn.open("test/data/csv/jobs.csv", ios::in) ;
-    jobseekersIn.open("test/data/csv/jobseekers.csv", ios::in) ;
-
-    companiesOut.open("test/data/csv/companies.csv", ios::out) ;
-    employeesOut.open("test/data/csv/employees.csv", ios::out) ;
-    jobsOut.open("test/data/csv/jobs.csv", ios::out) ;
-    jobseekersOut.open("test/data/csv/jobseekers.csv", ios::out) ;
+    companiesTable.open("test/data/csv/companies.csv", ios::in | ios::out) ;
+    employeesTable.open("test/data/csv/employees.csv", ios::in | ios::out) ;
+    jobsTable.open("test/data/csv/jobs.csv", ios::in | ios::out) ;
+    jobseekersTable.open("test/data/csv/jobseekers.csv", ios::in | ios::out) ;
 
     vector<Company> companies ;
     vector<Employee> employees ;
@@ -60,22 +54,17 @@ int main()
 
     // DB TESTS
     // getCompanies
-    companies = getCompanies (companiesIn) ;
+    companies = getCompanies (companiesTable) ;
     {
         TEST (companies[0].getId() == 1) ;
         TEST (!companies[1].getName().compare("Google")) ;
         TEST (!companies[2].getZipcode().compare("13006")) ;
     }
 
-    companiesIn.close();
-    employeesIn.close();
-    jobsIn.close();
-    jobseekersIn.close();
-
-    companiesOut.close();
-    employeesOut.close();
-    jobsOut.close();
-    jobseekersOut.close();
+    companiesTable.close();
+    employeesTable.close();
+    jobsTable.close();
+    jobseekersTable.close();
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     
