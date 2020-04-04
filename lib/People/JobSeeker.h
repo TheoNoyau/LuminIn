@@ -5,9 +5,9 @@
 #include <string>
 #include <vector>
 
-class Employee ;
 class Company ;
 class Job ;
+class Employee ;
 
 class JobSeeker
 {
@@ -15,7 +15,7 @@ class JobSeeker
 
     // Class constructor
     // A JobSeeker needs and id as PK, a name, a firstname, an email, a zipcode, a vector of skills and a vector of old colleagues from old jobs
-    JobSeeker(const int id, std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee> colleagues);
+    JobSeeker(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee> &colleagues);
     
     // Accessors
     int getId() ;
@@ -25,6 +25,9 @@ class JobSeeker
     std::string getZipcode() ;
     std::vector<std::string> getSkills() ;
     std::vector<Employee> getColleagues() ;
+
+    // Setter
+    void setId(int id) ;
 
     // Creates a JobSeeker profile
     // Adds the JobSeeker created into the vector given as a parameter
@@ -70,7 +73,7 @@ class JobSeeker
     std::string _email;
     std::string _zipcode;
     std::vector<std::string> _skills ;
-    std::vector<Employee> _oldColleagues ;
+    std::vector<Employee> &_oldColleagues ;
 };
 
 #endif

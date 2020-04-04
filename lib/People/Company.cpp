@@ -6,7 +6,7 @@
 
 using namespace std ;
 
-Company::Company(const int id, string name, string zipcode, string email) : _id(id), _name(name), _zipcode(zipcode), _email(email)
+Company::Company(string name, string zipcode, string email) : _name(name), _zipcode(zipcode), _email(email)
 {
     
 }
@@ -29,6 +29,11 @@ string Company::getZipcode ()
 string Company::getEmail ()
 {
     return _email ;
+}
+
+void Company::setId(int id)
+{
+    _id = id;
 }
 
 void Company::createProfile(vector<Company> &list) 
