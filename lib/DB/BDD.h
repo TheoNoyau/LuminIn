@@ -12,7 +12,7 @@ class Employee ;
 
 // Read all the companies from the companies database table
 // Return a vector of those Companies
-std::vector<Company> getCompanies () ;
+std::vector<Company> getCompanies (std::fstream& db) ;
 
 // Read all the JobSeekers from the jobseekers database table
 // Return a vector of those JobSeekers
