@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "Company.h"
+
 class JobSeeker ;
 class Company ;
 class Job ;
@@ -16,6 +18,7 @@ class Employee
     // Class constructor
     // An employee needs an id as PK, a name, a firstname, an email, a zipcode, a liste of skills, a list of colleagues
     Employee(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee> &list, Company &c);
+    Employee() ;
 
     // Accessors
     int getId() ;
@@ -69,8 +72,8 @@ class Employee
     std::string _email;
     std::string _zipcode;
     std::vector<std::string> _skills ;
-    std::vector<Employee> &_oldColleagues ;
-    Company &_company ;
+    std::vector<Employee> _oldColleagues ;
+    Company _company ;
 };
 
 #endif

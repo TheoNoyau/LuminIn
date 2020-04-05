@@ -1,7 +1,6 @@
 #include "Employee.h"
 
 #include "JobSeeker.h"
-#include "Company.h"
 #include "Job.h"
 
 using namespace std;
@@ -9,6 +8,11 @@ using namespace std;
 Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(c)
 {
 
+}
+
+Employee::Employee() : _name("undefined"), _firstname("undefine"), _email("undefined"), _zipcode("undefined")
+{
+    _id = -1 ;
 }
 
 int Employee::getId()
