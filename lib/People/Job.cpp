@@ -4,7 +4,7 @@
 
 using namespace std ;
 
-Job::Job(const int id, std::string title, std::vector<std::string> skills, Company &c) : _id(id), _title(title), _skills(skills), _company(c)
+Job::Job(std::string title, std::vector<std::string> skills, Company &c) : _title(title), _skills(skills), _company(c)
 {
     
 }
@@ -27,4 +27,9 @@ vector<std::string> Job::getSkills ()
 Company &Job::getCompany () 
 {
     return _company ;
+}
+
+void Job::setId(int id)
+{
+    _id = id;
 }
