@@ -59,7 +59,18 @@ int main()
         TEST (companies[0].getId() == 1) ;
         TEST (!companies[1].getName().compare("Google")) ;
         TEST (!companies[2].getZipcode().compare("31")) ;
-    } 
+    }
+
+    // getCompany
+    {
+        Company cTest = getCompany(companiesTable, 2) ;
+        TEST (!cTest.getName().compare("Google")) ;
+    }
+    {
+        Company cTest = getCompany(companiesTable, 99999) ;
+        TEST (!cTest.getName().compare("undefined")) ;
+        TEST (cTest.getId() < 0) ;
+    }
 
     // createEntry for each entry
     

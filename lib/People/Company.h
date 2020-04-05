@@ -14,6 +14,7 @@ class Company
     // Class contructor
     // A Company needs a name, zipcode and email     
     Company(std::string name, std::string zipcode, std::string email);
+    Company();
 
     // Accessors
     int getId () ;
