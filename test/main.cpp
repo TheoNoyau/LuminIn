@@ -74,9 +74,17 @@ int main()
 
     // createEntry for each entry
     
-    createEntry(companiesTable, c);
-    JobSeeker js("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13006", {"prog","comedie"}, employees);
-    createEntry(jobseekersTable, js);
+    vector<Employee> colleagues;
+    JobSeeker js("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13006", {"prog","comedie"}, colleagues);
+    Employee e("Kerneves", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
+    Job j("Developpeur Full Stack",{"CSS","HTML5","Python"},c);
+    {
+        createEntry(companiesTable, c);
+        createEntry(jobseekersTable, js);
+        createEntry(employeesTable, e);
+        createEntry(jobsTable, j);
+
+    }
 
     companiesTable.close();
     employeesTable.close();

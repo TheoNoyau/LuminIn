@@ -152,41 +152,106 @@ void createEntry (fstream &db, JobSeeker &js)
         jobseekerId += 1;
     }
     js.setId(jobseekerId);
+
     db.clear();
     // Enter JobSeeker info into csv file
     db << jobseekerId << "," << js.getName() << "," << js.getFirstname() << "," << js.getEmail() << "," << js.getZipcode() << ",";
-    for (unsigned int i = 0; i < js.getSkills().size(); i++) {
+    int sizeSkills = js.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++) {
         db << js.getSkills()[i];
-        if (i == js.getSkills().size() - 1) db << ",";
+        if (i == sizeSkills - 1) db << ",";
         else db << ";";
     }
-    for (unsigned int i = 0; i < js.getColleagues().size(); i++){
+    int sizeColleagues = js.getColleagues().size();
+    for (int i = 0; i < sizeColleagues; i++){
         db << js.getColleagues()[i].getId();
-        if (i == js.getColleagues().size() - 1) db << ",";
+        if (i == sizeColleagues - 1) db << ",";
         else db << ";";
     }
     db << "\n";
 }
 
-void createEntry (fstream &db, const Employee &e)
+void createEntry (fstream &db, Employee &e)
 {
-    // db << "\n";
-    // db << e.getId() << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
-    // for (unsigned int i = 0; i < e.getSkills().size(); i++) {
-    //     db << e.getSkills()[i];
-    //     if (i == e.getSkills().size() - 1) db << ",";
-    //     else db << ";";
-    // }
-    // for (unsigned int i = 0; i < e.getColleagues().size(); i++){
-    //     db << e.getColleagues()[i].getId();
-    //     if (i == e.getColleagues().size() - 1) db << ",";
-    //     else db << ";";
-    // }
-    // db << e.getCompany().getId();
+    db.clear();
+    db.seekg(0);
+    // Create new primary key not already existing
+    unordered_set<int> pk;
+    vector<string> dataLine;
+    string row, data, temp;
+    int employeeId ;
+    getline(db, temp) ;
+    while (getline(db, row))
+    {
+        dataLine.clear();
+        stringstream s(row) ;
+
+        while (getline(s, data, ',')) {
+            dataLine.push_back(data) ;
+        }
+        pk.insert(stoi(dataLine[0])) ;
+    }
+    employeeId = 1;
+    while (pk.count(employeeId) == 1) {
+        employeeId += 1;
+    }
+    e.setId(employeeId);
+    
+    db.clear();
+    // Enter Employee info into csv file
+    db << employeeId << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
+    int sizeSkills = e.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++) {
+        db << e.getSkills()[i];
+        if (i == sizeSkills - 1) db << ",";
+        else db << ";";
+    }
+    int sizeColleagues = e.getColleagues().size();
+    for (int i = 0; i < sizeColleagues; i++){
+        db << e.getColleagues()[i].getId();
+        if (i == sizeColleagues - 1) db << ",";
+        else db << ";";
+    }
+    db << e.getCompany().getId() << "\n";
 }
 
-void createEntry (fstream &db, const Job o) 
+void createEntry (fstream &db, Job &j) 
 {
+    db.clear();
+    db.seekg(0);
+    // Create new primary key not already existing
+    unordered_set<int> pk;
+    vector<string> dataLine;
+    string row, data, temp;
+    int jobId ;
+    getline(db, temp) ;
+    while (getline(db, row))
+    {
+        dataLine.clear();
+        stringstream s(row) ;
+
+        while (getline(s, data, ',')) {
+            dataLine.push_back(data) ;
+        }
+        pk.insert(stoi(dataLine[0])) ;
+    }
+    jobId = 1;
+    while (pk.count(jobId) == 1) {
+        jobId += 1;
+    }
+    j.setId(jobId);
+    
+    db.clear();
+    // Enter Job info into csv
+    db << jobId << "," << j.getTitle() << ",";
+    int sizeSkills = j.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++){
+        db << j.getSkills()[i];
+        if (i == sizeSkills - 1) db << ",";
+        else db << ";";
+    }
+    db << j.getCompany().getId() << "\n";
+    
 }
 
 void updateEntry(const Company &c)

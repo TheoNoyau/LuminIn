@@ -35,7 +35,7 @@ Company getCompany(std::fstream& db, int const id) ;
 void createEntry (std::fstream &db, Company &c) ;
 void createEntry (std::fstream &db, JobSeeker &js) ;
 void createEntry (std::fstream &db, Employee &e) ;
-void createEntry (std::fstream &db, Job o) ;
+void createEntry (std::fstream &db, Job &j) ;
 
 // Update/modify a line in the database table 
 // The database table will differ according to the object given
