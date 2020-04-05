@@ -13,13 +13,16 @@ class Job
 
     // Class constructeur
     // A job needs an id as PK, a title, a vector of skills and a linked Company
-    Job(const int id, std::string title, std::vector<std::string> skills, Company &c);
+    Job(std::string title, std::vector<std::string> skills, Company &c);
 
     // Accessors
     int getId () ;
     std::string getTitle () ;
     std::vector<std::string> getSkills () ;
     Company &getCompany () ;
+
+    // Setter 
+    void setId(int id);
 
     private:
 
