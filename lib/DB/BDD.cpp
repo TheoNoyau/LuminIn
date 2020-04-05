@@ -66,6 +66,38 @@ vector<Employee> getEmployees()
     return employees;
 }
 
+Company getCompany(std::fstream& db, int const id)
+{
+    db.clear() ;
+    db.seekg(0);
+
+    vector<string> dataLine;
+    string row, data, temp;
+    int companyId ;
+
+    // Ignore first line of csv file
+    getline(db, temp) ;
+    while (getline(db, row))
+    {
+        dataLine.clear();
+        stringstream s(row) ;
+
+        while (getline(s, data, ',')) {
+            dataLine.push_back(data) ;
+        }
+
+        companyId = stoi(dataLine[0]) ;
+        if (companyId == id) {
+            Company company(dataLine[1], dataLine[2], dataLine[3]) ;
+            company.setId(companyId) ;
+            return company ;
+        }
+    }
+
+    Company company ;
+    return company;
+}
+
 void createEntry (fstream &db, Company &c) 
 {   
     db.clear();

@@ -13,6 +13,11 @@ Company::Company(string name, string zipcode, string email) : _name(name), _zipc
     
 }
 
+Company::Company() : _name("undefined"), _zipcode("undefined"), _email("undefined")
+{
+   _id = -1 ; 
+}
+
 int Company::getId ()
 {
     return _id ;
