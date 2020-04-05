@@ -37,15 +37,15 @@ int tests_reussis = 0;
 int main()
 {
     // First basic test
-    Company c(1, "KerLav", "31", "pro@gmail.com");
-    TEST(!c.getEmail().compare("pro@gmail.com")); 
+    Company c("KerLav", "31", "pro@gmail.com");
+    TEST(!c.getEmail().compare("pro@gmail.com"));     
 
     fstream companiesTable, employeesTable, jobsTable, jobseekersTable ;
 
-    companiesTable.open("test/data/csv/companies.csv", ios::in | ios::out) ;
-    employeesTable.open("test/data/csv/employees.csv", ios::in | ios::out) ;
-    jobsTable.open("test/data/csv/jobs.csv", ios::in | ios::out) ;
-    jobseekersTable.open("test/data/csv/jobseekers.csv", ios::in | ios::out) ;
+    companiesTable.open("test/data/csv/companies.csv", ios::in | ios::app) ;
+    employeesTable.open("test/data/csv/employees.csv", ios::in | ios::app) ;
+    jobsTable.open("test/data/csv/jobs.csv", ios::in | ios::app) ;
+    jobseekersTable.open("test/data/csv/jobseekers.csv", ios::in | ios::app) ;
 
     vector<Company> companies ;
     vector<Employee> employees ;
@@ -58,8 +58,14 @@ int main()
     {
         TEST (companies[0].getId() == 1) ;
         TEST (!companies[1].getName().compare("Google")) ;
-        TEST (!companies[2].getZipcode().compare("13006")) ;
-    }
+        TEST (!companies[2].getZipcode().compare("31")) ;
+    } 
+
+    // createEntry for each entry
+    
+    createEntry(companiesTable, c);
+    JobSeeker js("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13006", {"prog","comedie"}, employees);
+    createEntry(jobseekersTable, js);
 
     companiesTable.close();
     employeesTable.close();

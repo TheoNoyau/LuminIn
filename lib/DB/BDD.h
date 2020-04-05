@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 class JobSeeker ;
 class Company ;
@@ -29,10 +30,10 @@ std::vector<Employee> getEmployees () ;
 
 // Create a line in the database table
 // The database table will differ according to the object given
-void createEntry (const Company &c) ;
-void createEntry (const JobSeeker &js) ;
-void createEntry (const Employee &e) ;
-void createEntry (const Job o) ;
+void createEntry (std::fstream &db, Company &c) ;
+void createEntry (std::fstream &db, JobSeeker &js) ;
+void createEntry (std::fstream &db, Employee &e) ;
+void createEntry (std::fstream &db, Job o) ;
 
 // Update/modify a line in the database table 
 // The database table will differ according to the object given

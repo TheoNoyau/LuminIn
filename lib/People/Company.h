@@ -12,14 +12,17 @@ class Company
 {
     public:
     // Class contructor
-    // A Company needs an id as PK, a name, zipcode and email     
-    Company(const int id, std::string name, std::string zipcode, std::string email);
+    // A Company needs a name, zipcode and email     
+    Company(std::string name, std::string zipcode, std::string email);
 
     // Accessors
     int getId () ;
     std::string getName () ;
     std::string getZipcode () ;
     std::string getEmail () ;
+
+    // Setter
+    void setId(int id);
 
     // Creates Company profile and adds it in the list and DB 
     void createProfile(std::vector<Company> &list) ;
