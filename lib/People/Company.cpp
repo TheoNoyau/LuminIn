@@ -1,8 +1,10 @@
 #include "Company.h"
 
 #include "JobSeeker.h"
-#include "Employee.h"
+#include "Company.h"
 #include "Job.h"
+
+#include <vector>
 
 using namespace std ;
 

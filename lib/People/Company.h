@@ -6,7 +6,6 @@
 #include <vector>
 
 class JobSeeker ;
-class Employee ;
 class Job ;
 
 class Company
