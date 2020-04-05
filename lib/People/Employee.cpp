@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Employee::Employee(const int id, string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> &list) : _id(id), _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list)
+Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(c)
 {
 
 }
@@ -44,6 +44,16 @@ vector<string> Employee::getSkills()
 vector<Employee> Employee::getColleagues()
 {
     return _oldColleagues;
+}
+
+Company &Employee::getCompany()
+{
+    return _company;
+}
+
+void Employee::setId(int id)
+{
+    _id = id;
 }
 
 void createProfile(vector<Employee> &list)
