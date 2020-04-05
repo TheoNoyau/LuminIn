@@ -67,8 +67,8 @@ int main()
         TEST (!cTest.getName().compare("Google")) ;
     }
     {
-        Company cTest = getCompany(companiesTable, 16) ;
-        TEST (cTest.getName().compare("undefined")) ;
+        Company cTest = getCompany(companiesTable, 99999) ;
+        TEST (!cTest.getName().compare("undefined")) ;
         TEST (cTest.getId() < 0) ;
     }
 
