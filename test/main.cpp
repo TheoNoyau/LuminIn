@@ -81,10 +81,11 @@ int main()
         TEST (!employees[1].getCompany().getName().compare("Disney")) ;
         TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
         TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
+        TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
     }
 
     // getJobSeekers
-    jobSeekers = getJobSeekers(jobseekersTable, employeesTable, dbCompanies) ;
+    jobSeekers = getJobSeekers(jobseekersTable, employeesTable, companiesTable) ;
     {
         TEST (!jobSeekers[0].getName().compare("Duck")) ;
         TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
@@ -100,10 +101,10 @@ int main()
     Employee e("Kerneves", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
     Job j("Developpeur Full Stack",{"CSS","HTML5","Python"},c);
     {
-        // createEntry(companiesTable, c);
-        // createEntry(jobseekersTable, js);
-        // createEntry(employeesTable, e);
-        // createEntry(jobsTable, j);
+        createEntry(companiesTable, c);
+        createEntry(jobseekersTable, js);
+        createEntry(employeesTable, e);
+        createEntry(jobsTable, j);
 
     }
 
