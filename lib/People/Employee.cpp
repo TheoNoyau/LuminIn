@@ -11,9 +11,14 @@ Employee::Employee(string name, string firstname, string email, string zipcode, 
 
 }
 
-Employee::Employee(vector<string> skills, vector<Employee> &list, Company &c) : _name("undefined"), _firstname("undefine"), _email("undefined"), _zipcode("undefined"), _skills(skills), _oldColleagues(list), _company(c)
+Employee::Employee(Company &c) : _name("undefined"), _firstname("undefined"), _email("undefined"), _zipcode("undefined"), _company(c)
 {
     _id = -1 ;
+}
+
+Employee::Employee(const Employee &copy) : _id(copy._id), _name(copy._name), _firstname(copy._firstname), _email(copy._email), _zipcode(copy._zipcode), _skills(copy._skills), _oldColleagues(copy._oldColleagues), _company(copy._company)
+{
+
 }
 
 int Employee::getId()
@@ -116,7 +121,7 @@ vector<Employee> Employee::searchForOldColleagues(vector<Employee> employees, ve
 }
 
 Employee& Employee::operator= (const Employee &employee) 
-{
+{ 
     _id = employee._id ;
     _name = employee._name ;
     _firstname = employee._firstname ;
@@ -126,5 +131,6 @@ Employee& Employee::operator= (const Employee &employee)
     _oldColleagues = employee._oldColleagues ;
     _company = employee._company ;
 
-    return *this;
+    cout << "=" << _firstname << endl ;
+    return *this ;
 }

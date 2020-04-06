@@ -16,7 +16,8 @@ class Employee
     // Class constructor
     // An employee needs an id as PK, a name, a firstname, an email, a zipcode, a liste of skills, a list of colleagues
     Employee(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee> &list, Company &c);
-    Employee(std::vector<std::string> skills, std::vector<Employee> &list, Company &c) ;
+    Employee(Company &c) ;
+    Employee(const Employee &copy) ;
 
     // Accessors
     int getId() ;
@@ -76,8 +77,8 @@ class Employee
     std::string _firstname ;
     std::string _email;
     std::string _zipcode;
-    std::vector<std::string>& _skills ;
-    std::vector<Employee>& _oldColleagues ;
+    std::vector<std::string> _skills ;
+    std::vector<Employee> _oldColleagues ;
     Company &_company ;
 };
 
