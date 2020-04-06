@@ -48,6 +48,9 @@ class Company
     // Returns a list of JobSeeker
     std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, const std::vector<std::string> skills, std::string zipcode) ;
 
+    // Operators overloading
+    Company& operator= (const Company &company) ;
+
     private:
 
     int _id ;
