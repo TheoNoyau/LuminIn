@@ -84,12 +84,13 @@ int main()
     }
 
     // getJobSeekers
-    jobSeekers = getJobSeekers(jobseekersTable, employeesTable) ;
+    jobSeekers = getJobSeekers(jobseekersTable, employeesTable, dbCompanies) ;
     {
         TEST (!jobSeekers[0].getName().compare("Duck")) ;
         TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
         
         TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
+        TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
     }
 
     // createEntry for each entry
