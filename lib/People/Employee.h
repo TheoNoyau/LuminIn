@@ -26,7 +26,7 @@ class Employee
     std::string getEmail() ;
     std::string getZipcode() ;
     std::vector<std::string> getSkills() ;
-    std::vector<Employee> getColleagues() ;
+    std::vector<Employee> &getColleagues() ;
     Company &getCompany();
 
     // Setter

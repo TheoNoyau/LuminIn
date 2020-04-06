@@ -73,7 +73,7 @@ vector<Employee> getEmployees(fstream& db, fstream& dbCompanies)
 
     vector<string> dataLine;
     string row, data, temp;
-    int employeeId, colleagueId, companyId ;
+    unsigned int employeeId, colleagueId, companyId ;
 
     // Ignore first line of csv file
     getline(db, temp) ;
@@ -127,11 +127,11 @@ vector<Employee> getEmployees(fstream& db, fstream& dbCompanies)
     }
 
     // Filling of all the colleagues that may not be initialized yet
-    for (int i = 0; i < employees.size(); i++) {
-        colleagues = employees[i].getColleagues() ;
-        for (int j = 0; j < colleagues.size(); j++) {
-            if (!colleagues[j].getName().compare("undefined")) {
-               
+    for (unsigned int i = 0; i < employees.size(); i++) {
+        for (unsigned int j = 0; j < employees[i].getColleagues().size(); j++) {
+            if (!employees[i].getColleagues()[j].getName().compare("undefined")) {
+                Employee e(employees[employees[i].getColleagues()[j].getId() - 1]) ;
+                employees[i].getColleagues()[j] = e ;
             }
         }
     }

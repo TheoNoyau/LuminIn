@@ -51,7 +51,7 @@ vector<string> Employee::getSkills()
     return _skills;
 }
 
-vector<Employee> Employee::getColleagues()
+vector<Employee> &Employee::getColleagues()
 {
     return _oldColleagues;
 }
@@ -131,6 +131,5 @@ Employee& Employee::operator= (const Employee &employee)
     _oldColleagues = employee._oldColleagues ;
     _company = employee._company ;
 
-    cout << "=" << _firstname << endl ;
     return *this ;
 }
