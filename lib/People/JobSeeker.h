@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "Employee.h"
+
 class Company ;
 class Job ;
 class Employee ;
@@ -16,7 +18,7 @@ class JobSeeker
     // Class constructor
     // A JobSeeker needs and id as PK, a name, a firstname, an email, a zipcode, a vector of skills and a vector of old colleagues from old jobs
     JobSeeker(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee> &colleagues);
-    
+
     // Accessors
     int getId() ;
     std::string getName() ;
@@ -24,7 +26,7 @@ class JobSeeker
     std::string getEmail() ;
     std::string getZipcode() ;
     std::vector<std::string> getSkills() ;
-    std::vector<Employee> getColleagues() ;
+    std::vector<Employee> &getColleagues() ;
 
     // Setter
     void setId(int id) ;
@@ -65,6 +67,9 @@ class JobSeeker
     // Returns a vector of those colleagues
     std::vector<Employee> searchForOldColleagues (std::vector<Employee> employees, std::vector<std::string> skills) ;
 
+    // Operators overloading
+    JobSeeker& operator= (const JobSeeker &js) ;
+
     private:
 
     int _id ;
@@ -73,7 +78,7 @@ class JobSeeker
     std::string _email;
     std::string _zipcode;
     std::vector<std::string> _skills ;
-    std::vector<Employee> &_oldColleagues ;
+    std::vector<Employee> _oldColleagues ;
 };
 
 #endif
