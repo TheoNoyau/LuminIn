@@ -25,7 +25,7 @@ std::vector<Job> getJobs () ;
 
 // Read all the Employees from the employees database table
 // Return a vector of those Employees
-std::vector<Employee> getEmployees () ;
+std::vector<Employee> getEmployees (std::fstream& db, std::fstream& dbCompanies) ;
 
 // Retruns the company object corresponding to the id given as a parameter
 Company getCompany(std::fstream& db, int const id) ;

@@ -79,3 +79,13 @@ vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const ve
     vector<JobSeeker> js ;
     return js ;
 }
+
+Company& Company::operator= (const Company &company) 
+{
+    _id = company._id ;
+    _name = company._name ;
+    _zipcode = company._zipcode ;
+    _email = company._email ;
+
+    return *this ;
+}

@@ -72,6 +72,17 @@ int main()
         TEST (cTest.getId() < 0) ;
     }
 
+    // getEmployees
+    employees = getEmployees (employeesTable, companiesTable) ;
+    {
+        TEST (!employees[0].getName().compare("Untel")) ;
+        TEST (!employees[0].getSkills()[0].compare("C++")) ;
+
+        TEST (!employees[1].getCompany().getName().compare("Disney")) ;
+        TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
+        TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
+    }
+
     // createEntry for each entry
     
     vector<Employee> colleagues;

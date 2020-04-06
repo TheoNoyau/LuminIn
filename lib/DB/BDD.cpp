@@ -60,9 +60,82 @@ vector<Job> getJobs()
     return jobs;
 }
 
-vector<Employee> getEmployees()
+vector<Employee> getEmployees(fstream& db, fstream& dbCompanies)
 {
+    db.clear() ;
+    db.seekg(0);
+
     vector<Employee> employees;
+    vector<string> skills ;
+
+    // Will be added to this vector the references to the colleagues corresponding to the IDs of the csv line
+    vector<Employee> colleagues ;
+
+    vector<string> dataLine;
+    string row, data, temp;
+    unsigned int employeeId, colleagueId, companyId ;
+
+    // Ignore first line of csv file
+    getline(db, temp) ;
+    while (getline(db, row))
+    {
+        dataLine.clear();
+        skills.clear();
+        colleagues.clear();
+
+        stringstream s ;
+        s << row ;
+
+        while (getline(s, data, ',')) {
+            dataLine.push_back(data) ;
+        }
+
+        // Setting of the company
+        companyId = stoi(dataLine[7]) ;
+        Company company = getCompany(dbCompanies, companyId) ;
+
+        // Reading of the skills
+        s.clear();
+        s << dataLine[5] ;
+        while (getline(s, data, ';')) {
+            skills.push_back(data) ;
+        }
+
+        // Reading of the colleagues IDs to add them to the colleague tab
+        s.clear();
+        s << dataLine[6] ;
+        while (getline(s, data, ';')) {
+            colleagueId = stoi(data) ;
+
+            if (colleagueId >= employees.size()) {
+                Employee e(company) ;
+                e.setId(colleagueId) ;
+                colleagues.push_back(e) ;
+            } else {
+                colleagues.push_back(employees[colleagueId - 1]) ;
+            }
+
+        }
+
+        Employee emp(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, company) ;
+
+        employeeId = stoi(dataLine[0]) ;
+        emp.setId(employeeId) ;
+
+        if (employeeId >= employees.size()) employees.resize(employeeId, emp) ;
+        else employees[employeeId - 1] = emp ;
+    }
+
+    // Filling of all the colleagues that may not be initialized yet
+    for (unsigned int i = 0; i < employees.size(); i++) {
+        for (unsigned int j = 0; j < employees[i].getColleagues().size(); j++) {
+            if (!employees[i].getColleagues()[j].getName().compare("undefined")) {
+                Employee e(employees[employees[i].getColleagues()[j].getId() - 1]) ;
+                employees[i].getColleagues()[j] = e ;
+            }
+        }
+    }
+
     return employees;
 }
 
