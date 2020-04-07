@@ -115,18 +115,6 @@ int main()
         TEST (!jobs[1].getCompany().getName().compare("Google")) ;
     }
 
-    // createEntry for each entry
-    
-//     vector<Employee> colleagues;
-//     JobSeeker js("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13006", {"prog","comedie"}, colleagues);
-//     Employee e("Kerneves", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
-//     Job j("Developpeur Full Stack",{"CSS","HTML5","Python"},c);
-    {
-        // createEntry(companiesTable, c);
-        // createEntry(jobseekersTable, js);
-        // createEntry(employeesTable, e);
-        // createEntry(jobsTable, j);
-
     // // modify entry
     // // Changing the company name
     // Company c2("Ker Lav and co", "31", "pro@gmail.com");
