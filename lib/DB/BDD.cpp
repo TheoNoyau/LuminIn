@@ -381,19 +381,25 @@ void createEntry (fstream &db, Job &j)
     
 }
 
-void updateEntry(const Company &c)
+void updateEntry(fstream &db, Company &c)
+{
+    db.clear();
+    db.seekg(0);
+    // Delete old entry (the primary key hasn't changed)
+    deleteEntry(c);
+    // Enter new Company info
+    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
+}
+
+void updateEntry(fstream &db, JobSeeker &js)
 {
 }
 
-void updateEntry(const JobSeeker &js)
+void updateEntry(fstream &db, Employee &e)
 {
 }
 
-void updateEntry(const Employee &e)
-{
-}
-
-void updateEntry(const Job &o)
+void updateEntry(fstream &db, Job &o)
 {
 }
 
