@@ -33,3 +33,13 @@ void Job::setId(int id)
 {
     _id = id;
 }
+
+Job& Job::operator= (const Job &job)
+{
+    _id = job._id ;
+    _title = job._title ;
+    _skills = job._skills ;
+    _company = job._company ;
+
+    return *this ;
+}
