@@ -440,6 +440,20 @@ void updateEntry(fstream &db, Employee &e)
 
 void updateEntry(fstream &db, Job &j)
 {
+     db.clear();
+    db.seekg(0);
+    // Delete old entry
+    deleteEntry(db, j);
+    // Enter new entry
+    db << j.getId() << "," << j.getTitle() << ",";
+    int sizeSkills = j.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++){
+        db << j.getSkills()[i];
+        if (i == sizeSkills - 1) db << ",";
+        else db << ";";
+    }
+    db << j.getCompany().getId() << "\n";
+
 }
 
 void deleteEntry(fstream &db, Company &c)
