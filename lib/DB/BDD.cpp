@@ -116,9 +116,47 @@ vector<Job> getJobs(fstream& db, fstream& dbCompanies)
     db.clear() ;
     db.seekg(0);
     vector<Company> companies;
-    vector<string> skills ;
     vector<Job> jobs ;
+    vector<string> skills ;
 
+    vector<string> dataLine;
+    string row, data, temp;
+    unsigned int companyId, jobId ;
+
+    companies = getCompanies(dbCompanies) ;
+
+    // Ignore first line of csv file
+    getline(db, temp) ;
+    while (getline(db, row))
+    {
+        dataLine.clear();
+        skills.clear();
+        
+        stringstream s ;
+        s << row ;
+
+        while (getline(s, data, ',')) {
+            dataLine.push_back(data) ;
+        }
+
+        // Reading of the skills
+        s.clear();
+        s << dataLine[2] ;
+        while (getline(s, data, ';')) {
+            skills.push_back(data) ;
+        }
+
+        companyId = stoi(dataLine[3]) ;
+        Company company = companies[companyId - 1] ;
+
+        Job job(dataLine[1], skills, company) ;
+        jobId = stoi(dataLine[0]) ;
+        job.setId(jobId) ;
+
+        // Adding the job to the vector in a way that its ID corresponds to its index
+        if (jobId >= jobs.size()) jobs.resize(jobId, job) ;
+        else jobs[jobId - 1] = job ;
+    }
 
     return jobs;
 }
