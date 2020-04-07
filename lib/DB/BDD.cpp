@@ -108,7 +108,7 @@ vector<JobSeeker> getJobSeekers(fstream& db, fstream& dbEmployees, fstream& dbCo
     return jobSeekers;
 }
 
-vector<Job> getJobs()
+vector<Job> getJobs(fstream& db, fstream& dbCompanies)
 {
     vector<Job> jobs;
     return jobs;
