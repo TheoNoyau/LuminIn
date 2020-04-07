@@ -21,7 +21,7 @@ std::vector<JobSeeker> getJobSeekers (std::fstream& db, std::fstream& dbEmployee
 
 // Read all the Jobs from the jobs database table
 // Return a vector of those Jobs
-std::vector<Job> getJobs () ;
+std::vector<Job> getJobs (std::fstream& db, std::fstream& dbCompanies) ;
 
 // Read all the Employees from the employees database table
 // Return a vector of those Employees

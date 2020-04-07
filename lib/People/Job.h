@@ -24,6 +24,9 @@ class Job
     // Setter 
     void setId(int id);
 
+    // Operators overloading
+    Job& operator= (const Job &job) ;
+
     private:
 
     int _id ;

@@ -27,7 +27,7 @@ vector<Company> getCompanies(fstream& db)
 
     vector<string> dataLine;
     string row, data, temp;
-    int companyId ;
+    unsigned int companyId ;
 
     // Ignore first line of csv file
     getline(db, temp) ;
@@ -42,7 +42,10 @@ vector<Company> getCompanies(fstream& db)
         companyId = stoi(dataLine[0]) ;
         Company company(dataLine[1], dataLine[2], dataLine[3]) ;
         company.setId(companyId) ;
-        companies.push_back(company) ;
+
+        // Adding the company to the vector in a way that its ID corresponds to its index
+        if (companyId >= companies.size()) companies.resize(companyId, company) ;
+        else companies[companyId - 1] = company ;
     }
 
     return companies;
@@ -108,9 +111,53 @@ vector<JobSeeker> getJobSeekers(fstream& db, fstream& dbEmployees, fstream& dbCo
     return jobSeekers;
 }
 
-vector<Job> getJobs()
+vector<Job> getJobs(fstream& db, fstream& dbCompanies)
 {
-    vector<Job> jobs;
+    db.clear() ;
+    db.seekg(0);
+    vector<Company> companies;
+    vector<Job> jobs ;
+    vector<string> skills ;
+
+    vector<string> dataLine;
+    string row, data, temp;
+    unsigned int companyId, jobId ;
+
+    companies = getCompanies(dbCompanies) ;
+
+    // Ignore first line of csv file
+    getline(db, temp) ;
+    while (getline(db, row))
+    {
+        dataLine.clear();
+        skills.clear();
+        
+        stringstream s ;
+        s << row ;
+
+        while (getline(s, data, ',')) {
+            dataLine.push_back(data) ;
+        }
+
+        // Reading of the skills
+        s.clear();
+        s << dataLine[2] ;
+        while (getline(s, data, ';')) {
+            skills.push_back(data) ;
+        }
+
+        companyId = stoi(dataLine[3]) ;
+        Company company = companies[companyId - 1] ;
+
+        Job job(dataLine[1], skills, company) ;
+        jobId = stoi(dataLine[0]) ;
+        job.setId(jobId) ;
+
+        // Adding the job to the vector in a way that its ID corresponds to its index
+        if (jobId >= jobs.size()) jobs.resize(jobId, job) ;
+        else jobs[jobId - 1] = job ;
+    }
+
     return jobs;
 }
 
