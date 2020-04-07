@@ -58,7 +58,7 @@ int main()
     // Employee e("Kerneves", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
     // Job j("Developpeur Full Stack",{"CSS","HTML5","Python"},c);
     // {
-           createEntry(companiesTable, c);
+    //     createEntry(companiesTable, c);
     //     createEntry(jobseekersTable, js);
     //     createEntry(employeesTable, e);
     //     createEntry(jobsTable, j);
@@ -107,12 +107,24 @@ int main()
     }
 
 
-    // modify entry
-    // Changing the company name
+    // // modify entry
+    // // Changing the company name
     // Company c2("Ker Lav and co", "31", "pro@gmail.com");
     // c2.setId(c.getId());
+    // // Changing zipcode
+    // JobSeeker js2("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13010", {"prog","comedie"}, colleagues);
+    // js2.setId(js.getId());
+    // // Changing email adress
+    // Employee e2("Kerneves", "Theo", "theoker@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
+    // e2.setId(e.getId());
+    // // Changing title
+    // Job j2("Developpeur",{"CSS","HTML5","Python"},c);
+    // j2.setId(j.getId());
     // {
     //     updateEntry(companiesTable, c2);
+    //     updateEntry(jobseekersTable, js2);
+    //     updateEntry(employeesTable, e2);
+    //     updateEntry(jobsTable, j2);  
     // }
 
     companiesTable.close();
