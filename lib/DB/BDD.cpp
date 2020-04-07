@@ -386,35 +386,74 @@ void updateEntry(fstream &db, Company &c)
     db.clear();
     db.seekg(0);
     // Delete old entry (the primary key hasn't changed)
-    deleteEntry(c);
+    deleteEntry(db, c);
     // Enter new Company info
     db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
 }
 
 void updateEntry(fstream &db, JobSeeker &js)
 {
+    db.clear();
+    db.seekg(0);
+    // Delete old entry (the primary key hasn't changed)
+    deleteEntry(db, js);
+    // Enter new JobSeeker info
+    db << js.getId() << "," << js.getName() << "," << js.getFirstname() << "," << js.getEmail() << "," << js.getZipcode() << ",";
+    int sizeSkills = js.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++) {
+        db << js.getSkills()[i];
+        if (i == sizeSkills - 1) db << ",";
+        else db << ";";
+    }
+    int sizeColleagues = js.getColleagues().size();
+    for (int i = 0; i < sizeColleagues; i++){
+        db << js.getColleagues()[i].getId();
+        if (i == sizeColleagues - 1) db << ",";
+        else db << ";";
+    }
+    db << "\n";
 }
 
 void updateEntry(fstream &db, Employee &e)
 {
+    db.clear();
+    db.seekg(0);
+    // Delete old entry (Primary key not changing)
+    deleteEntry(db, e);
+    // Enter new Employee info
+    db << e.getId() << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
+    int sizeSkills = e.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++) {
+        db << e.getSkills()[i];
+        if (i == sizeSkills - 1) db << ",";
+        else db << ";";
+    }
+    int sizeColleagues = e.getColleagues().size();
+    for (int i = 0; i < sizeColleagues; i++){
+        db << e.getColleagues()[i].getId();
+        if (i == sizeColleagues - 1) db << ",";
+        else db << ";";
+    }
+    db << e.getCompany().getId() << "\n";
+
 }
 
-void updateEntry(fstream &db, Job &o)
+void updateEntry(fstream &db, Job &j)
 {
 }
 
-void deleteEntry(const Company &c)
+void deleteEntry(fstream &db, Company &c)
 {
 }
 
-void deleteEntry(const JobSeeker &js)
+void deleteEntry(fstream &db, JobSeeker &js)
 {
 }
 
-void deleteEntry(const Employee &e)
+void deleteEntry(fstream &db, Employee &e)
 {
 }
 
-void deleteEntry(const Job &o)
+void deleteEntry(fstream &db, Job &j)
 {
 }
