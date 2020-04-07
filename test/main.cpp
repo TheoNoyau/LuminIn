@@ -94,6 +94,14 @@ int main()
         TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
     }
 
+    // getJobs
+    jobs = getJobs (jobsTable, companiesTable) ;
+    {
+        TEST (!jobs[0].getTitle().compare("acteur")) ;
+        TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
+        TEST (!jobs[1].getCompany().getName().compare("Google")) ;
+    }
+
     // createEntry for each entry
     
     vector<Employee> colleagues;
@@ -101,10 +109,10 @@ int main()
     Employee e("Kerneves", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
     Job j("Developpeur Full Stack",{"CSS","HTML5","Python"},c);
     {
-        createEntry(companiesTable, c);
-        createEntry(jobseekersTable, js);
-        createEntry(employeesTable, e);
-        createEntry(jobsTable, j);
+        // createEntry(companiesTable, c);
+        // createEntry(jobseekersTable, js);
+        // createEntry(employeesTable, e);
+        // createEntry(jobsTable, j);
 
     }
 
