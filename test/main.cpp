@@ -81,6 +81,17 @@ int main()
         TEST (!employees[1].getCompany().getName().compare("Disney")) ;
         TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
         TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
+        TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
+    }
+
+    // getJobSeekers
+    jobSeekers = getJobSeekers(jobseekersTable, employeesTable, companiesTable) ;
+    {
+        TEST (!jobSeekers[0].getName().compare("Duck")) ;
+        TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
+        
+        TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
+        TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
     }
 
     // createEntry for each entry

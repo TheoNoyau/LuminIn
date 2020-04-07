@@ -48,10 +48,64 @@ vector<Company> getCompanies(fstream& db)
     return companies;
 }
 
-vector<JobSeeker> getJobSeekers()
+vector<JobSeeker> getJobSeekers(fstream& db, fstream& dbEmployees, fstream& dbCompanies)
 {
-    vector<JobSeeker> js;
-    return js;
+    db.clear() ;
+    db.seekg(0);
+
+    vector<Employee> employees;
+    vector<JobSeeker> jobSeekers;
+    vector<string> skills ;
+
+    // Will be added to this vector the references to the colleagues corresponding to the IDs of the csv line
+    vector<Employee> colleagues ;
+
+    vector<string> dataLine;
+    string row, data, temp;
+    unsigned int colleagueId, jobseekerId ;
+
+    employees = getEmployees(dbEmployees, dbCompanies) ;
+
+    // Ignore first line of csv file
+    getline(db, temp) ;
+    while (getline(db, row))
+    {
+        dataLine.clear();
+        skills.clear();
+        colleagues.clear();
+
+        stringstream s ;
+        s << row ;
+
+        while (getline(s, data, ',')) {
+            dataLine.push_back(data) ;
+        }
+
+        // Reading of the skills
+        s.clear();
+        s << dataLine[5] ;
+        while (getline(s, data, ';')) {
+            skills.push_back(data) ;
+        }
+
+        // Set colleagues
+        s.clear();
+        s << dataLine[6] ;
+        while (getline(s, data, ';')) {
+            colleagueId = stoi(data) ;
+            colleagues.push_back(employees[colleagueId - 1]) ;
+        }
+
+        JobSeeker js(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues) ;
+
+        jobseekerId = stoi(dataLine[0]) ;
+        js.setId(jobseekerId) ;
+
+        if (jobseekerId >= jobSeekers.size()) jobSeekers.resize(jobseekerId, js) ;
+        else jobSeekers[jobseekerId - 1] = js ;
+    }
+
+    return jobSeekers;
 }
 
 vector<Job> getJobs()

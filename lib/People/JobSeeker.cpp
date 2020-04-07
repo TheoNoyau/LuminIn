@@ -41,7 +41,7 @@ vector<string> JobSeeker::getSkills()
     return _skills;
 }
 
-vector<Employee> JobSeeker::getColleagues()
+vector<Employee> &JobSeeker::getColleagues()
 {
     return _oldColleagues;
 }
@@ -98,4 +98,17 @@ vector<Employee> JobSeeker::searchForOldColleagues(vector<Employee> employees, v
 {
     vector<Employee> emp ;
     return emp ;
+}
+
+JobSeeker& JobSeeker::operator= (const JobSeeker &js) 
+{
+    _id = js._id ;
+    _name = js._name ;
+    _firstname = js._firstname ;
+    _email = js._email ;
+    _zipcode = js._zipcode ;
+    _skills = js._skills ;
+    _oldColleagues = js._oldColleagues ;
+
+    return *this ;
 }
