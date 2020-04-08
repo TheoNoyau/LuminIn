@@ -16,7 +16,7 @@ build/BDD.o: lib/DB/BDD.cpp lib/DB/BDD.h lib/People/Company.h lib/People/JobSeek
 build/Company.o: lib/People/Company.cpp lib/People/Company.h lib/People/Job.h lib/People/JobSeeker.h lib/People/Employee.h | build
 	g++ -Wall -Werror -pedantic -g -c lib/People/Company.cpp -I ./lib -o build/Company.o
 
-build/JobSeeker.o: lib/People/JobSeeker.cpp lib/People/JobSeeker.h lib/People/Company.h lib/People/Job.h lib/People/Employee.h | build
+build/JobSeeker.o: lib/People/JobSeeker.cpp lib/People/JobSeeker.h lib/People/Company.h lib/People/Job.h lib/People/Employee.h lib/DB/BDD.h | build
 	g++ -Wall -Werror -pedantic -g -c lib/People/JobSeeker.cpp -I ./lib -o build/JobSeeker.o
 
 build/Employee.o: lib/People/Employee.cpp lib/People/Employee.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Job.h | build
