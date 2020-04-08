@@ -36,7 +36,7 @@ int tests_reussis = 0;
 
 int main()
 {
-    // First basic test
+    // // First basic test
     Company c("KerLav", "31", "pro@gmail.com");
     TEST(!c.getEmail().compare("pro@gmail.com"));     
 
@@ -130,6 +130,14 @@ int main()
     //     updateEntry(e2);
     //     updateEntry(j2);  
     // }
+    // deleteEntry(c);
+    // deleteEntry(c2);
+    // deleteEntry(js);
+    // deleteEntry(js2);
+    // deleteEntry(e);
+    // deleteEntry(e2);
+    // deleteEntry(j);
+    // deleteEntry(j2);
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     
