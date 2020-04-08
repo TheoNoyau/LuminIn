@@ -42,16 +42,16 @@ void createEntry (Job &j) ;
 
 // Update/modify a line in the database table 
 // The database table will differ according to the object given
-void updateEntry (std::fstream &db, Company &c) ;
-void updateEntry (std::fstream &db, JobSeeker &js) ;
-void updateEntry (std::fstream &db, Employee &e) ;
-void updateEntry (std::fstream &db, Job &j) ;
+void updateEntry (Company &c) ;
+void updateEntry (JobSeeker &js) ;
+void updateEntry (Employee &e) ;
+void updateEntry (Job &j) ;
 
 // Delete a line in the database table
 // The database table will differ according to the object given
-void deleteEntry (std::fstream &db, Company &c) ;
-void deleteEntry (std::fstream &db, JobSeeker &js) ;
-void deleteEntry (std::fstream &db, Employee &e) ;
-void deleteEntry (std::fstream &db, Job &o) ;
+void deleteEntry (Company &c) ;
+void deleteEntry (JobSeeker &js) ;
+void deleteEntry (Employee &e) ;
+void deleteEntry (Job &o) ;
 
 #endif

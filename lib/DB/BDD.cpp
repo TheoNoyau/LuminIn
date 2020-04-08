@@ -454,22 +454,26 @@ void createEntry (Job &j)
     db.close();
 }
 
-void updateEntry(fstream &db, Company &c)
+void updateEntry(Company &c)
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/companies.csv", ios::in | ios::app);
+
     // Delete old entry (the primary key hasn't changed)
-    deleteEntry(db, c);
+    deleteEntry(c);
     // Enter new Company info
     db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
+
+    db.close();
 }
 
-void updateEntry(fstream &db, JobSeeker &js)
+void updateEntry(JobSeeker &js)
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/jobseekers.csv", ios::in | ios::app);
+
     // Delete old entry (the primary key hasn't changed)
-    deleteEntry(db, js);
+    deleteEntry(js);
     // Enter new JobSeeker info
     db << js.getId() << "," << js.getName() << "," << js.getFirstname() << "," << js.getEmail() << "," << js.getZipcode() << ",";
     int sizeSkills = js.getSkills().size();
@@ -485,14 +489,17 @@ void updateEntry(fstream &db, JobSeeker &js)
         else db << ";";
     }
     db << "\n";
+
+    db.close();
 }
 
-void updateEntry(fstream &db, Employee &e)
+void updateEntry(Employee &e)
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/employees.csv", ios::in | ios::app);
+
     // Delete old entry (Primary key not changing)
-    deleteEntry(db, e);
+    deleteEntry(e);
     // Enter new Employee info
     db << e.getId() << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
     int sizeSkills = e.getSkills().size();
@@ -509,14 +516,16 @@ void updateEntry(fstream &db, Employee &e)
     }
     db << e.getCompany().getId() << "\n";
 
+    db.close();
 }
 
-void updateEntry(fstream &db, Job &j)
+void updateEntry(Job &j)
 {
-     db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/jobs.csv", ios::in | ios::app);
+
     // Delete old entry
-    deleteEntry(db, j);
+    deleteEntry(j);
     // Enter new entry
     db << j.getId() << "," << j.getTitle() << ",";
     int sizeSkills = j.getSkills().size();
@@ -527,20 +536,21 @@ void updateEntry(fstream &db, Job &j)
     }
     db << j.getCompany().getId() << "\n";
 
+    db.close();
 }
 
-void deleteEntry(fstream &db, Company &c)
+void deleteEntry(Company &c)
 {
 }
 
-void deleteEntry(fstream &db, JobSeeker &js)
+void deleteEntry(JobSeeker &js)
 {
 }
 
-void deleteEntry(fstream &db, Employee &e)
+void deleteEntry(Employee &e)
 {
 }
 
-void deleteEntry(fstream &db, Job &j)
+void deleteEntry(Job &j)
 {
 }
