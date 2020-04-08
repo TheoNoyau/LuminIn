@@ -4,6 +4,8 @@
 #include "Employee.h"
 #include "Job.h"
 
+#include "DB/BDD.h"
+
 using namespace std;
 
 JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> &colleagues) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
@@ -53,7 +55,12 @@ void JobSeeker::setId(int id)
 
 void JobSeeker::createProfile(vector<JobSeeker> &list)
 {
+    // Adding to the database
+    createEntry(*this) ;
 
+    // Adding to the global vector of JobSeekers of the app
+    if ((unsigned int)_id >= list.size()) list.resize(_id, *this) ;
+    else list[_id - 1] = *this ;
 }
 
 void JobSeeker::addSkills(vector<string> skills)
