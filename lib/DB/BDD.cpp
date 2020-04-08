@@ -588,7 +588,7 @@ void deleteEntry(JobSeeker &js)
 
     vector<string> dataLine;
     string row, data, temp;
-    int companyId = c.getId(), id;
+    int jobseekerId = js.getId(), id;
 
     getline(db, temp) ;
     dbNew << temp << "\n";   
@@ -602,7 +602,7 @@ void deleteEntry(JobSeeker &js)
         }
 
         id = stoi(dataLine[0]) ;
-        if (companyId != id) {
+        if (jobseekerId  != id) {
             dbNew << row << "\n";
         }
     }
@@ -625,7 +625,7 @@ void deleteEntry(Employee &e)
 
     vector<string> dataLine;
     string row, data, temp;
-    int companyId = c.getId(), id;
+    int employeeId = e.getId(), id;
 
     getline(db, temp) ;
     dbNew << temp << "\n";   
@@ -639,7 +639,7 @@ void deleteEntry(Employee &e)
         }
 
         id = stoi(dataLine[0]) ;
-        if (companyId != id) {
+        if (employeeId != id) {
             dbNew << row << "\n";
         }
     }
@@ -662,7 +662,7 @@ void deleteEntry(Job &j)
 
     vector<string> dataLine;
     string row, data, temp;
-    int companyId = c.getId(), id;
+    int jobId = j.getId(), id;
 
     getline(db, temp) ;
     dbNew << temp << "\n";   
@@ -676,7 +676,7 @@ void deleteEntry(Job &j)
         }
 
         id = stoi(dataLine[0]) ;
-        if (companyId != id) {
+        if (jobId != id) {
             dbNew << row << "\n";
         }
     }
