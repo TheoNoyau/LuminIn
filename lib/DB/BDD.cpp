@@ -615,6 +615,39 @@ void deleteEntry(JobSeeker &js)
 
 void deleteEntry(Employee &e)
 {
+    string filenameIn = dbPath + "/employees.csv";
+    string filenameOut = dbPath + "/tmp.csv";
+    const char * cIn = filenameIn.c_str();
+    const char * cOut = filenameOut.c_str();
+    ifstream db(cIn);
+    ofstream dbNew;
+    dbNew.open(cOut, ios::out);
+
+    vector<string> dataLine;
+    string row, data, temp;
+    int companyId = c.getId(), id;
+
+    getline(db, temp) ;
+    dbNew << temp << "\n";   
+    while (getline(db, row))
+    {
+        dataLine.clear();
+        stringstream s(row) ;
+
+        while (getline(s, data, ',')) {
+            dataLine.push_back(data) ;
+        }
+
+        id = stoi(dataLine[0]) ;
+        if (companyId != id) {
+            dbNew << row << "\n";
+        }
+    }
+
+    db.close();
+    dbNew.close();
+    remove(cIn);
+    rename(cOut, cIn);
 }
 
 void deleteEntry(Job &j)
