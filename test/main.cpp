@@ -40,33 +40,29 @@ int main()
     Company c("KerLav", "31", "pro@gmail.com");
     TEST(!c.getEmail().compare("pro@gmail.com"));     
 
-    fstream companiesTable, employeesTable, jobsTable, jobseekersTable ;
-
-    companiesTable.open("test/data/csv/companies.csv", ios::in | ios::app) ;
-    employeesTable.open("test/data/csv/employees.csv", ios::in | ios::app) ;
-    jobsTable.open("test/data/csv/jobs.csv", ios::in | ios::app) ;
-    jobseekersTable.open("test/data/csv/jobseekers.csv", ios::in | ios::app) ;
+    // Sets the path to csv files
+    setPath("test/data/csv");
 
     vector<Company> companies ;
     vector<Employee> employees ;
     vector<Job> jobs ;
     vector<JobSeeker> jobSeekers ;
 
-    // createEntry for each entry
+    // // createEntry for each entry
     // vector<Employee> colleagues;
     // JobSeeker js("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13006", {"prog","comedie"}, colleagues);
     // Employee e("Kerneves", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
     // Job j("Developpeur Full Stack",{"CSS","HTML5","Python"},c);
     // {
-    //     createEntry(companiesTable, c);
-    //     createEntry(jobseekersTable, js);
-    //     createEntry(employeesTable, e);
-    //     createEntry(jobsTable, j);
+    //     createEntry(c);
+    //     createEntry(js);
+    //     createEntry(e);
+    //     createEntry(j);
     // }
 
     // DB TESTS
     // getCompanies
-    companies = getCompanies (companiesTable) ;
+    companies = getCompanies() ;
     {
         TEST (companies[0].getId() == 1) ;
         TEST (!companies[1].getName().compare("Google")) ;
@@ -75,17 +71,17 @@ int main()
 
     // getCompany
     {
-        Company cTest = getCompany(companiesTable, 2) ;
+        Company cTest = getCompany(2) ;
         TEST (!cTest.getName().compare("Google")) ;
     }
     {
-        Company cTest = getCompany(companiesTable, 99999) ;
+        Company cTest = getCompany(99999) ;
         TEST (!cTest.getName().compare("undefined")) ;
         TEST (cTest.getId() < 0) ;
     }
 
     // getEmployees
-    employees = getEmployees (employeesTable, companiesTable) ;
+    employees = getEmployees() ;
     {
         TEST (!employees[0].getName().compare("Untel")) ;
         TEST (!employees[0].getSkills()[0].compare("C++")) ;
@@ -97,7 +93,7 @@ int main()
     }
 
     // getJobSeekers
-    jobSeekers = getJobSeekers(jobseekersTable, employeesTable, companiesTable) ;
+    jobSeekers = getJobSeekers() ;
     {
         TEST (!jobSeekers[0].getName().compare("Duck")) ;
         TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
@@ -108,7 +104,7 @@ int main()
 
 
     // getJobs
-    jobs = getJobs (jobsTable, companiesTable) ;
+    jobs = getJobs () ;
     {
         TEST (!jobs[0].getTitle().compare("acteur")) ;
         TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
@@ -129,16 +125,11 @@ int main()
     // Job j2("Developpeur",{"CSS","HTML5","Python"},c);
     // j2.setId(j.getId());
     // {
-    //     updateEntry(companiesTable, c2);
-    //     updateEntry(jobseekersTable, js2);
-    //     updateEntry(employeesTable, e2);
-    //     updateEntry(jobsTable, j2);  
+    //     updateEntry(c2);
+    //     updateEntry(js2);
+    //     updateEntry(e2);
+    //     updateEntry(j2);  
     // }
-
-    companiesTable.close();
-    employeesTable.close();
-    jobsTable.close();
-    jobseekersTable.close();
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     
