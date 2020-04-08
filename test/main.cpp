@@ -149,8 +149,8 @@ int main()
         js.createProfile(jobSeekers);
 
         jobSeekers = getJobSeekers () ;
-        TEST (!jobSeekers[js.getId()].getName().compare("BERNARD")) ;
-        TEST (!jobSeekers[js.getId()].getColleagues()[0].getFirstname().compare("Michel")) ;
+        TEST (!jobSeekers[js.getId() - 1].getName().compare("BERNARD")) ;
+        TEST (!jobSeekers[js.getId() - 1].getColleagues()[0].getFirstname().compare("Michel")) ;
     }
 
     printf("%d/%d\n", tests_reussis, tests_executes);
