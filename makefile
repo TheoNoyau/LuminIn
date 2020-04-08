@@ -10,7 +10,7 @@ clean:
 build:
 	mkdir -p build
 
-build/BDD.o: lib/DB/BDD.cpp lib/DB/BDD.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h | build
+build/BDD.o: lib/DB/BDD.cpp lib/DB/BDD.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h | build
 	g++ -Wall -pedantic -g -c lib/DB/BDD.cpp -I ./lib -o build/BDD.o
 
 build/Company.o: lib/People/Company.cpp lib/People/Company.h lib/People/Job.h lib/People/JobSeeker.h lib/People/Employee.h | build
