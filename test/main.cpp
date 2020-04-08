@@ -139,6 +139,20 @@ int main()
     // deleteEntry(j);
     // deleteEntry(j2);
 
+    // JobSeeker Class Tests
+    // createProfile
+    {
+        vector<Employee> jsColleagues ;
+        jsColleagues.push_back(employees[0]) ;
+
+        JobSeeker js("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js.createProfile(jobSeekers);
+
+        jobSeekers = getJobSeekers () ;
+        TEST (!jobSeekers[js.getId()].getName().compare("BERNARD")) ;
+        TEST (!jobSeekers[js.getId()].getColleagues()[0].getFirstname().compare("Michel")) ;
+    }
+
     printf("%d/%d\n", tests_reussis, tests_executes);
     
     return tests_executes - tests_reussis;
