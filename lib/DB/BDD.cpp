@@ -14,15 +14,17 @@
 
 using namespace std;
 
-const std::string CompanyFile = "../test/data/companies.csv";
-const std::string EmployeeFile = "../test/data/employees.csv";
-const std::string JobSeekerFile = "../test/data/jobseekers.csv";
-const std::string JobsFile = "../test/data/jobs.csv";
+string dbPath = "";
 
-vector<Company> getCompanies(fstream& db)
+void setPath(string path)
 {
-    db.clear() ;
-    db.seekg(0);
+    dbPath = path;
+}
+
+vector<Company> getCompanies()
+{
+    fstream db;
+    db.open(dbPath + "/companies.csv", ios::in) ;
     vector<Company> companies;
 
     vector<string> dataLine;
@@ -47,14 +49,16 @@ vector<Company> getCompanies(fstream& db)
         if (companyId >= companies.size()) companies.resize(companyId, company) ;
         else companies[companyId - 1] = company ;
     }
-
+    db.close();
     return companies;
 }
 
-vector<JobSeeker> getJobSeekers(fstream& db, fstream& dbEmployees, fstream& dbCompanies)
+vector<JobSeeker> getJobSeekers()
 {
-    db.clear() ;
-    db.seekg(0);
+    fstream db, dbEmployees, dbCompanies;
+    db.open(dbPath + "/jobseekers.csv", ios::in);
+    dbEmployees.open(dbPath + "/employees.csv", ios::in);
+    dbCompanies.open(dbPath + "/companies.csv", ios::in);
 
     vector<Employee> employees;
     vector<JobSeeker> jobSeekers;
@@ -67,7 +71,7 @@ vector<JobSeeker> getJobSeekers(fstream& db, fstream& dbEmployees, fstream& dbCo
     string row, data, temp;
     unsigned int colleagueId, jobseekerId ;
 
-    employees = getEmployees(dbEmployees, dbCompanies) ;
+    employees = getEmployees() ;
 
     // Ignore first line of csv file
     getline(db, temp) ;
@@ -108,13 +112,18 @@ vector<JobSeeker> getJobSeekers(fstream& db, fstream& dbEmployees, fstream& dbCo
         else jobSeekers[jobseekerId - 1] = js ;
     }
 
+    db.close();
+    dbEmployees.close();
+    dbCompanies.close();
     return jobSeekers;
 }
 
-vector<Job> getJobs(fstream& db, fstream& dbCompanies)
+vector<Job> getJobs()
 {
-    db.clear() ;
-    db.seekg(0);
+    fstream db, dbCompanies;
+    db.open(dbPath + "/jobs.csv", ios::in);
+    dbCompanies.open(dbPath + "/companies.csv", ios::in);
+
     vector<Company> companies;
     vector<Job> jobs ;
     vector<string> skills ;
@@ -123,7 +132,7 @@ vector<Job> getJobs(fstream& db, fstream& dbCompanies)
     string row, data, temp;
     unsigned int companyId, jobId ;
 
-    companies = getCompanies(dbCompanies) ;
+    companies = getCompanies() ;
 
     // Ignore first line of csv file
     getline(db, temp) ;
@@ -157,14 +166,16 @@ vector<Job> getJobs(fstream& db, fstream& dbCompanies)
         if (jobId >= jobs.size()) jobs.resize(jobId, job) ;
         else jobs[jobId - 1] = job ;
     }
-
+    db.close();
+    dbCompanies.close();
     return jobs;
 }
 
-vector<Employee> getEmployees(fstream& db, fstream& dbCompanies)
+vector<Employee> getEmployees()
 {
-    db.clear() ;
-    db.seekg(0);
+    fstream db, dbCompanies;
+    db.open(dbPath + "/employees.csv", ios::in);
+    dbCompanies.open(dbPath + "/companies.csv", ios::in);    
 
     vector<Employee> employees;
     vector<string> skills ;
@@ -193,7 +204,7 @@ vector<Employee> getEmployees(fstream& db, fstream& dbCompanies)
 
         // Setting of the company
         companyId = stoi(dataLine[7]) ;
-        Company company = getCompany(dbCompanies, companyId) ;
+        Company company = getCompany(companyId) ;
 
         // Reading of the skills
         s.clear();
@@ -237,13 +248,15 @@ vector<Employee> getEmployees(fstream& db, fstream& dbCompanies)
         }
     }
 
+    db.close();
+    dbCompanies.close();
     return employees;
 }
 
-Company getCompany(std::fstream& db, int const id)
+Company getCompany(int const id)
 {
-    db.clear() ;
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/companies.csv", ios::in);
 
     vector<string> dataLine;
     string row, data, temp;
@@ -264,18 +277,21 @@ Company getCompany(std::fstream& db, int const id)
         if (companyId == id) {
             Company company(dataLine[1], dataLine[2], dataLine[3]) ;
             company.setId(companyId) ;
+            db.close();
             return company ;
         }
     }
 
+    db.close();
     Company company ;
     return company;
 }
 
-void createEntry (fstream &db, Company &c) 
+void createEntry (Company &c) 
 {   
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/companies.csv", ios::in | ios::app);
+
     // Create new primary key not already existing
     unordered_set<int> pk;
     vector<string> dataLine;
@@ -299,12 +315,15 @@ void createEntry (fstream &db, Company &c)
     c.setId(companyId);
     db.clear();
     db << companyId << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
+
+    db.close();
 }
 
-void createEntry (fstream &db, JobSeeker &js) 
+void createEntry (JobSeeker &js) 
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/jobseekers.csv", ios::in | ios::app);
+
     // Create new primary key not already existing
     unordered_set<int> pk;
     vector<string> dataLine;
@@ -343,12 +362,15 @@ void createEntry (fstream &db, JobSeeker &js)
         else db << ";";
     }
     db << "\n";
+
+    db.close();
 }
 
-void createEntry (fstream &db, Employee &e)
+void createEntry (Employee &e)
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/employees.csv", ios::in | ios::app);
+
     // Create new primary key not already existing
     unordered_set<int> pk;
     vector<string> dataLine;
@@ -387,12 +409,15 @@ void createEntry (fstream &db, Employee &e)
         else db << ";";
     }
     db << e.getCompany().getId() << "\n";
+
+    db.close();
 }
 
-void createEntry (fstream &db, Job &j) 
+void createEntry (Job &j) 
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/jobs.csv", ios::in | ios::app);
+
     // Create new primary key not already existing
     unordered_set<int> pk;
     vector<string> dataLine;
@@ -426,24 +451,29 @@ void createEntry (fstream &db, Job &j)
     }
     db << j.getCompany().getId() << "\n";
     
+    db.close();
 }
 
-void updateEntry(fstream &db, Company &c)
+void updateEntry(Company &c)
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/companies.csv", ios::in | ios::app);
+
     // Delete old entry (the primary key hasn't changed)
-    deleteEntry(db, c);
+    deleteEntry(c);
     // Enter new Company info
     db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
+
+    db.close();
 }
 
-void updateEntry(fstream &db, JobSeeker &js)
+void updateEntry(JobSeeker &js)
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/jobseekers.csv", ios::in | ios::app);
+
     // Delete old entry (the primary key hasn't changed)
-    deleteEntry(db, js);
+    deleteEntry(js);
     // Enter new JobSeeker info
     db << js.getId() << "," << js.getName() << "," << js.getFirstname() << "," << js.getEmail() << "," << js.getZipcode() << ",";
     int sizeSkills = js.getSkills().size();
@@ -459,14 +489,17 @@ void updateEntry(fstream &db, JobSeeker &js)
         else db << ";";
     }
     db << "\n";
+
+    db.close();
 }
 
-void updateEntry(fstream &db, Employee &e)
+void updateEntry(Employee &e)
 {
-    db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/employees.csv", ios::in | ios::app);
+
     // Delete old entry (Primary key not changing)
-    deleteEntry(db, e);
+    deleteEntry(e);
     // Enter new Employee info
     db << e.getId() << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
     int sizeSkills = e.getSkills().size();
@@ -483,14 +516,16 @@ void updateEntry(fstream &db, Employee &e)
     }
     db << e.getCompany().getId() << "\n";
 
+    db.close();
 }
 
-void updateEntry(fstream &db, Job &j)
+void updateEntry(Job &j)
 {
-     db.clear();
-    db.seekg(0);
+    fstream db;
+    db.open(dbPath + "/jobs.csv", ios::in | ios::app);
+
     // Delete old entry
-    deleteEntry(db, j);
+    deleteEntry(j);
     // Enter new entry
     db << j.getId() << "," << j.getTitle() << ",";
     int sizeSkills = j.getSkills().size();
@@ -501,20 +536,21 @@ void updateEntry(fstream &db, Job &j)
     }
     db << j.getCompany().getId() << "\n";
 
+    db.close();
 }
 
-void deleteEntry(fstream &db, Company &c)
+void deleteEntry(Company &c)
 {
 }
 
-void deleteEntry(fstream &db, JobSeeker &js)
+void deleteEntry(JobSeeker &js)
 {
 }
 
-void deleteEntry(fstream &db, Employee &e)
+void deleteEntry(Employee &e)
 {
 }
 
-void deleteEntry(fstream &db, Job &j)
+void deleteEntry(Job &j)
 {
 }
