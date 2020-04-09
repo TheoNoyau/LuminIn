@@ -65,7 +65,14 @@ void JobSeeker::createProfile(vector<JobSeeker> &list)
 
 void JobSeeker::addSkills(vector<string> skills)
 {
+    unsigned int i ;
 
+    for (i = 0; i < skills.size(); i++) {
+        _skills.push_back(skills[i]) ;
+    }
+
+    // Update in the DB
+    updateEntry(*this) ;
 }
 
 void JobSeeker::addColleague(const Employee &e)

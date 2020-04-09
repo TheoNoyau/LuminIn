@@ -469,11 +469,12 @@ void updateEntry(Company &c)
 
 void updateEntry(JobSeeker &js)
 {
+    // Delete old entry (the primary key hasn't changed)
+    deleteEntry(js);
+    
     fstream db;
     db.open(dbPath + "/jobseekers.csv", ios::in | ios::app);
 
-    // Delete old entry (the primary key hasn't changed)
-    deleteEntry(js);
     // Enter new JobSeeker info
     db << js.getId() << "," << js.getName() << "," << js.getFirstname() << "," << js.getEmail() << "," << js.getZipcode() << ",";
     int sizeSkills = js.getSkills().size();
