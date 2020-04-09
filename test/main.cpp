@@ -156,34 +156,6 @@ int main()
     //     TEST (!jobs[1].getCompany().getName().compare("Google")) ;
     // }
 
-    // // modify entry
-    // // Changing the company name
-    // Company c2("Ker Lav and co", "31", "pro@gmail.com");
-    // c2.setId(c.getId());
-    // // Changing zipcode
-    // JobSeeker js2("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13010", {"prog","comedie"}, colleagues);
-    // js2.setId(js.getId());
-    // // Changing email adress
-    // Employee e2("Kerneves", "Theo", "theoker@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
-    // e2.setId(e.getId());
-    // // Changing title
-    // Job j2("Developpeur",{"CSS","HTML5","Python"},c);
-    // j2.setId(j.getId());
-    // {
-    //     updateEntry(c2);
-    //     updateEntry(js2);
-    //     updateEntry(e2);
-    //     updateEntry(j2);  
-    // }
-    // deleteEntry(c);
-    // deleteEntry(c2);
-    // deleteEntry(js);
-    // deleteEntry(js2);
-    // deleteEntry(e);
-    // deleteEntry(e2);
-    // deleteEntry(j);
-    // deleteEntry(j2);
-
     // // JobSeeker Class Tests
     // // createProfile
     // {
