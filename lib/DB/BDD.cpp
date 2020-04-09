@@ -419,3 +419,4 @@ void updateEntry(vector<Job> &list)
         Job j = list[i];
         createEntry(j);
     }
+}
