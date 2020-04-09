@@ -140,8 +140,9 @@ int main()
     // deleteEntry(j2);
 
     // JobSeeker Class Tests
-    // createProfile
     {
+        // createProfile
+
         vector<Employee> jsColleagues ;
         jsColleagues.push_back(employees[0]) ;
 
@@ -151,6 +152,16 @@ int main()
         jobSeekers = getJobSeekers () ;
         TEST (!jobSeekers[js.getId() - 1].getName().compare("BERNARD")) ;
         TEST (!jobSeekers[js.getId() - 1].getColleagues()[0].getFirstname().compare("Michel")) ;
+
+        // addSkills
+        js.addSkills({"Nodejs", "MongoDB"}) ;
+        
+        // Tests if it is added in the vector
+        TEST (!jobSeekers[js.getId() - 1].getSkills()[2].compare("Nodejs")) ;
+
+        // Tests if it is added in the DB
+        jobSeekers = getJobSeekers () ;
+        TEST (!jobSeekers[js.getId() - 1].getSkills()[3].compare("MongoDB")) ;
     }
 
     printf("%d/%d\n", tests_reussis, tests_executes);
