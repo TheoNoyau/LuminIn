@@ -42,10 +42,10 @@ void createEntry (Job &j) ;
 
 // Update/modify a line in the database table 
 // The database table will differ according to the object given
-void updateEntry (Company &c) ;
-void updateEntry (JobSeeker &js) ;
-void updateEntry (Employee &e) ;
-void updateEntry (Job &j) ;
+void updateEntry (std::vector<Company> &list) ;
+void updateEntry (std::vector<JobSeeker> &list) ;
+void updateEntry (std::vector<Employee> &list) ;
+void updateEntry (std::vector<Job> &list) ;
 
 // Delete a line in the database table
 // The database table will differ according to the object given
