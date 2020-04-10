@@ -18,7 +18,7 @@ int JobSeeker::getIndex(const int id, vector<JobSeeker> jobSeekers)
     int size = jobSeekers.size() ;
     
     for (int i = 0; i < size; i++) {
-        if (jobSeekers[i].getId() == i) return i ;
+        if (jobSeekers[i].getId() == id) return i ;
     }
 
     return -1; 
@@ -64,11 +64,18 @@ void JobSeeker::setId(int id)
     _id = id;
 }
 
+void JobSeeker::setId(vector<JobSeeker> &list)
+{
+    _id = (int)list.size() + 1 ;
+}
+
 void JobSeeker::createProfile(vector<JobSeeker> &list)
 {
+    // Giving an id to the object
+    setId(list) ;
+
     // Adding to the global vector of JobSeekers of the app
-    if ((unsigned int)_id >= list.size()) list.resize(_id, *this) ;
-    else list[_id - 1] = *this ;
+    list.push_back(*this) ;
 }
 
 void JobSeeker::addSkills(vector<string> skills)

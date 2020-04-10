@@ -132,7 +132,6 @@ int main()
         TEST (!employees[0].getSkills()[0].compare("C++")) ;
 
         TEST (!employees[1].getCompany().getName().compare("Disney")) ;
-        cout << employees[1].getFirstname() << endl ;
         TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
         TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
         TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
@@ -157,21 +156,23 @@ int main()
         TEST (!jobs[1].getCompany().getName().compare("Google")) ;
     }
 
-    // // JobSeeker Class Tests
-    // // createProfile
-    // {
-    //     vector<Employee> jsColleagues ;
-    //     jsColleagues.push_back(employees[0]) ;
+    // JobSeeker Class Tests
+    // createProfile
+    {
+        vector<Employee> jsColleagues ;
+        jsColleagues.push_back(employees[0]) ;
 
-    //     JobSeeker js("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-    //     js.createProfile(jobSeekers);
+        JobSeeker js("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js.createProfile(jobSeekers);
 
-    //     jobSeekers = getJobSeekers () ;
-    //     TEST (!jobSeekers[js.getId() - 1].getName().compare("BERNARD")) ;
-    //     TEST (!jobSeekers[js.getId() - 1].getColleagues()[0].getFirstname().compare("Michel")) ;
-    // }
+        // Get the index in the vector of JobSeekers of the JobSeeker created with createProfile()
+        int jsIndex = JobSeeker::getIndex(js.getId(), jobSeekers) ;
 
-    // Update data in the DB to make the data persistent
+        TEST (!jobSeekers[jsIndex].getName().compare("BERNARD")) ;
+        TEST (!jobSeekers[jsIndex].getColleagues()[0].getFirstname().compare("Michel")) ;
+    }
+
+    // Save data to make it persistent
     updateEntry(companies) ;
     updateEntry(employees) ;
     updateEntry(jobSeekers) ;

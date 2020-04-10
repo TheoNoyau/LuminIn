@@ -1,7 +1,5 @@
 #include "Job.h"
 
-#include "Company.h"
-
 using namespace std ;
 
 Job::Job(std::string title, std::vector<std::string> skills, Company &c) : _title(title), _skills(skills), _company(c)
@@ -14,7 +12,7 @@ int Job::getIndex(const int id, vector<Job> jobs)
     int size = jobs.size() ;
     
     for (int i = 0; i < size; i++) {
-        if (jobs[i].getId() == i) return i ;
+        if (jobs[i].getId() == id) return i ;
     }
 
     return -1; 

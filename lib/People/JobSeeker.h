@@ -30,6 +30,7 @@ class JobSeeker
 
     // Setter
     void setId(int id) ;
+    void setId(std::vector<JobSeeker> &list) ;
 
     // Static
 

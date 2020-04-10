@@ -45,9 +45,7 @@ vector<Company> getCompanies()
         Company company(dataLine[1], dataLine[2], dataLine[3]) ;
         company.setId(companyId) ;
 
-        // Adding the company to the vector in a way that its ID corresponds to its index
-        if (companyId >= companies.size()) companies.resize(companyId, company) ;
-        else companies[companyId - 1] = company ;
+        companies.push_back(company) ;
     }
     db.close();
     return companies;
@@ -108,8 +106,7 @@ vector<JobSeeker> getJobSeekers()
         jobseekerId = stoi(dataLine[0]) ;
         js.setId(jobseekerId) ;
 
-        if (jobseekerId >= jobSeekers.size()) jobSeekers.resize(jobseekerId, js) ;
-        else jobSeekers[jobseekerId - 1] = js ;
+        jobSeekers.push_back(js) ;
     }
 
     db.close();
@@ -162,9 +159,7 @@ vector<Job> getJobs()
         jobId = stoi(dataLine[0]) ;
         job.setId(jobId) ;
 
-        // Adding the job to the vector in a way that its ID corresponds to its index
-        if (jobId >= jobs.size()) jobs.resize(jobId, job) ;
-        else jobs[jobId - 1] = job ;
+        jobs.push_back(job) ;
     }
     db.close();
     dbCompanies.close();
@@ -204,7 +199,7 @@ vector<Employee> getEmployees()
         
 
         // Setting of the company
-        companyId = stoi(dataLine[6]) ;
+        companyId = stoi(dataLine[7]) ;
         Company company = getCompany(companyId) ;
 
         // Reading of the skills
@@ -293,7 +288,7 @@ void createEntry (Company &c)
     db.open(dbPath + "/companies.csv", ios::in | ios::app);
 
     // Enter Company info
-    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
+    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << ",\n";
 
     db.close();
 }
@@ -317,7 +312,7 @@ void createEntry (JobSeeker &js)
         if (i == sizeColleagues - 1) db << ",";
         else db << ";";
     }
-    db << "\n";
+    db << ",\n";
 
     db.close();
 }
@@ -341,7 +336,7 @@ void createEntry (Employee &e)
         if (i == sizeColleagues - 1) db << ",";
         else db << ";";
     }
-    db << e.getCompany().getId() << "\n";
+    db << e.getCompany().getId() << ",\n";
 
     db.close();
 }
@@ -359,7 +354,7 @@ void createEntry (Job &j)
         if (i == sizeSkills - 1) db << ",";
         else db << ";";
     }
-    db << j.getCompany().getId() << "\n";
+    db << j.getCompany().getId() << ",\n";
     
     db.close();
 }

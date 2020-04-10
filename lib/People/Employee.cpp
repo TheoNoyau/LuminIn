@@ -26,7 +26,7 @@ int Employee::getIndex(const int id, vector<Employee> employees)
     int size = employees.size() ;
     
     for (int i = 0; i < size; i++) {
-        if (employees[i].getId() == i) return i ;
+        if (employees[i].getId() == id) return i ;
     }
 
     return -1; 

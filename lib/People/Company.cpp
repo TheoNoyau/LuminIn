@@ -23,7 +23,7 @@ int Company::getIndex(const int id, vector<Company> companies)
     int size = companies.size() ;
     
     for (int i = 0; i < size; i++) {
-        if (companies[i].getId() == i) return i ;
+        if (companies[i].getId() == id) return i ;
     }
 
     return -1; 
