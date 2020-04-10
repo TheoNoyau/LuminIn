@@ -23,6 +23,7 @@ class Company
     std::string getEmail () ;
 
     // Setter
+    void setId(std::vector<Company> &list);
     void setId(int id);
 
     // Creates Company profile and adds it in the list and DB 
