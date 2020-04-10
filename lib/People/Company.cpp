@@ -38,6 +38,11 @@ string Company::getEmail ()
     return _email ;
 }
 
+void Company::setId(vector<Company> &list)
+{
+    _id = (int)list.size() + 1;
+}
+
 void Company::setId(int id)
 {
     _id = id;
