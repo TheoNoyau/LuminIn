@@ -201,9 +201,10 @@ vector<Employee> getEmployees()
         while (getline(s, data, ',')) {
             dataLine.push_back(data) ;
         }
+        
 
         // Setting of the company
-        companyId = stoi(dataLine[7]) ;
+        companyId = stoi(dataLine[6]) ;
         Company company = getCompany(companyId) ;
 
         // Reading of the skills
@@ -234,8 +235,7 @@ vector<Employee> getEmployees()
         employeeId = stoi(dataLine[0]) ;
         emp.setId(employeeId) ;
 
-        if (employeeId >= employees.size()) employees.resize(employeeId, emp) ;
-        else employees[employeeId - 1] = emp ;
+        employees.push_back(emp) ;
     }
 
     // Filling of all the colleagues that may not be initialized yet

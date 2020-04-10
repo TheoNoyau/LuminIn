@@ -31,6 +31,11 @@ class JobSeeker
     // Setter
     void setId(int id) ;
 
+    // Static
+
+    // Returns a reference of the object with the right id
+    static int getIndex(const int id, std::vector<JobSeeker> jobSeekers) ;
+
     // Creates a JobSeeker profile
     // Adds the JobSeeker created into the vector given as a parameter
     // Also stores it in the database

@@ -21,6 +21,17 @@ Employee::Employee(const Employee &copy) : _id(copy._id), _name(copy._name), _fi
 
 }
 
+int Employee::getIndex(const int id, vector<Employee> employees)
+{
+    int size = employees.size() ;
+    
+    for (int i = 0; i < size; i++) {
+        if (employees[i].getId() == i) return i ;
+    }
+
+    return -1; 
+}
+
 int Employee::getId()
 {
     return _id;

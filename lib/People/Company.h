@@ -25,6 +25,11 @@ class Company
     // Setter
     void setId(int id);
 
+    // Static
+
+    // Returns a reference of the object with the right id
+    static int getIndex(const int id, std::vector<Company> companies) ;
+
     // Creates Company profile and adds it in the list and DB 
     void createProfile(std::vector<Company> &list) ;
 

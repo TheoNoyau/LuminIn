@@ -106,55 +106,56 @@ int main()
     // }
 
     // // DB TESTS
-    // // getCompanies
-    // companies = getCompanies() ;
-    // {
-    //     TEST (companies[0].getId() == 1) ;
-    //     TEST (!companies[1].getName().compare("Google")) ;
-    //     TEST (!companies[2].getZipcode().compare("31")) ;
-    // }
+    // getCompanies
+    companies = getCompanies() ;
+    {
+        TEST (companies[0].getId() == 1) ;
+        TEST (!companies[1].getName().compare("Google")) ;
+        TEST (!companies[2].getZipcode().compare("31")) ;
+    }
 
-    // // getCompany
-    // {
-    //     Company cTest = getCompany(2) ;
-    //     TEST (!cTest.getName().compare("Google")) ;
-    // }
-    // {
-    //     Company cTest = getCompany(99999) ;
-    //     TEST (!cTest.getName().compare("undefined")) ;
-    //     TEST (cTest.getId() < 0) ;
-    // }
+    // getCompany
+    {
+        Company cTest = getCompany(2) ;
+        TEST (!cTest.getName().compare("Google")) ;
+    }
+    {
+        Company cTest = getCompany(99999) ;
+        TEST (!cTest.getName().compare("undefined")) ;
+        TEST (cTest.getId() < 0) ;
+    }
 
-    // // getEmployees
-    // employees = getEmployees() ;
-    // {
-    //     TEST (!employees[0].getName().compare("Untel")) ;
-    //     TEST (!employees[0].getSkills()[0].compare("C++")) ;
+    // getEmployees
+    employees = getEmployees() ;
+    {
+        TEST (!employees[0].getName().compare("Untel")) ;
+        TEST (!employees[0].getSkills()[0].compare("C++")) ;
 
-    //     TEST (!employees[1].getCompany().getName().compare("Disney")) ;
-    //     TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
-    //     TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
-    //     TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
-    // }
+        TEST (!employees[1].getCompany().getName().compare("Disney")) ;
+        cout << employees[1].getFirstname() << endl ;
+        TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
+        TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
+        TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
+    }
 
-    // // getJobSeekers
-    // jobSeekers = getJobSeekers() ;
-    // {
-    //     TEST (!jobSeekers[0].getName().compare("Duck")) ;
-    //     TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
+    // getJobSeekers
+    jobSeekers = getJobSeekers() ;
+    {
+        TEST (!jobSeekers[0].getName().compare("Duck")) ;
+        TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
         
-    //     TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
-    //     TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
-    // }
+        TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
+        TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
+    }
 
 
-    // // getJobs
-    // jobs = getJobs () ;
-    // {
-    //     TEST (!jobs[0].getTitle().compare("acteur")) ;
-    //     TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
-    //     TEST (!jobs[1].getCompany().getName().compare("Google")) ;
-    // }
+    // getJobs
+    jobs = getJobs () ;
+    {
+        TEST (!jobs[0].getTitle().compare("acteur")) ;
+        TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
+        TEST (!jobs[1].getCompany().getName().compare("Google")) ;
+    }
 
     // // JobSeeker Class Tests
     // // createProfile
@@ -169,6 +170,12 @@ int main()
     //     TEST (!jobSeekers[js.getId() - 1].getName().compare("BERNARD")) ;
     //     TEST (!jobSeekers[js.getId() - 1].getColleagues()[0].getFirstname().compare("Michel")) ;
     // }
+
+    // Update data in the DB to make the data persistent
+    updateEntry(companies) ;
+    updateEntry(employees) ;
+    updateEntry(jobSeekers) ;
+    updateEntry(jobs) ;
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     

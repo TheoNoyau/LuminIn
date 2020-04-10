@@ -9,6 +9,17 @@ Job::Job(std::string title, std::vector<std::string> skills, Company &c) : _titl
     
 }
 
+int Job::getIndex(const int id, vector<Job> jobs)
+{
+    int size = jobs.size() ;
+    
+    for (int i = 0; i < size; i++) {
+        if (jobs[i].getId() == i) return i ;
+    }
+
+    return -1; 
+}
+
 int Job::getId ()
 {
     return _id ;
