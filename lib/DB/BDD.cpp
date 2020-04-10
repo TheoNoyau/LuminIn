@@ -292,29 +292,8 @@ void createEntry (Company &c)
     fstream db;
     db.open(dbPath + "/companies.csv", ios::in | ios::app);
 
-    // Create new primary key not already existing
-    unordered_set<int> pk;
-    vector<string> dataLine;
-    string row, data, temp;
-    int companyId ;
-    getline(db, temp) ;
-    while (getline(db, row))
-    {
-        dataLine.clear();
-        stringstream s(row) ;
-
-        while (getline(s, data, ',')) {
-            dataLine.push_back(data) ;
-        }
-        pk.insert(stoi(dataLine[0])) ;
-    }
-    companyId = 1;
-    while (pk.count(companyId) == 1) {
-        companyId += 1;
-    }
-    c.setId(companyId);
-    db.clear();
-    db << companyId << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
+    // Enter Company info
+    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
 
     db.close();
 }
@@ -324,31 +303,8 @@ void createEntry (JobSeeker &js)
     fstream db;
     db.open(dbPath + "/jobseekers.csv", ios::in | ios::app);
 
-    // Create new primary key not already existing
-    unordered_set<int> pk;
-    vector<string> dataLine;
-    string row, data, temp;
-    int jobseekerId ;
-    getline(db, temp) ;
-    while (getline(db, row))
-    {
-        dataLine.clear();
-        stringstream s(row) ;
-
-        while (getline(s, data, ',')) {
-            dataLine.push_back(data) ;
-        }
-        pk.insert(stoi(dataLine[0])) ;
-    }
-    jobseekerId = 1;
-    while (pk.count(jobseekerId) == 1) {
-        jobseekerId += 1;
-    }
-    js.setId(jobseekerId);
-
-    db.clear();
     // Enter JobSeeker info into csv file
-    db << jobseekerId << "," << js.getName() << "," << js.getFirstname() << "," << js.getEmail() << "," << js.getZipcode() << ",";
+    db << js.getId() << "," << js.getName() << "," << js.getFirstname() << "," << js.getEmail() << "," << js.getZipcode() << ",";
     int sizeSkills = js.getSkills().size();
     for (int i = 0; i < sizeSkills; i++) {
         db << js.getSkills()[i];
@@ -371,31 +327,8 @@ void createEntry (Employee &e)
     fstream db;
     db.open(dbPath + "/employees.csv", ios::in | ios::app);
 
-    // Create new primary key not already existing
-    unordered_set<int> pk;
-    vector<string> dataLine;
-    string row, data, temp;
-    int employeeId ;
-    getline(db, temp) ;
-    while (getline(db, row))
-    {
-        dataLine.clear();
-        stringstream s(row) ;
-
-        while (getline(s, data, ',')) {
-            dataLine.push_back(data) ;
-        }
-        pk.insert(stoi(dataLine[0])) ;
-    }
-    employeeId = 1;
-    while (pk.count(employeeId) == 1) {
-        employeeId += 1;
-    }
-    e.setId(employeeId);
-    
-    db.clear();
     // Enter Employee info into csv file
-    db << employeeId << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
+    db << e.getId() << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
     int sizeSkills = e.getSkills().size();
     for (int i = 0; i < sizeSkills; i++) {
         db << e.getSkills()[i];
@@ -418,115 +351,7 @@ void createEntry (Job &j)
     fstream db;
     db.open(dbPath + "/jobs.csv", ios::in | ios::app);
 
-    // Create new primary key not already existing
-    unordered_set<int> pk;
-    vector<string> dataLine;
-    string row, data, temp;
-    int jobId ;
-    getline(db, temp) ;
-    while (getline(db, row))
-    {
-        dataLine.clear();
-        stringstream s(row) ;
-
-        while (getline(s, data, ',')) {
-            dataLine.push_back(data) ;
-        }
-        pk.insert(stoi(dataLine[0])) ;
-    }
-    jobId = 1;
-    while (pk.count(jobId) == 1) {
-        jobId += 1;
-    }
-    j.setId(jobId);
-    
-    db.clear();
     // Enter Job info into csv
-    db << jobId << "," << j.getTitle() << ",";
-    int sizeSkills = j.getSkills().size();
-    for (int i = 0; i < sizeSkills; i++){
-        db << j.getSkills()[i];
-        if (i == sizeSkills - 1) db << ",";
-        else db << ";";
-    }
-    db << j.getCompany().getId() << "\n";
-    
-    db.close();
-}
-
-void updateEntry(Company &c)
-{
-    fstream db;
-    db.open(dbPath + "/companies.csv", ios::in | ios::app);
-
-    // Delete old entry (the primary key hasn't changed)
-    deleteEntry(c);
-    // Enter new Company info
-    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
-
-    db.close();
-}
-
-void updateEntry(JobSeeker &js)
-{
-    fstream db;
-    db.open(dbPath + "/jobseekers.csv", ios::in | ios::app);
-
-    // Delete old entry (the primary key hasn't changed)
-    deleteEntry(js);
-    // Enter new JobSeeker info
-    db << js.getId() << "," << js.getName() << "," << js.getFirstname() << "," << js.getEmail() << "," << js.getZipcode() << ",";
-    int sizeSkills = js.getSkills().size();
-    for (int i = 0; i < sizeSkills; i++) {
-        db << js.getSkills()[i];
-        if (i == sizeSkills - 1) db << ",";
-        else db << ";";
-    }
-    int sizeColleagues = js.getColleagues().size();
-    for (int i = 0; i < sizeColleagues; i++){
-        db << js.getColleagues()[i].getId();
-        if (i == sizeColleagues - 1) db << ",";
-        else db << ";";
-    }
-    db << "\n";
-
-    db.close();
-}
-
-void updateEntry(Employee &e)
-{
-    fstream db;
-    db.open(dbPath + "/employees.csv", ios::in | ios::app);
-
-    // Delete old entry (Primary key not changing)
-    deleteEntry(e);
-    // Enter new Employee info
-    db << e.getId() << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
-    int sizeSkills = e.getSkills().size();
-    for (int i = 0; i < sizeSkills; i++) {
-        db << e.getSkills()[i];
-        if (i == sizeSkills - 1) db << ",";
-        else db << ";";
-    }
-    int sizeColleagues = e.getColleagues().size();
-    for (int i = 0; i < sizeColleagues; i++){
-        db << e.getColleagues()[i].getId();
-        if (i == sizeColleagues - 1) db << ",";
-        else db << ";";
-    }
-    db << e.getCompany().getId() << "\n";
-
-    db.close();
-}
-
-void updateEntry(Job &j)
-{
-    fstream db;
-    db.open(dbPath + "/jobs.csv", ios::in | ios::app);
-
-    // Delete old entry
-    deleteEntry(j);
-    // Enter new entry
     db << j.getId() << "," << j.getTitle() << ",";
     int sizeSkills = j.getSkills().size();
     for (int i = 0; i < sizeSkills; i++){
@@ -535,154 +360,63 @@ void updateEntry(Job &j)
         else db << ";";
     }
     db << j.getCompany().getId() << "\n";
-
+    
     db.close();
 }
 
-void deleteEntry(Company &c)
+void updateEntry(vector<Company> &list)
 {
-    string filenameIn = dbPath + "/companies.csv";
-    string filenameOut = dbPath + "/tmp.csv";
-    const char * cIn = filenameIn.c_str();
-    const char * cOut = filenameOut.c_str();
-    ifstream db(cIn);
-    ofstream dbNew;
-    dbNew.open(cOut, ios::out);
-
-    vector<string> dataLine;
-    string row, data, temp;
-    int companyId = c.getId(), id;
-
-    getline(db, temp) ;
-    dbNew << temp << "\n";   
-    while (getline(db, row))
-    {
-        dataLine.clear();
-        stringstream s(row) ;
-
-        while (getline(s, data, ',')) {
-            dataLine.push_back(data) ;
-        }
-
-        id = stoi(dataLine[0]) ;
-        if (companyId != id) {
-            dbNew << row << "\n";
-        }
-    }
-
+    fstream db;
+    db.open(dbPath + "/companies.csv", ios::out);
+    db << "id,nom,code postal,mail\n";
     db.close();
-    dbNew.close();
-    remove(cIn);
-    rename(cOut, cIn); 
+ 
+    int size = list.size();
+    for (int i = 0; i < size; i++){
+        // Enter new Company info
+        Company c = list[i];
+        createEntry(c);
+    }
 }
 
-void deleteEntry(JobSeeker &js)
+void updateEntry(vector<JobSeeker> &list)
 {
-    string filenameIn = dbPath + "/jobseekers.csv";
-    string filenameOut = dbPath + "/tmp.csv";
-    const char * cIn = filenameIn.c_str();
-    const char * cOut = filenameOut.c_str();
-    ifstream db(cIn);
-    ofstream dbNew;
-    dbNew.open(cOut, ios::out);
-
-    vector<string> dataLine;
-    string row, data, temp;
-    int jobseekerId = js.getId(), id;
-
-    getline(db, temp) ;
-    dbNew << temp << "\n";   
-    while (getline(db, row))
-    {
-        dataLine.clear();
-        stringstream s(row) ;
-
-        while (getline(s, data, ',')) {
-            dataLine.push_back(data) ;
-        }
-
-        id = stoi(dataLine[0]) ;
-        if (jobseekerId  != id) {
-            dbNew << row << "\n";
-        }
-    }
-
+    fstream db;
+    db.open(dbPath + "/jobseekers.csv", ios::out);
+    db << "id,nom,prenom,mail,code postal,competences,collegues\n";
     db.close();
-    dbNew.close();
-    remove(cIn);
-    rename(cOut, cIn);
+
+    int size = list.size();
+    for (int i = 0; i < size; i++){
+        JobSeeker js = list[i];
+        createEntry(js);
+    }
 }
 
-void deleteEntry(Employee &e)
+void updateEntry(vector<Employee> &list)
 {
-    string filenameIn = dbPath + "/employees.csv";
-    string filenameOut = dbPath + "/tmp.csv";
-    const char * cIn = filenameIn.c_str();
-    const char * cOut = filenameOut.c_str();
-    ifstream db(cIn);
-    ofstream dbNew;
-    dbNew.open(cOut, ios::out);
-
-    vector<string> dataLine;
-    string row, data, temp;
-    int employeeId = e.getId(), id;
-
-    getline(db, temp) ;
-    dbNew << temp << "\n";   
-    while (getline(db, row))
-    {
-        dataLine.clear();
-        stringstream s(row) ;
-
-        while (getline(s, data, ',')) {
-            dataLine.push_back(data) ;
-        }
-
-        id = stoi(dataLine[0]) ;
-        if (employeeId != id) {
-            dbNew << row << "\n";
-        }
-    }
-
+    fstream db;
+    db.open(dbPath + "/employees.csv", ios::out);
+    db << "id,nom,prenom,mail,code postal,competences,collegues,entreprise\n";
     db.close();
-    dbNew.close();
-    remove(cIn);
-    rename(cOut, cIn);
+
+    int size = list.size();
+    for (int i = 0; i < size; i++){
+        Employee e = list[i];
+        createEntry(e);
+    }
 }
 
-void deleteEntry(Job &j)
+void updateEntry(vector<Job> &list)
 {
-    string filenameIn = dbPath + "/jobs.csv";
-    string filenameOut = dbPath + "/tmp.csv";
-    const char * cIn = filenameIn.c_str();
-    const char * cOut = filenameOut.c_str();
-    ifstream db(cIn);
-    ofstream dbNew;
-    dbNew.open(cOut, ios::out);
-
-    vector<string> dataLine;
-    string row, data, temp;
-    int jobId = j.getId(), id;
-
-    getline(db, temp) ;
-    dbNew << temp << "\n";   
-    while (getline(db, row))
-    {
-        dataLine.clear();
-        stringstream s(row) ;
-
-        while (getline(s, data, ',')) {
-            dataLine.push_back(data) ;
-        }
-
-        id = stoi(dataLine[0]) ;
-        if (jobId != id) {
-            dbNew << row << "\n";
-        }
-    }
-
+    fstream db;
+    db.open(dbPath + "/jobs.csv", ios::out);
+    db << "id,titre,competences,entreprise\n";
     db.close();
-    dbNew.close();
-    remove(cIn);
-    rename(cOut, cIn);
+
+    int size = list.size();
+    for (int i = 0; i < size; i++){
+        Job j = list[i];
+        createEntry(j);
+    }
 }

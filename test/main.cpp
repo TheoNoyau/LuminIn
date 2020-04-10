@@ -37,8 +37,10 @@ int tests_reussis = 0;
 int main()
 {
     // // First basic test
-    Company c("KerLav", "31", "pro@gmail.com");
-    TEST(!c.getEmail().compare("pro@gmail.com"));     
+    // TEST(!c.getEmail().compare("pro@gmail.com"));
+
+    
+        
 
     // Sets the path to csv files
     setPath("test/data/csv");
@@ -48,110 +50,125 @@ int main()
     vector<Job> jobs ;
     vector<JobSeeker> jobSeekers ;
 
-    // // createEntry for each entry
+    // // DB Test -> updateEntry for each file
+    // // updateEntry for Company
+    // {
+    //     Company c("KerLav", "31", "pro@gmail.com");
+    //     c.setId(1);
+    //     Company c2("LavKer", "13", "pro@gmail.com");
+    //     c2.setId(2);
+    //     Company c3("jskdna", "13001", "pro@gmail.com");
+    //     c3.setId(3);
+    //     companies.push_back(c);
+    //     companies.push_back(c2);
+    //     companies.push_back(c3);
+    //     updateEntry(companies);
+    // }
+
     // vector<Employee> colleagues;
-    // JobSeeker js("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13006", {"prog","comedie"}, colleagues);
-    // Employee e("Kerneves", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
-    // Job j("Developpeur Full Stack",{"CSS","HTML5","Python"},c);
+    // // updateEntry for JobSeeker
     // {
-    //     createEntry(c);
-    //     createEntry(js);
-    //     createEntry(e);
-    //     createEntry(j);
+    //     JobSeeker js("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13006", {"prog","comedie"}, colleagues);
+    //     js.setId(1);
+    //     JobSeeker js2("Kerneves", "Theo ", "theoker@gmail.net", "09700", {"prog","comedie"}, colleagues);
+    //     js2.setId(2);
+    //     JobSeeker js3("Kerneves", "Aymeric", "aymeric@lavedrine.net", "13006", {"prog","comedie"}, colleagues); 
+    //     js3.setId(3);
+    //     jobSeekers.push_back(js);
+    //     jobSeekers.push_back(js2);
+    //     jobSeekers.push_back(js3);
+    //     updateEntry(jobSeekers);
     // }
 
-    // DB TESTS
-    // getCompanies
-    companies = getCompanies() ;
-    {
-        TEST (companies[0].getId() == 1) ;
-        TEST (!companies[1].getName().compare("Google")) ;
-        TEST (!companies[2].getZipcode().compare("31")) ;
-    }
+    // // updateEntry for Employee
+    // {
+    //     Employee e("Kerneves", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
+    //     e.setId(1);
+    //     Employee e2("Lavedrine", "Aymeric", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
+    //     e2.setId(2);
+    //     Employee e3("Lavedrine", "Theo", "theo.kerneves@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
+    //     e3.setId(3);
+    //     employees.push_back(e);
+    //     employees.push_back(e2);
+    //     employees.push_back(e3);
+    //     updateEntry(employees);
+    // }
 
-    // getCompany
-    {
-        Company cTest = getCompany(2) ;
-        TEST (!cTest.getName().compare("Google")) ;
-    }
-    {
-        Company cTest = getCompany(99999) ;
-        TEST (!cTest.getName().compare("undefined")) ;
-        TEST (cTest.getId() < 0) ;
-    }
+    // // updateEntry for Job
+    // {
+    //     Job j("Developpeur Full Stack",{"CSS","HTML5","Python"},c);
+    //     j.setId(1);
+    //     Job j2("Dessinateur Full Stack",{"Crayon","Papier","Python"},c);
+    //     j2.setId(2);
+    //     jobs.push_back(j);
+    //     jobs.push_back(j2);
+    //     updateEntry(jobs);  
+    // }
 
-    // getEmployees
-    employees = getEmployees() ;
-    {
-        TEST (!employees[0].getName().compare("Untel")) ;
-        TEST (!employees[0].getSkills()[0].compare("C++")) ;
+    // // DB TESTS
+    // // getCompanies
+    // companies = getCompanies() ;
+    // {
+    //     TEST (companies[0].getId() == 1) ;
+    //     TEST (!companies[1].getName().compare("Google")) ;
+    //     TEST (!companies[2].getZipcode().compare("31")) ;
+    // }
 
-        TEST (!employees[1].getCompany().getName().compare("Disney")) ;
-        TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
-        TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
-        TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
-    }
+    // // getCompany
+    // {
+    //     Company cTest = getCompany(2) ;
+    //     TEST (!cTest.getName().compare("Google")) ;
+    // }
+    // {
+    //     Company cTest = getCompany(99999) ;
+    //     TEST (!cTest.getName().compare("undefined")) ;
+    //     TEST (cTest.getId() < 0) ;
+    // }
 
-    // getJobSeekers
-    jobSeekers = getJobSeekers() ;
-    {
-        TEST (!jobSeekers[0].getName().compare("Duck")) ;
-        TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
+    // // getEmployees
+    // employees = getEmployees() ;
+    // {
+    //     TEST (!employees[0].getName().compare("Untel")) ;
+    //     TEST (!employees[0].getSkills()[0].compare("C++")) ;
+
+    //     TEST (!employees[1].getCompany().getName().compare("Disney")) ;
+    //     TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
+    //     TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
+    //     TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
+    // }
+
+    // // getJobSeekers
+    // jobSeekers = getJobSeekers() ;
+    // {
+    //     TEST (!jobSeekers[0].getName().compare("Duck")) ;
+    //     TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
         
-        TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
-        TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
-    }
-
-
-    // getJobs
-    jobs = getJobs () ;
-    {
-        TEST (!jobs[0].getTitle().compare("acteur")) ;
-        TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
-        TEST (!jobs[1].getCompany().getName().compare("Google")) ;
-    }
-
-    // // modify entry
-    // // Changing the company name
-    // Company c2("Ker Lav and co", "31", "pro@gmail.com");
-    // c2.setId(c.getId());
-    // // Changing zipcode
-    // JobSeeker js2("Lavedrine", "Aymeric", "aymeric@lavedrine.net", "13010", {"prog","comedie"}, colleagues);
-    // js2.setId(js.getId());
-    // // Changing email adress
-    // Employee e2("Kerneves", "Theo", "theoker@gmail.com", "09700", {"trop bo", "trop fort"}, colleagues, c);
-    // e2.setId(e.getId());
-    // // Changing title
-    // Job j2("Developpeur",{"CSS","HTML5","Python"},c);
-    // j2.setId(j.getId());
-    // {
-    //     updateEntry(c2);
-    //     updateEntry(js2);
-    //     updateEntry(e2);
-    //     updateEntry(j2);  
+    //     TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
+    //     TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
     // }
-    // deleteEntry(c);
-    // deleteEntry(c2);
-    // deleteEntry(js);
-    // deleteEntry(js2);
-    // deleteEntry(e);
-    // deleteEntry(e2);
-    // deleteEntry(j);
-    // deleteEntry(j2);
 
-    // JobSeeker Class Tests
-    // createProfile
-    {
-        vector<Employee> jsColleagues ;
-        jsColleagues.push_back(employees[0]) ;
 
-        JobSeeker js("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-        js.createProfile(jobSeekers);
+    // // getJobs
+    // jobs = getJobs () ;
+    // {
+    //     TEST (!jobs[0].getTitle().compare("acteur")) ;
+    //     TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
+    //     TEST (!jobs[1].getCompany().getName().compare("Google")) ;
+    // }
 
-        jobSeekers = getJobSeekers () ;
-        TEST (!jobSeekers[js.getId() - 1].getName().compare("BERNARD")) ;
-        TEST (!jobSeekers[js.getId() - 1].getColleagues()[0].getFirstname().compare("Michel")) ;
-    }
+    // // JobSeeker Class Tests
+    // // createProfile
+    // {
+    //     vector<Employee> jsColleagues ;
+    //     jsColleagues.push_back(employees[0]) ;
+
+    //     JobSeeker js("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+    //     js.createProfile(jobSeekers);
+
+    //     jobSeekers = getJobSeekers () ;
+    //     TEST (!jobSeekers[js.getId() - 1].getName().compare("BERNARD")) ;
+    //     TEST (!jobSeekers[js.getId() - 1].getColleagues()[0].getFirstname().compare("Michel")) ;
+    // }
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     

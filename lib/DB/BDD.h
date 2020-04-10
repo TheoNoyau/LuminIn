@@ -14,44 +14,37 @@ class Employee ;
 // Sets the path to DB files
 void setPath(std::string path);
 
-// Read all the companies from the companies database table
-// Return a vector of those Companies
+// Reads all the companies from the companies database table
+// Returns a vector of those Companies
 std::vector<Company> getCompanies() ;
 
-// Read all the JobSeekers from the jobseekers database table
-// Return a vector of those JobSeekers
+// Reads all the JobSeekers from the jobseekers database table
+// Returns a vector of those JobSeekers
 std::vector<JobSeeker> getJobSeekers() ;
 
-// Read all the Jobs from the jobs database table
-// Return a vector of those Jobs
+// Reads all the Jobs from the jobs database table
+// Returns a vector of those Jobs
 std::vector<Job> getJobs () ;
 
-// Read all the Employees from the employees database table
-// Return a vector of those Employees
+// Reads all the Employees from the employees database table
+// Returns a vector of those Employees
 std::vector<Employee> getEmployees () ;
 
-// Retruns the company object corresponding to the id given as a parameter
+// Returns the company object corresponding to the id given as a parameter
 Company getCompany(int const id) ;
 
-// Create a line in the database table
-// The database table will differ according to the object given
+// Creates a line in the database table
+// The database file will differ according to the object given
 void createEntry (Company &c) ;
 void createEntry (JobSeeker &js) ;
 void createEntry (Employee &e) ;
 void createEntry (Job &j) ;
 
-// Update/modify a line in the database table 
-// The database table will differ according to the object given
-void updateEntry (Company &c) ;
-void updateEntry (JobSeeker &js) ;
-void updateEntry (Employee &e) ;
-void updateEntry (Job &j) ;
-
-// Delete a line in the database table
-// The database table will differ according to the object given
-void deleteEntry (Company &c) ;
-void deleteEntry (JobSeeker &js) ;
-void deleteEntry (Employee &e) ;
-void deleteEntry (Job &o) ;
+// Rewrites whole content of vector passed as parameter to the correct file 
+// The database file will differ according to the type of list given
+void updateEntry (std::vector<Company> &list) ;
+void updateEntry (std::vector<JobSeeker> &list) ;
+void updateEntry (std::vector<Employee> &list) ;
+void updateEntry (std::vector<Job> &list) ;
 
 #endif
