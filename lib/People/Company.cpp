@@ -18,6 +18,17 @@ Company::Company() : _name("undefined"), _zipcode("undefined"), _email("undefine
    _id = -1 ; 
 }
 
+int Company::getIndex(const int id, vector<Company> companies)
+{
+    int size = companies.size() ;
+    
+    for (int i = 0; i < size; i++) {
+        if (companies[i].getId() == id) return i ;
+    }
+
+    return -1; 
+}
+
 int Company::getId ()
 {
     return _id ;

@@ -34,6 +34,11 @@ class Employee
     // Setter
     void setId(int id);
 
+    // Static
+
+    // Returns a reference of the object with the right id
+    static int getIndex(const int id, std::vector<Employee> employees) ;
+
     // Creates Employee profile and adds it to the list and DB
     void createProfile(std::vector<Employee> &list) ;
 

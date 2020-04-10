@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "Company.h"
+
 class Company ;
 
 class Job
@@ -14,6 +16,11 @@ class Job
     // Class constructeur
     // A job needs an id as PK, a title, a vector of skills and a linked Company
     Job(std::string title, std::vector<std::string> skills, Company &c);
+
+    // Static
+
+    // Returns a reference of the object with the right id
+    static int getIndex(const int id, std::vector<Job> jobs) ;
 
     // Accessors
     int getId () ;
@@ -32,7 +39,7 @@ class Job
     int _id ;
     std::string _title;
     std::vector<std::string> _skills ;
-    Company &_company ;
+    Company _company ;
 };
 
 #endif

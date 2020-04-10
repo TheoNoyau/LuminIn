@@ -106,69 +106,77 @@ int main()
     // }
 
     // // DB TESTS
-    // // getCompanies
-    // companies = getCompanies() ;
-    // {
-    //     TEST (companies[0].getId() == 1) ;
-    //     TEST (!companies[1].getName().compare("Google")) ;
-    //     TEST (!companies[2].getZipcode().compare("31")) ;
-    // }
+    // getCompanies
+    companies = getCompanies() ;
+    {
+        TEST (companies[0].getId() == 1) ;
+        TEST (!companies[1].getName().compare("Google")) ;
+        TEST (!companies[2].getZipcode().compare("31")) ;
+    }
 
-    // // getCompany
-    // {
-    //     Company cTest = getCompany(2) ;
-    //     TEST (!cTest.getName().compare("Google")) ;
-    // }
-    // {
-    //     Company cTest = getCompany(99999) ;
-    //     TEST (!cTest.getName().compare("undefined")) ;
-    //     TEST (cTest.getId() < 0) ;
-    // }
+    // getCompany
+    {
+        Company cTest = getCompany(2) ;
+        TEST (!cTest.getName().compare("Google")) ;
+    }
+    {
+        Company cTest = getCompany(99999) ;
+        TEST (!cTest.getName().compare("undefined")) ;
+        TEST (cTest.getId() < 0) ;
+    }
 
-    // // getEmployees
-    // employees = getEmployees() ;
-    // {
-    //     TEST (!employees[0].getName().compare("Untel")) ;
-    //     TEST (!employees[0].getSkills()[0].compare("C++")) ;
+    // getEmployees
+    employees = getEmployees() ;
+    {
+        TEST (!employees[0].getName().compare("Untel")) ;
+        TEST (!employees[0].getSkills()[0].compare("C++")) ;
 
-    //     TEST (!employees[1].getCompany().getName().compare("Disney")) ;
-    //     TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
-    //     TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
-    //     TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
-    // }
+        TEST (!employees[1].getCompany().getName().compare("Disney")) ;
+        TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
+        TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
+        TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
+    }
 
-    // // getJobSeekers
-    // jobSeekers = getJobSeekers() ;
-    // {
-    //     TEST (!jobSeekers[0].getName().compare("Duck")) ;
-    //     TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
+    // getJobSeekers
+    jobSeekers = getJobSeekers() ;
+    {
+        TEST (!jobSeekers[0].getName().compare("Duck")) ;
+        TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
         
-    //     TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
-    //     TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
-    // }
+        TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
+        TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
+    }
 
 
-    // // getJobs
-    // jobs = getJobs () ;
-    // {
-    //     TEST (!jobs[0].getTitle().compare("acteur")) ;
-    //     TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
-    //     TEST (!jobs[1].getCompany().getName().compare("Google")) ;
-    // }
+    // getJobs
+    jobs = getJobs () ;
+    {
+        TEST (!jobs[0].getTitle().compare("acteur")) ;
+        TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
+        TEST (!jobs[1].getCompany().getName().compare("Google")) ;
+    }
 
-    // // JobSeeker Class Tests
-    // // createProfile
-    // {
-    //     vector<Employee> jsColleagues ;
-    //     jsColleagues.push_back(employees[0]) ;
+    // JobSeeker Class Tests
+    // createProfile
+    {
+        vector<Employee> jsColleagues ;
+        jsColleagues.push_back(employees[0]) ;
 
-    //     JobSeeker js("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-    //     js.createProfile(jobSeekers);
+        JobSeeker js("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js.createProfile(jobSeekers);
 
-    //     jobSeekers = getJobSeekers () ;
-    //     TEST (!jobSeekers[js.getId() - 1].getName().compare("BERNARD")) ;
-    //     TEST (!jobSeekers[js.getId() - 1].getColleagues()[0].getFirstname().compare("Michel")) ;
-    // }
+        // Get the index in the vector of JobSeekers of the JobSeeker created with createProfile()
+        int jsIndex = JobSeeker::getIndex(js.getId(), jobSeekers) ;
+
+        TEST (!jobSeekers[jsIndex].getName().compare("BERNARD")) ;
+        TEST (!jobSeekers[jsIndex].getColleagues()[0].getFirstname().compare("Michel")) ;
+    }
+
+    // Save data to make it persistent
+    updateEntry(companies) ;
+    updateEntry(employees) ;
+    updateEntry(jobSeekers) ;
+    updateEntry(jobs) ;
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     
