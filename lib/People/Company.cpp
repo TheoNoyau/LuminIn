@@ -61,7 +61,11 @@ void Company::setId(int id)
 
 void Company::createProfile(vector<Company> &list) 
 {
+    // Set an ID not used
+    setId(list);
 
+    // Add the profile to the vector
+    list.push_back(*this);
 }
 
 void Company::updateProfile(string name, string zipcode, string email) 
