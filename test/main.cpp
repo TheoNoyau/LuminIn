@@ -172,6 +172,18 @@ int main()
         TEST (!jobSeekers[jsIndex].getColleagues()[0].getFirstname().compare("Michel")) ;
     }
 
+    // Company Class Tests
+    // createProfile
+    {
+        Company polytech("Polytech","13009","polytech@univ-amu.fr");
+        polytech.createProfile(companies);
+        int polytechIndex = Company::getIndex(polytech.getId(), companies);
+
+        TEST(!companies[polytechIndex].getName().compare("Polytech"));
+        TEST(!companies[polytechIndex].getEmail().compare("polytech@univ-amu.fr"));
+
+    }
+
     // Save data to make it persistent
     updateEntry(companies) ;
     updateEntry(employees) ;
