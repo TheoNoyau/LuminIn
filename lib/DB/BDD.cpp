@@ -288,7 +288,7 @@ void createEntry (Company &c)
     db.open(dbPath + "/companies.csv", ios::in | ios::app);
 
     // Enter Company info
-    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << ",\n";
+    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
 
     db.close();
 }
@@ -303,16 +303,17 @@ void createEntry (JobSeeker &js)
     int sizeSkills = js.getSkills().size();
     for (int i = 0; i < sizeSkills; i++) {
         db << js.getSkills()[i];
-        if (i == sizeSkills - 1) db << ",";
-        else db << ";";
+        if (i < sizeSkills) db << ";";
     }
+    db << ",";
+
     int sizeColleagues = js.getColleagues().size();
     for (int i = 0; i < sizeColleagues; i++){
         db << js.getColleagues()[i].getId();
-        if (i == sizeColleagues - 1) db << ",";
-        else db << ";";
+        if (i < sizeColleagues) db << ";";
     }
-    db << ",\n";
+    db << ",";
+    db << "\n";
 
     db.close();
 }
@@ -339,7 +340,7 @@ void createEntry (Employee &e)
     }
     db << ",";
 
-    db << e.getCompany().getId() << ",\n";
+    db << e.getCompany().getId() << "\n";
 
     db.close();
 }
@@ -354,10 +355,10 @@ void createEntry (Job &j)
     int sizeSkills = j.getSkills().size();
     for (int i = 0; i < sizeSkills; i++){
         db << j.getSkills()[i];
-        if (i == sizeSkills - 1) db << ",";
-        else db << ";";
+        if (i < sizeSkills) db << ";";
     }
-    db << j.getCompany().getId() << ",\n";
+    db << ",";
+    db << j.getCompany().getId() << "\n";
     
     db.close();
 }
