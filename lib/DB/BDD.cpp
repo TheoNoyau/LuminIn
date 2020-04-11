@@ -169,8 +169,7 @@ vector<Job> getJobs()
 vector<Employee> getEmployees()
 {
     fstream db, dbCompanies;
-    db.open(dbPath + "/employees.csv", ios::in);
-    dbCompanies.open(dbPath + "/companies.csv", ios::in);    
+    db.open(dbPath + "/employees.csv", ios::in); 
 
     vector<Employee> employees;
     vector<string> skills ;
@@ -212,6 +211,7 @@ vector<Employee> getEmployees()
         // Reading of the colleagues IDs to add them to the colleague tab
         s.clear();
         s << dataLine[6] ;
+        
         while (getline(s, data, ';')) {
             colleagueId = stoi(data) ;
 
@@ -220,7 +220,8 @@ vector<Employee> getEmployees()
                 e.setId(colleagueId) ;
                 colleagues.push_back(e) ;
             } else {
-                colleagues.push_back(employees[colleagueId - 1]) ;
+                int colleagueIndex = Employee::getIndex(colleagueId, employees) ;
+                colleagues.push_back(employees[colleagueIndex]) ;
             }
 
         }
@@ -244,7 +245,6 @@ vector<Employee> getEmployees()
     }
 
     db.close();
-    dbCompanies.close();
     return employees;
 }
 
@@ -324,18 +324,21 @@ void createEntry (Employee &e)
 
     // Enter Employee info into csv file
     db << e.getId() << "," << e.getName() << "," << e.getFirstname() << "," << e.getEmail() << "," << e.getZipcode() << ",";
+
     int sizeSkills = e.getSkills().size();
     for (int i = 0; i < sizeSkills; i++) {
         db << e.getSkills()[i];
-        if (i == sizeSkills - 1) db << ",";
-        else db << ";";
+        if (i < sizeSkills) db << ";";
     }
+    db << ",";
+
     int sizeColleagues = e.getColleagues().size();
     for (int i = 0; i < sizeColleagues; i++){
         db << e.getColleagues()[i].getId();
-        if (i == sizeColleagues - 1) db << ",";
-        else db << ";";
+        if (i < sizeColleagues) db << ";";
     }
+    db << ",";
+
     db << e.getCompany().getId() << ",\n";
 
     db.close();
