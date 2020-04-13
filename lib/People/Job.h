@@ -30,6 +30,7 @@ class Job
 
     // Setter 
     void setId(int id);
+    void setId(std::vector<Job> &list);
 
     // Operators overloading
     Job& operator= (const Job &job) ;

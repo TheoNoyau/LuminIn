@@ -43,6 +43,11 @@ void Job::setId(int id)
     _id = id;
 }
 
+void Job::setId(vector<Job> &list)
+{
+    _id = (int)list.size() + 1; 
+}
+
 Job& Job::operator= (const Job &job)
 {
     _id = job._id ;

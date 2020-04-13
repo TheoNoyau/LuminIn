@@ -35,24 +35,24 @@ class Company
     void createProfile(std::vector<Company> &list) ;
 
     // Updates profile given a name, zipcode and email
-    void updateProfile(std::string name, std::string zipcode, std::string email) ;
+    void updateProfile(std::vector<Company> &list, std::string name, std::string zipcode, std::string email) ;
 
     // Deletes Company profile from the list and DB
     void deleteProfile(std::vector<Company> &list) ;
 
     // Creates a job given a title and a list of skills
-    void createJob(std::string title, const std::vector<std::string> skills) ;
+    void createJob(std::vector<Job> &list, std::string title, const std::vector<std::string> skills) ;
 
     // Deletes a job
-    void deleteJob(Job &j) ;
+    void deleteJob(std::vector<Job> &list, Job &j) ;
 
     // Searches for relevant job seekers given a list of skills
     // Returns a list of JobSeeker
-    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, const std::vector<std::string> skills) ;
+    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, std::vector<std::string> skills) ;
 
     // Searches for relevant job seekers given a list of skills and a zipcode
     // Returns a list of JobSeeker
-    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, const std::vector<std::string> skills, std::string zipcode) ;
+    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, std::vector<std::string> skills, std::string zipcode) ;
 
     // Operators overloading
     Company& operator= (const Company &company) ;

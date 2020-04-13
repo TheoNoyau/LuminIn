@@ -5,6 +5,7 @@
 #include "Job.h"
 
 #include <vector>
+#include <algorithm>
 
 using namespace std ;
 
@@ -61,42 +62,84 @@ void Company::setId(int id)
 
 void Company::createProfile(vector<Company> &list) 
 {
-    // Set an ID not used
+    // Set a unique ID
     setId(list);
 
     // Add the profile to the vector
     list.push_back(*this);
 }
 
-void Company::updateProfile(string name, string zipcode, string email) 
+void Company::updateProfile(vector<Company> &list, string name, string zipcode, string email) 
 {
+    _name = name;
+    _zipcode = zipcode;
+    _email = email;
+    setId(_id);
 
+    list.erase(list.begin() + getIndex(_id, list));
+    list.push_back(*this);
 }
 
 void Company::deleteProfile(vector<Company> &list) 
 {
-    
+    list.erase(list.begin() + getIndex(_id, list));  
 }
 
-void Company::createJob(string title, const vector<string> skills)
+void Company::createJob(vector<Job> &list, string title, const vector<string> skills)
 {
+    // Create new job object and give it a unique id
+    Job newJob(title, skills, *this);
+    newJob.setId(list);
 
+    // Add it to list of Jobs
+    list.push_back(newJob);
 }
 
-void Company::deleteJob(Job &j) 
+void Company::deleteJob(vector<Job> &list, Job &j) 
 {
-
+    list.erase(list.begin() + Job::getIndex(j.getId(), list));
 }
 
-vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills)
+vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, vector<string> skills)
 {
     vector<JobSeeker> js ;
+    sort(skills.begin(), skills.end());
+     
+    for (JobSeeker newjs : list){
+        vector<string> jsSkills = newjs.getSkills();
+        sort(jsSkills.begin(), jsSkills.end());
+        // Iterate only with smallest list size
+        int n = min(jsSkills.size(), skills.size());
+        int count = 0;
+        for (int j = 0; j < n; j++){
+            if (skills[j].compare(jsSkills[j]) == 0) count++;
+        }
+        // If all skill requirements are met, add JobSeeker to list
+        if (count == (int)skills.size()) js.push_back(newjs);
+    }
+
     return js ;
 }
 
-vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills, string zipcode)
+vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, vector<string> skills, string zipcode)
 {
     vector<JobSeeker> js ;
+    sort(skills.begin(), skills.end());
+     
+    for (JobSeeker newjs : list){
+        if (newjs.getZipcode().compare(zipcode) == 0){
+            vector<string> jsSkills = newjs.getSkills();
+            sort(jsSkills.begin(), jsSkills.end());
+            // Iterate only with smallest list size
+            int n = min(jsSkills.size(), skills.size());
+            int count = 0;
+            for (int j = 0; j < n; j++){
+                if (skills[j].compare(jsSkills[j]) == 0) count++;
+            }
+            // If all skill requirements are met, add JobSeeker to list
+            if (count == (int)skills.size()) js.push_back(newjs);
+        }
+    }
     return js ;
 }
 

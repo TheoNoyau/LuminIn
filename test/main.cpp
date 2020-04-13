@@ -174,14 +174,58 @@ int main()
     }
 
     // Company Class Tests
-    // createProfile
     {
+        // createProfile
         Company polytech("Polytech","13009","polytech@univ-amu.fr");
         polytech.createProfile(companies);
         int polytechIndex = Company::getIndex(polytech.getId(), companies);
 
         TEST(!companies[polytechIndex].getName().compare("Polytech"));
         TEST(!companies[polytechIndex].getEmail().compare("polytech@univ-amu.fr"));
+
+        // updateProfile
+        polytech.updateProfile(companies, "Polytech Marseille","13009","polytech-marseille@univ-amu.fr");
+
+        TEST(!companies[polytechIndex].getName().compare("Polytech Marseille"));
+        TEST(!companies[polytechIndex].getEmail().compare("polytech-marseille@univ-amu.fr"));
+
+        // deleteProfile 
+        // It works 
+        // polytech.deleteProfile(companies);
+
+        // createJob
+        polytech.createJob(jobs, "Comedien",{"Drole","Marrant","Rigolo"});
+
+        TEST(!jobs[2].getTitle().compare("Comedien"));
+        TEST(!jobs[2].getSkills()[2].compare("Rigolo"));
+
+        // deleteJob
+        // It works 
+        // polytech.deleteJob(jobs, jobs[2]);
+
+        // searchForJobSeekers
+        vector<JobSeeker> relevantJs = polytech.searchForJobSeekers(jobSeekers, {"comedie"});
+        TEST(relevantJs.size() == 2);
+        TEST(!relevantJs[0].getFirstname().compare("Donald"));
+        TEST(!relevantJs[1].getFirstname().compare("Aymeric"));
+
+        // Not ordered list of skills
+        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
+        TEST(relevantJs.size() == 1);
+        TEST(!relevantJs[0].getFirstname().compare("Francois"));
+
+        // No profile matching
+        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"Java","Sportif"});
+        TEST(relevantJs.size() == 0);
+    
+        // Test for search with zipcode
+        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "31300");
+        TEST(relevantJs.size() == 0);
+
+        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
+        TEST(relevantJs.size() == 1);
+        TEST(!relevantJs[0].getFirstname().compare("Francois"));
+
 
     }
 
