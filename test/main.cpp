@@ -174,8 +174,8 @@ int main()
     }
 
     // Company Class Tests
-    // createProfile
     {
+        // createProfile
         Company polytech("Polytech","13009","polytech@univ-amu.fr");
         polytech.createProfile(companies);
         int polytechIndex = Company::getIndex(polytech.getId(), companies);
@@ -183,6 +183,12 @@ int main()
         TEST(!companies[polytechIndex].getName().compare("Polytech"));
         TEST(!companies[polytechIndex].getEmail().compare("polytech@univ-amu.fr"));
 
+        // updateProfile
+        polytech.updateProfile(companies, "Polytech Marseille","13009","polytech-marseille@univ-amu.fr");
+        polytechIndex = Company::getIndex(polytech.getId(), companies);
+
+        TEST(!companies[polytechIndex].getName().compare("Polytech Marseille"));
+        TEST(!companies[polytechIndex].getEmail().compare("polytech-marseille@univ-amu.fr"));
     }
 
     // Save data to make it persistent
