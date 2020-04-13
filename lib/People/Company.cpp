@@ -74,10 +74,8 @@ void Company::updateProfile(vector<Company> &list, string name, string zipcode, 
     _name = name;
     _zipcode = zipcode;
     _email = email;
-    setId(_id);
 
-    list.erase(list.begin() + getIndex(_id, list));
-    list.push_back(*this);
+    list[getIndex(_id, list)] = *this;
 }
 
 void Company::deleteProfile(vector<Company> &list) 
