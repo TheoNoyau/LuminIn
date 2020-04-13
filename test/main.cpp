@@ -218,6 +218,13 @@ int main()
         relevantJs = polytech.searchForJobSeekers(jobSeekers, {"Java","Sportif"});
         TEST(relevantJs.size() == 0);
     
+        // Test for search with zipcode
+        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "31300");
+        TEST(relevantJs.size() == 0);
+
+        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
+        TEST(relevantJs.size() == 1);
+        TEST(!relevantJs[0].getFirstname().compare("Francois"));
 
 
     }
