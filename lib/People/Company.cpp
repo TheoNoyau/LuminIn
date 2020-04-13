@@ -5,6 +5,7 @@
 #include "Job.h"
 
 #include <vector>
+#include <algorithm>
 
 using namespace std ;
 
@@ -99,15 +100,31 @@ void Company::deleteJob(vector<Job> &list, Job &j)
     list.erase(list.begin() + Job::getIndex(j.getId(), list));
 }
 
-vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills)
+vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, vector<string> skills)
 {
     vector<JobSeeker> js ;
+    sort(skills.begin(), skills.end());
+     
+    for (JobSeeker newjs : list){
+        vector<string> jsSkills = newjs.getSkills();
+        sort(jsSkills.begin(), jsSkills.end());
+        // Iterate only with smallest list size
+        int n = min(jsSkills.size(), skills.size());
+        int count = 0;
+        for (int j = 0; j < n; j++){
+            if (skills[j].compare(jsSkills[j]) == 0) count++;
+        }
+        // If all skill requirements are met, add JobSeeker to list
+        if (count == (int)skills.size()) js.push_back(newjs);
+    }
+
     return js ;
 }
 
 vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills, string zipcode)
 {
     vector<JobSeeker> js ;
+    
     return js ;
 }
 
