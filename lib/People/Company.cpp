@@ -68,14 +68,20 @@ void Company::createProfile(vector<Company> &list)
     list.push_back(*this);
 }
 
-void Company::updateProfile(string name, string zipcode, string email) 
+void Company::updateProfile(vector<Company> &list, string name, string zipcode, string email) 
 {
+    _name = name;
+    _zipcode = zipcode;
+    _email = email;
+    setId(_id);
 
+    list.erase(list.begin() + getIndex(_id, list));
+    list.push_back(*this);
 }
 
 void Company::deleteProfile(vector<Company> &list) 
 {
-    
+       
 }
 
 void Company::createJob(string title, const vector<string> skills)

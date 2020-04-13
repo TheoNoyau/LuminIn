@@ -35,7 +35,7 @@ class Company
     void createProfile(std::vector<Company> &list) ;
 
     // Updates profile given a name, zipcode and email
-    void updateProfile(std::string name, std::string zipcode, std::string email) ;
+    void updateProfile(std::vector<Company> &list, std::string name, std::string zipcode, std::string email) ;
 
     // Deletes Company profile from the list and DB
     void deleteProfile(std::vector<Company> &list) ;
