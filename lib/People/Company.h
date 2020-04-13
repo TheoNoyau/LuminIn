@@ -41,10 +41,10 @@ class Company
     void deleteProfile(std::vector<Company> &list) ;
 
     // Creates a job given a title and a list of skills
-    void createJob(std::string title, const std::vector<std::string> skills) ;
+    void createJob(std::vector<Job> &list, std::string title, const std::vector<std::string> skills) ;
 
     // Deletes a job
-    void deleteJob(Job &j) ;
+    void deleteJob(std::vector<Job> &list, Job &j) ;
 
     // Searches for relevant job seekers given a list of skills
     // Returns a list of JobSeeker

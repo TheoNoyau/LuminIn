@@ -61,7 +61,7 @@ void Company::setId(int id)
 
 void Company::createProfile(vector<Company> &list) 
 {
-    // Set an ID not used
+    // Set a unique ID
     setId(list);
 
     // Add the profile to the vector
@@ -81,17 +81,22 @@ void Company::updateProfile(vector<Company> &list, string name, string zipcode, 
 
 void Company::deleteProfile(vector<Company> &list) 
 {
-       
+    list.erase(list.begin() + getIndex(_id, list));  
 }
 
-void Company::createJob(string title, const vector<string> skills)
+void Company::createJob(vector<Job> &list, string title, const vector<string> skills)
 {
+    // Create new job object and give it a unique id
+    Job newJob(title, skills, *this);
+    newJob.setId(list);
 
+    // Add it to list of Jobs
+    list.push_back(newJob);
 }
 
-void Company::deleteJob(Job &j) 
+void Company::deleteJob(vector<Job> &list, Job &j) 
 {
-
+    list.erase(list.begin() + Job::getIndex(j.getId(), list));
 }
 
 vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills)
