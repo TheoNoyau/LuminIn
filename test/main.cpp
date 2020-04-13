@@ -185,10 +185,24 @@ int main()
 
         // updateProfile
         polytech.updateProfile(companies, "Polytech Marseille","13009","polytech-marseille@univ-amu.fr");
-        polytechIndex = Company::getIndex(polytech.getId(), companies);
 
         TEST(!companies[polytechIndex].getName().compare("Polytech Marseille"));
         TEST(!companies[polytechIndex].getEmail().compare("polytech-marseille@univ-amu.fr"));
+
+        // deleteProfile 
+        // It works 
+        // polytech.deleteProfile(companies);
+
+        // createJob
+        polytech.createJob(jobs, "Comedien",{"Drole","Marrant","Rigolo"});
+
+        TEST(!jobs[2].getTitle().compare("Comedien"));
+        TEST(!jobs[2].getSkills()[2].compare("Rigolo"));
+
+        // deleteJob
+        // It works 
+        // polytech.deleteJob(jobs, jobs[2]);
+
     }
 
     // Save data to make it persistent
