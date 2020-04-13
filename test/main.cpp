@@ -203,6 +203,23 @@ int main()
         // It works 
         // polytech.deleteJob(jobs, jobs[2]);
 
+        // searchForJobSeekers
+        vector<JobSeeker> relevantJs = polytech.searchForJobSeekers(jobSeekers, {"comedie"});
+        TEST(relevantJs.size() == 2);
+        TEST(!relevantJs[0].getFirstname().compare("Donald"));
+        TEST(!relevantJs[1].getFirstname().compare("Aymeric"));
+
+        // Not ordered list of skills
+        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
+        TEST(relevantJs.size() == 1);
+        TEST(!relevantJs[0].getFirstname().compare("Francois"));
+
+        // No profile matching
+        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"Java","Sportif"});
+        TEST(relevantJs.size() == 0);
+    
+
+
     }
 
     // Save data to make it persistent
