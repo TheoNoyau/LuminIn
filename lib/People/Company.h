@@ -52,7 +52,7 @@ class Company
 
     // Searches for relevant job seekers given a list of skills and a zipcode
     // Returns a list of JobSeeker
-    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, const std::vector<std::string> skills, std::string zipcode) ;
+    std::vector<JobSeeker> searchForJobSeekers(std::vector<JobSeeker> &list, std::vector<std::string> skills, std::string zipcode) ;
 
     // Operators overloading
     Company& operator= (const Company &company) ;

@@ -121,10 +121,25 @@ vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, vector<s
     return js ;
 }
 
-vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, const vector<string> skills, string zipcode)
+vector<JobSeeker> Company::searchForJobSeekers(vector<JobSeeker> &list, vector<string> skills, string zipcode)
 {
     vector<JobSeeker> js ;
-    
+    sort(skills.begin(), skills.end());
+     
+    for (JobSeeker newjs : list){
+        if (newjs.getZipcode().compare(zipcode) == 0){
+            vector<string> jsSkills = newjs.getSkills();
+            sort(jsSkills.begin(), jsSkills.end());
+            // Iterate only with smallest list size
+            int n = min(jsSkills.size(), skills.size());
+            int count = 0;
+            for (int j = 0; j < n; j++){
+                if (skills[j].compare(jsSkills[j]) == 0) count++;
+            }
+            // If all skill requirements are met, add JobSeeker to list
+            if (count == (int)skills.size()) js.push_back(newjs);
+        }
+    }
     return js ;
 }
 
