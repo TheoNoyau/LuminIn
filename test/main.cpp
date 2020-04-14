@@ -45,10 +45,10 @@ int main()
     // Sets the path to csv files
     setPath("test/data/csv");
 
-    vector<Company> companies ;
-    vector<Employee> employees ;
-    vector<Job> jobs ;
-    vector<JobSeeker> jobSeekers ;
+    vector<Company*> companies ;
+    vector<Employee*> employees ;
+    vector<Job*> jobs ;
+    vector<JobSeeker*> jobSeekers ;
 
     // // DB Test -> updateEntry for each file
     // // updateEntry for Company
@@ -109,122 +109,122 @@ int main()
     // getCompanies
     companies = getCompanies() ;
     {
-        TEST (companies[0].getId() == 1) ;
-        TEST (!companies[1].getName().compare("Google")) ;
-        TEST (!companies[2].getZipcode().compare("31")) ;
+        TEST (companies[0]->getId() == 1) ;
+        TEST (!companies[1]->getName().compare("Google")) ;
+        TEST (!companies[2]->getZipcode().compare("31")) ;
     }
 
     // getCompany
     {
-        Company cTest = getCompany(2) ;
-        TEST (!cTest.getName().compare("Google")) ;
+        Company *cTest = getCompany(2) ;
+        TEST (!cTest->getName().compare("Google")) ;
     }
     {
-        Company cTest = getCompany(99999) ;
-        TEST (!cTest.getName().compare("undefined")) ;
-        TEST (cTest.getId() < 0) ;
+        Company *cTest = getCompany(99999) ;
+        TEST (!cTest->getName().compare("undefined")) ;
+        TEST (cTest->getId() < 0) ;
     }
 
     // getEmployees
     employees = getEmployees() ;
     {
         // cout << employees[0].getColleagues()[0].getId() << endl ;
-        TEST (!employees[0].getName().compare("Untel")) ;
-        TEST (!employees[0].getSkills()[0].compare("C++")) ;
+        TEST (!employees[0]->getName().compare("Untel")) ;
+        TEST (!employees[0]->getSkills()[0].compare("C++")) ;
 
-        TEST (!employees[1].getCompany().getName().compare("Disney")) ;
-        TEST (!employees[1].getColleagues()[0].getFirstname().compare("Minnie")) ;
-        TEST (!employees[2].getColleagues()[0].getFirstname().compare("Mickey")) ;
-        TEST (!employees[2].getColleagues()[0].getCompany().getName().compare("Disney")) ;
+        TEST (!employees[1]->getCompany().getName().compare("Disney")) ;
+        TEST (!employees[1]->getColleagues()[0]->getFirstname().compare("Minnie")) ;
+        TEST (!employees[2]->getColleagues()[0]->getFirstname().compare("Mickey")) ;
+        TEST (!employees[2]->getColleagues()[0]->getCompany().getName().compare("Disney")) ;
     }
 
     // getJobSeekers
     jobSeekers = getJobSeekers() ;
     {
-        TEST (!jobSeekers[0].getName().compare("Duck")) ;
-        TEST (!jobSeekers[1].getSkills()[2].compare("Python")) ;
+        TEST (!jobSeekers[0]->getName().compare("Duck")) ;
+        TEST (!jobSeekers[1]->getSkills()[2].compare("Python")) ;
         
-        TEST (!jobSeekers[0].getColleagues()[0].getEmail().compare("mickey@mickeyville.gov")) ;
-        TEST (!jobSeekers[0].getColleagues()[0].getCompany().getName().compare("Disney")) ;
+        TEST (!jobSeekers[0]->getColleagues()[0]->getEmail().compare("mickey@mickeyville.gov")) ;
+        TEST (!jobSeekers[0]->getColleagues()[0]->getCompany().getName().compare("Disney")) ;
     }
 
 
     // getJobs
     jobs = getJobs () ;
     {
-        TEST (!jobs[0].getTitle().compare("acteur")) ;
-        TEST (!jobs[1].getSkills()[1].compare("SQL")) ;
-        TEST (!jobs[1].getCompany().getName().compare("Google")) ;
+        TEST (!jobs[0]->getTitle().compare("acteur")) ;
+        TEST (!jobs[1]->getSkills()[1].compare("SQL")) ;
+        TEST (!jobs[1]->getCompany().getName().compare("Google")) ;
     }
 
     // JobSeeker Class Tests
     // createProfile
     {
-        vector<Employee> jsColleagues ;
+        vector<Employee*> jsColleagues ;
         jsColleagues.push_back(employees[0]) ;
 
-        JobSeeker js("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-        js.createProfile(jobSeekers);
+        JobSeeker* js = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js->createProfile(jobSeekers);
 
         // Get the index in the vector of JobSeekers of the JobSeeker created with createProfile()
-        int jsIndex = JobSeeker::getIndex(js.getId(), jobSeekers) ;
+        int jsIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
 
-        TEST (!jobSeekers[jsIndex].getName().compare("BERNARD")) ;
-        TEST (!jobSeekers[jsIndex].getColleagues()[0].getFirstname().compare("Michel")) ;
+        TEST (!jobSeekers[jsIndex]->getName().compare("BERNARD")) ;
+        TEST (!jobSeekers[jsIndex]->getColleagues()[0]->getFirstname().compare("Michel")) ;
     }
 
     // Company Class Tests
     {
         // createProfile
-        Company polytech("Polytech","13009","polytech@univ-amu.fr");
-        polytech.createProfile(companies);
-        int polytechIndex = Company::getIndex(polytech.getId(), companies);
+        Company* polytech = new Company("Polytech","13009","polytech@univ-amu.fr");
+        polytech->createProfile(companies);
+        int polytechIndex = Company::getIndex(polytech->getId(), companies);
 
-        TEST(!companies[polytechIndex].getName().compare("Polytech"));
-        TEST(!companies[polytechIndex].getEmail().compare("polytech@univ-amu.fr"));
+        TEST(!companies[polytechIndex]->getName().compare("Polytech"));
+        TEST(!companies[polytechIndex]->getEmail().compare("polytech@univ-amu.fr"));
 
         // updateProfile
-        polytech.updateProfile(companies, "Polytech Marseille","13009","polytech-marseille@univ-amu.fr");
+        polytech->updateProfile(companies, "Polytech Marseille","13009","polytech-marseille@univ-amu.fr");
 
-        TEST(!companies[polytechIndex].getName().compare("Polytech Marseille"));
-        TEST(!companies[polytechIndex].getEmail().compare("polytech-marseille@univ-amu.fr"));
+        TEST(!companies[polytechIndex]->getName().compare("Polytech Marseille"));
+        TEST(!companies[polytechIndex]->getEmail().compare("polytech-marseille@univ-amu.fr"));
 
         // deleteProfile 
         // It works 
-        // polytech.deleteProfile(companies);
+        // polytech->deleteProfile(companies);
 
         // createJob
-        polytech.createJob(jobs, "Comedien",{"Drole","Marrant","Rigolo"});
+        polytech->createJob(jobs, "Comedien",{"Drole","Marrant","Rigolo"});
 
-        TEST(!jobs[2].getTitle().compare("Comedien"));
-        TEST(!jobs[2].getSkills()[2].compare("Rigolo"));
+        TEST(!jobs[2]->getTitle().compare("Comedien"));
+        TEST(!jobs[2]->getSkills()[2].compare("Rigolo"));
 
         // deleteJob
         // It works 
-        // polytech.deleteJob(jobs, jobs[2]);
+        // polytech->deleteJob(jobs, jobs[2]);
 
         // searchForJobSeekers
-        vector<JobSeeker> relevantJs = polytech.searchForJobSeekers(jobSeekers, {"comedie"});
+        vector<JobSeeker*> relevantJs = polytech->searchForJobSeekers(jobSeekers, {"comedie"});
         TEST(relevantJs.size() == 2);
-        TEST(!relevantJs[0].getFirstname().compare("Donald"));
-        TEST(!relevantJs[1].getFirstname().compare("Aymeric"));
+        TEST(!relevantJs[0]->getFirstname().compare("Donald"));
+        TEST(!relevantJs[1]->getFirstname().compare("Aymeric"));
 
         // Not ordered list of skills
-        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
         TEST(relevantJs.size() == 1);
-        TEST(!relevantJs[0].getFirstname().compare("Francois"));
+        TEST(!relevantJs[0]->getFirstname().compare("Francois"));
 
         // No profile matching
-        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"Java","Sportif"});
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Java","Sportif"});
         TEST(relevantJs.size() == 0);
     
         // Test for search with zipcode
-        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "31300");
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "31300");
         TEST(relevantJs.size() == 0);
 
-        relevantJs = polytech.searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
         TEST(relevantJs.size() == 1);
-        TEST(!relevantJs[0].getFirstname().compare("Francois"));
+        TEST(!relevantJs[0]->getFirstname().compare("Francois"));
 
 
     }

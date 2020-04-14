@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(c)
+Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(c)
 {
 
 }
@@ -21,12 +21,12 @@ Employee::Employee(const Employee &copy) : _id(copy._id), _name(copy._name), _fi
 
 }
 
-int Employee::getIndex(const int id, vector<Employee> employees)
+int Employee::getIndex(const int id, vector<Employee*> employees)
 {
     int size = employees.size() ;
     
     for (int i = 0; i < size; i++) {
-        if (employees[i].getId() == id) return i ;
+        if (employees[i]->getId() == id) return i ;
     }
 
     return -1; 
@@ -62,7 +62,7 @@ vector<string> Employee::getSkills()
     return _skills;
 }
 
-vector<Employee> &Employee::getColleagues()
+vector<Employee*> &Employee::getColleagues()
 {
     return _oldColleagues;
 }
@@ -77,7 +77,7 @@ void Employee::setId(int id)
     _id = id;
 }
 
-void Employee::createProfile(vector<Employee> &list)
+void Employee::createProfile(vector<Employee*> &list)
 {
 
 }
@@ -97,37 +97,37 @@ void Employee::updateZipcode(string zipcode)
 
 }
 
-void Employee::deleteProfile(vector<Employee> &list)
+void Employee::deleteProfile(vector<Employee*> &list)
 {
 
 }
 
-void Employee::employeeToJobSeeker(vector<Employee> employees, vector<JobSeeker> jobseekers)
+void Employee::employeeToJobSeeker(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
 {
 
 }
 
-vector<Job> Employee::searchForJobs(vector<Job> &list, const vector<string> skills)
+vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> skills)
 {
-    vector<Job> jobs ;
+    vector<Job*> jobs ;
     return jobs ;
 }
 
-vector<Job> Employee::searchForJobs(vector<Job> &list, const vector<string> skills, string zipcode)
+vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> skills, string zipcode)
 {
-    vector<Job> jobs ;
+    vector<Job*> jobs ;
     return jobs ;
 }
 
-vector<Employee> Employee::searchForOldColleagues(vector<Employee> employees, const Company &company)
+vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, const Company &company)
 {
-    vector<Employee> emp ;
+    vector<Employee*> emp ;
     return emp ;
 }
 
-vector<Employee> Employee::searchForOldColleagues(vector<Employee> employees, vector<string> skills)
+vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, vector<string> skills)
 {
-    vector<Employee> emp ;
+    vector<Employee*> emp ;
     return emp ;
 }
 

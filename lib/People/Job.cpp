@@ -7,12 +7,12 @@ Job::Job(std::string title, std::vector<std::string> skills, Company &c) : _titl
     
 }
 
-int Job::getIndex(const int id, vector<Job> jobs)
+int Job::getIndex(const int id, vector<Job*> jobs)
 {
     int size = jobs.size() ;
     
     for (int i = 0; i < size; i++) {
-        if (jobs[i].getId() == id) return i ;
+        if (jobs[i]->getId() == id) return i ;
     }
 
     return -1; 
@@ -43,7 +43,7 @@ void Job::setId(int id)
     _id = id;
 }
 
-void Job::setId(vector<Job> &list)
+void Job::setId(vector<Job*> &list)
 {
     _id = (int)list.size() + 1; 
 }

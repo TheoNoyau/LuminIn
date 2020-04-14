@@ -21,11 +21,11 @@ void setPath(string path)
     dbPath = path;
 }
 
-vector<Company> getCompanies()
+vector<Company*> getCompanies()
 {
     fstream db;
     db.open(dbPath + "/companies.csv", ios::in) ;
-    vector<Company> companies;
+    vector<Company*> companies;
 
     vector<string> dataLine;
     string row, data, temp;
@@ -42,28 +42,30 @@ vector<Company> getCompanies()
             dataLine.push_back(data) ;
         }
         companyId = stoi(dataLine[0]) ;
-        Company company(dataLine[1], dataLine[2], dataLine[3]) ;
-        company.setId(companyId) ;
+        Company *company = new Company(dataLine[1], dataLine[2], dataLine[3]) ;
+        company->setId(companyId) ;
 
         companies.push_back(company) ;
     }
+
     db.close();
+
     return companies;
 }
 
-vector<JobSeeker> getJobSeekers()
+vector<JobSeeker*> getJobSeekers()
 {
     fstream db, dbEmployees, dbCompanies;
     db.open(dbPath + "/jobseekers.csv", ios::in);
     dbEmployees.open(dbPath + "/employees.csv", ios::in);
     dbCompanies.open(dbPath + "/companies.csv", ios::in);
 
-    vector<Employee> employees;
-    vector<JobSeeker> jobSeekers;
+    vector<Employee*> employees;
+    vector<JobSeeker*> jobSeekers;
     vector<string> skills ;
 
     // Will be added to this vector the references to the colleagues corresponding to the IDs of the csv line
-    vector<Employee> colleagues ;
+    vector<Employee*> colleagues ;
 
     vector<string> dataLine;
     string row, data, temp;
@@ -101,10 +103,10 @@ vector<JobSeeker> getJobSeekers()
             colleagues.push_back(employees[colleagueId - 1]) ;
         }
 
-        JobSeeker js(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues) ;
+        JobSeeker* js = new JobSeeker(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues) ;
 
         jobseekerId = stoi(dataLine[0]) ;
-        js.setId(jobseekerId) ;
+        js->setId(jobseekerId) ;
 
         jobSeekers.push_back(js) ;
     }
@@ -115,14 +117,14 @@ vector<JobSeeker> getJobSeekers()
     return jobSeekers;
 }
 
-vector<Job> getJobs()
+vector<Job*> getJobs()
 {
     fstream db, dbCompanies;
     db.open(dbPath + "/jobs.csv", ios::in);
     dbCompanies.open(dbPath + "/companies.csv", ios::in);
 
-    vector<Company> companies;
-    vector<Job> jobs ;
+    vector<Company*> companies;
+    vector<Job*> jobs ;
     vector<string> skills ;
 
     vector<string> dataLine;
@@ -153,11 +155,11 @@ vector<Job> getJobs()
         }
 
         companyId = stoi(dataLine[3]) ;
-        Company company = companies[companyId - 1] ;
+        Company *company = companies[companyId - 1] ;
 
-        Job job(dataLine[1], skills, company) ;
+        Job *job = new Job(dataLine[1], skills, *company) ;
         jobId = stoi(dataLine[0]) ;
-        job.setId(jobId) ;
+        job->setId(jobId) ;
 
         jobs.push_back(job) ;
     }
@@ -166,16 +168,16 @@ vector<Job> getJobs()
     return jobs;
 }
 
-vector<Employee> getEmployees()
+vector<Employee*> getEmployees()
 {
     fstream db, dbCompanies;
     db.open(dbPath + "/employees.csv", ios::in); 
 
-    vector<Employee> employees;
+    vector<Employee*> employees;
     vector<string> skills ;
 
     // Will be added to this vector the references to the colleagues corresponding to the IDs of the csv line
-    vector<Employee> colleagues ;
+    vector<Employee*> colleagues ;
 
     vector<string> dataLine;
     string row, data, temp;
@@ -199,7 +201,7 @@ vector<Employee> getEmployees()
 
         // Setting of the company
         companyId = stoi(dataLine[7]) ;
-        Company company = getCompany(companyId) ;
+        Company *company = getCompany(companyId) ;
 
         // Reading of the skills
         s.clear();
@@ -216,8 +218,8 @@ vector<Employee> getEmployees()
             colleagueId = stoi(data) ;
 
             if (colleagueId >= employees.size()) {
-                Employee e(company) ;
-                e.setId(colleagueId) ;
+                Employee *e = new Employee(*company) ;
+                e->setId(colleagueId) ;
                 colleagues.push_back(e) ;
             } else {
                 int colleagueIndex = Employee::getIndex(colleagueId, employees) ;
@@ -226,20 +228,20 @@ vector<Employee> getEmployees()
 
         }
 
-        Employee emp(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, company) ;
+        Employee *emp = new Employee(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, *company) ;
 
         employeeId = stoi(dataLine[0]) ;
-        emp.setId(employeeId) ;
+        emp->setId(employeeId) ;
 
         employees.push_back(emp) ;
     }
 
     // Filling of all the colleagues that may not be initialized yet
     for (unsigned int i = 0; i < employees.size(); i++) {
-        for (unsigned int j = 0; j < employees[i].getColleagues().size(); j++) {
-            if (!employees[i].getColleagues()[j].getName().compare("undefined")) {
-                Employee e(employees[employees[i].getColleagues()[j].getId() - 1]) ;
-                employees[i].getColleagues()[j] = e ;
+        for (unsigned int j = 0; j < employees[i]->getColleagues().size(); j++) {
+            if (!employees[i]->getColleagues()[j]->getName().compare("undefined")) {
+                Employee *e = new Employee(*employees[employees[i]->getColleagues()[j]->getId() - 1]) ;
+                employees[i]->getColleagues()[j] = e ;
             }
         }
     }
@@ -248,7 +250,7 @@ vector<Employee> getEmployees()
     return employees;
 }
 
-Company getCompany(int const id)
+Company* getCompany(int const id)
 {
     fstream db;
     db.open(dbPath + "/companies.csv", ios::in);
@@ -270,15 +272,15 @@ Company getCompany(int const id)
 
         companyId = stoi(dataLine[0]) ;
         if (companyId == id) {
-            Company company(dataLine[1], dataLine[2], dataLine[3]) ;
-            company.setId(companyId) ;
+            Company *company = new Company(dataLine[1], dataLine[2], dataLine[3]) ;
+            company->setId(companyId) ;
             db.close();
             return company ;
         }
     }
 
     db.close();
-    Company company ;
+    Company *company = new Company;
     return company;
 }
 
@@ -309,7 +311,7 @@ void createEntry (JobSeeker &js)
 
     int sizeColleagues = js.getColleagues().size();
     for (int i = 0; i < sizeColleagues; i++){
-        db << js.getColleagues()[i].getId();
+        db << js.getColleagues()[i]->getId();
         if (i < sizeColleagues) db << ";";
     }
     db << ",";
@@ -335,7 +337,7 @@ void createEntry (Employee &e)
 
     int sizeColleagues = e.getColleagues().size();
     for (int i = 0; i < sizeColleagues; i++){
-        db << e.getColleagues()[i].getId();
+        db << e.getColleagues()[i]->getId();
         if (i < sizeColleagues) db << ";";
     }
     db << ",";
@@ -363,7 +365,7 @@ void createEntry (Job &j)
     db.close();
 }
 
-void updateEntry(vector<Company> &list)
+void updateEntry(vector<Company*> &list)
 {
     fstream db;
     db.open(dbPath + "/companies.csv", ios::out);
@@ -373,12 +375,12 @@ void updateEntry(vector<Company> &list)
     int size = list.size();
     for (int i = 0; i < size; i++){
         // Enter new Company info
-        Company c = list[i];
-        createEntry(c);
+        Company *c = list[i];
+        createEntry(*c);
     }
 }
 
-void updateEntry(vector<JobSeeker> &list)
+void updateEntry(vector<JobSeeker*> &list)
 {
     fstream db;
     db.open(dbPath + "/jobseekers.csv", ios::out);
@@ -387,12 +389,12 @@ void updateEntry(vector<JobSeeker> &list)
 
     int size = list.size();
     for (int i = 0; i < size; i++){
-        JobSeeker js = list[i];
-        createEntry(js);
+        JobSeeker *js = list[i];
+        createEntry(*js);
     }
 }
 
-void updateEntry(vector<Employee> &list)
+void updateEntry(vector<Employee*> &list)
 {
     fstream db;
     db.open(dbPath + "/employees.csv", ios::out);
@@ -401,12 +403,12 @@ void updateEntry(vector<Employee> &list)
 
     int size = list.size();
     for (int i = 0; i < size; i++){
-        Employee e = list[i];
-        createEntry(e);
+        Employee *e = list[i];
+        createEntry(*e);
     }
 }
 
-void updateEntry(vector<Job> &list)
+void updateEntry(vector<Job*> &list)
 {
     fstream db;
     db.open(dbPath + "/jobs.csv", ios::out);
@@ -415,7 +417,7 @@ void updateEntry(vector<Job> &list)
 
     int size = list.size();
     for (int i = 0; i < size; i++){
-        Job j = list[i];
-        createEntry(j);
+        Job *j = list[i];
+        createEntry(*j);
     }
 }
