@@ -421,3 +421,35 @@ void updateEntry(vector<Job*> &list)
         createEntry(*j);
     }
 }
+
+void clearVector (std::vector<Company*> &list)
+{
+    for (Company* c : list) {
+        delete c ;
+    }
+    list.clear() ;
+}
+
+void clearVector (std::vector<JobSeeker*> &list)
+{
+    for (JobSeeker* js : list) {
+        delete js ;
+    }
+    list.clear() ;
+}
+
+void clearVector (std::vector<Employee*> &list)
+{
+    for (Employee* e : list) {
+        delete e ;
+    }
+    list.clear() ;
+}
+
+void clearVector (std::vector<Job*> &list)
+{
+    for (Job* j : list) {
+        delete j ;
+    }
+    list.clear() ;
+}

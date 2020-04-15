@@ -47,4 +47,10 @@ void updateEntry (std::vector<JobSeeker*> &list) ;
 void updateEntry (std::vector<Employee*> &list) ;
 void updateEntry (std::vector<Job*> &list) ;
 
+// Clear the vectors to avoid memory leaks
+void clearVector (std::vector<Company*> &list) ;
+void clearVector (std::vector<JobSeeker*> &list) ;
+void clearVector (std::vector<Employee*> &list) ;
+void clearVector (std::vector<Job*> &list) ;
+
 #endif

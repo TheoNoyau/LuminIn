@@ -235,6 +235,12 @@ int main()
     updateEntry(jobSeekers) ;
     updateEntry(jobs) ;
 
+    // Clear the vectors of pointers to avoid memory leak
+    clearVector(companies) ;
+    clearVector(employees) ;
+    clearVector(jobSeekers) ;
+    clearVector(jobs) ;
+
     printf("%d/%d\n", tests_reussis, tests_executes);
     
     return tests_executes - tests_reussis;
