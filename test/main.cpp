@@ -172,6 +172,21 @@ int main()
         TEST (!jobSeekers[jsIndex]->getName().compare("BERNARD")) ;
         TEST (!jobSeekers[jsIndex]->getColleagues()[0]->getFirstname().compare("Michel")) ;
     }
+    // addSkill
+    {
+        vector<Employee*> jsColleagues ;
+        jsColleagues.push_back(employees[0]) ;
+
+        JobSeeker* js = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js->createProfile(jobSeekers);
+        js->addSkills({"Nodejs", "React"}) ;
+
+        // Get the index in the vector of JobSeekers of the JobSeeker created with createProfile()
+        int jsIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
+
+        TEST (!jobSeekers[jsIndex]->getSkills()[2].compare("Nodejs")) ;
+        TEST (!jobSeekers[jsIndex]->getSkills()[2].compare("React")) ;
+    }
 
     // Company Class Tests
     {
