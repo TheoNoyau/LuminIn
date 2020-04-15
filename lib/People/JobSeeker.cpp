@@ -90,9 +90,14 @@ void JobSeeker::addColleague(Employee &e)
     _oldColleagues.push_back(&e) ;
 }
 
-void JobSeeker::jobSeekerToEmployee(vector<Employee*> employees, vector<JobSeeker*> jobseekers, Company& company)
+Employee* JobSeeker::jobSeekerToEmployee(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers, Company& company)
 {
+    Employee* employee = new Employee (_name, _firstname, _email, _zipcode, _skills, _oldColleagues, company) ;
+    employee->createProfile(employees) ;
 
+    this->deleteProfile(jobseekers) ;
+
+    return employee ;
 }
 
 void JobSeeker::deleteProfile(vector<JobSeeker*> &list)

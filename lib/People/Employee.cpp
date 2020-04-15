@@ -77,9 +77,18 @@ void Employee::setId(int id)
     _id = id;
 }
 
+void Employee::setId(vector<Employee*> &list)
+{
+    _id = (int)list.size() + 1 ;
+}
+
 void Employee::createProfile(vector<Employee*> &list)
 {
+    // Giving an id to the object
+    setId(list) ;
 
+    // Adding to the global vector of JobSeekers of the app
+    list.push_back(this) ;
 }
 
 void Employee::addSkill(string name)

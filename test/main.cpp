@@ -192,10 +192,11 @@ int main()
         TEST (jobSeekers.size() == sizeJobSeekers - 1) ;
 
         // jobSeekerToEmployee
+        js = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
         js->createProfile(jobSeekers) ;
-        js->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
-        jsIndex = Employee::getIndex(js->getId(), employees) ;
-        
+        Employee* e = js->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
+        jsIndex = Employee::getIndex(e->getId(), employees) ;
+
         TEST (!employees[jsIndex]->getName().compare(js->getName())) ;
         TEST (!employees[jsIndex]->getCompany().getName().compare(companies[1]->getName())) ;
     }

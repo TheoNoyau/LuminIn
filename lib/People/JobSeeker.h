@@ -49,7 +49,7 @@ class JobSeeker
 
     // Updates the JobSeeker Status to Employee
     // The object is moved from one database table to another
-    void jobSeekerToEmployee (std::vector<Employee*> employees, std::vector<JobSeeker*> jobseekers, Company& company) ;
+    Employee* jobSeekerToEmployee (std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobseekers, Company& company) ;
 
     // Deletes the JobSeeker profile in the list and in the database table
     void deleteProfile(std::vector<JobSeeker*> &list) ;
