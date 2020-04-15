@@ -211,7 +211,7 @@ int main()
 
         // searchForJobs with skills and zipcode 
         resJobs1 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}, "75009") ;
-        resJobs2 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}, "13009")
+        resJobs2 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}, "13009") ;
 
         TEST (!resJobs1[0]->getTitle().compare("developpeur"));
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
