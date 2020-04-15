@@ -146,10 +146,15 @@ vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> s
     return jobs ;
 }
 
-vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, const Company &company)
+vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, Company &company)
 {
-    vector<Employee*> emp ;
-    return emp ;
+    vector<Employee*> colleagues ;
+
+    for (auto e : employees) {
+        if (e->getCompany().getId() == company.getId()) colleagues.push_back(e) ;
+    }
+
+    return colleagues ;
 }
 
 vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, vector<string> skills)

@@ -192,35 +192,38 @@ int main()
         TEST (jobSeekers.size() == sizeJobSeekers - 1) ;
 
         // jobSeekerToEmployee
-        JobSeeker* js2 = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        JobSeeker* js2 = new JobSeeker("AHOUI", "Jean", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
         js2->createProfile(jobSeekers) ;
     
         Employee* e = js2->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
         jsIndex = Employee::getIndex(e->getId(), employees) ;
 
-        TEST (!employees[jsIndex]->getName().compare(js2->getName())) ;
+        TEST (!employees[jsIndex]->getName().compare("AHOUI")) ;
         TEST (!employees[jsIndex]->getCompany().getName().compare(companies[1]->getName())) ;
 
         // searchForJobs with skills
-        vector<Job*> resJobs1 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}) ;
-        vector<Job*> resJobs2 = js2->searchForJobs(jobs, {"Python"}) ;
+        JobSeeker* js3 = new JobSeeker("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js3->createProfile(jobSeekers) ;
+
+        vector<Job*> resJobs1 = js3->searchForJobs(jobs, {"Python", "SQL", "C"}) ;
+        vector<Job*> resJobs2 = js3->searchForJobs(jobs, {"Python"}) ;
 
         TEST (!resJobs1[0]->getTitle().compare("developpeur"));
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
         TEST (resJobs2.size() == 0) ;
 
         // searchForJobs with skills and zipcode 
-        resJobs1 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}, "75009") ;
-        resJobs2 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}, "13009") ;
+        resJobs1 = js3->searchForJobs(jobs, {"Python", "SQL", "C"}, "75009") ;
+        resJobs2 = js3->searchForJobs(jobs, {"Python", "SQL", "C"}, "13009") ;
 
         TEST (!resJobs1[0]->getTitle().compare("developpeur"));
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
         TEST (resJobs2.size() == 0) ;
 
         // searchForOldColleagues with Company
-        js2->addColleague(*(employees[1])) ;
-        js2->addColleague(*(employees[2])) ;
-        vector<Employee*> oldColleagues = js2->searchForOldColleagues(employees, *(companies[0])) ;
+        js3->addColleague(*(employees[1])) ;
+        js3->addColleague(*(employees[2])) ;
+        vector<Employee*> oldColleagues = js3->searchForOldColleagues(employees, *(companies[0])) ;
 
         TEST (!oldColleagues[0]->getFirstname().compare("Mickey")) ;
         TEST (!oldColleagues[1]->getFirstname().compare("Minnie")) ;
@@ -305,10 +308,10 @@ int main()
     updateEntry(jobs) ;
 
     // Clear the vectors of pointers to avoid memory leak
-    clearVector(companies) ;
-    clearVector(employees) ;
-    clearVector(jobSeekers) ;
-    clearVector(jobs) ;
+    // clearVector(companies) ;
+    // clearVector(employees) ;
+    // clearVector(jobSeekers) ;
+    // clearVector(jobs) ;
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     
