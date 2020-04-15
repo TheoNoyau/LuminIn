@@ -192,13 +192,30 @@ int main()
         TEST (jobSeekers.size() == sizeJobSeekers - 1) ;
 
         // jobSeekerToEmployee
-        js = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-        js->createProfile(jobSeekers) ;
-        Employee* e = js->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
+        JobSeeker* js2 = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js2->createProfile(jobSeekers) ;
+    
+        Employee* e = js2->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
         jsIndex = Employee::getIndex(e->getId(), employees) ;
 
-        TEST (!employees[jsIndex]->getName().compare(js->getName())) ;
+        TEST (!employees[jsIndex]->getName().compare(js2->getName())) ;
         TEST (!employees[jsIndex]->getCompany().getName().compare(companies[1]->getName())) ;
+
+        // searchForJobs with skills
+        vector<Job*> resJobs1 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}) ;
+        vector<Job*> resJobs2 = js2->searchForJobs(jobs, {"Python"}) ;
+
+        TEST (!resJobs1[0]->getTitle().compare("developpeur"));
+        TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
+        TEST (resJobs2.size() == 0) ;
+
+        // searchForJobs with skills and zipcode 
+        resJobs1 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}, "75009") ;
+        resJobs2 = js2->searchForJobs(jobs, {"Python", "SQL", "C"}, "13009")
+
+        TEST (!resJobs1[0]->getTitle().compare("developpeur"));
+        TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
+        TEST (resJobs2.size() == 0) ;
     }
 
     // Employee Class Tests
