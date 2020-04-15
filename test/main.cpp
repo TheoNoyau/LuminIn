@@ -185,6 +185,11 @@ int main()
         TEST (!jobSeekers[jsIndex]->getColleagues()[0]->getName().compare("Untel")) ;
         TEST (!jobSeekers[jsIndex]->getColleagues()[1]->getFirstname().compare("Mickey")) ;
         TEST (!jobSeekers[jsIndex]->getColleagues()[1]->getCompany().getName().compare("Disney")) ;
+
+        // deleteProfile
+        unsigned int sizeJobSeekers = jobSeekers.size() ;
+        js->deleteProfile(jobSeekers) ;
+        TEST (jobSeekers.size() == sizeJobSeekers - 1) ;
     }
 
     // Company Class Tests
