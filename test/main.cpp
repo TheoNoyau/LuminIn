@@ -216,6 +216,14 @@ int main()
         TEST (!resJobs1[0]->getTitle().compare("developpeur"));
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
         TEST (resJobs2.size() == 0) ;
+
+        // searchForOldColleagues with Company
+        js2->addColleague(*(employees[1])) ;
+        js2->addColleague(*(employees[2])) ;
+        vector<Employee*> oldColleagues = js2->searchForOldColleagues(employees, *(companies[0])) ;
+
+        TEST (!oldColleagues[0]->getFirstname().compare("Mickey")) ;
+        TEST (!oldColleagues[1]->getFirstname().compare("Minnie")) ;
     }
 
     // Employee Class Tests
