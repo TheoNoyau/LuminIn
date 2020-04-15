@@ -39,16 +39,13 @@ class JobSeeker
 
     // Creates a JobSeeker profile
     // Adds the JobSeeker created into the vector given as a parameter
-    // Also stores it in the database
     void createProfile(std::vector<JobSeeker*> &list) ;
 
     // Adds new skills to the JobSeeker profile
-    // Changes are made in the object itself and into the database
     void addSkills(std::vector<std::string> skills) ;
 
     // Adds a colleague to the JobSeeker profile
-    // Changes are made in the object itself and into the database
-    void addColleague (const Employee &e) ;
+    void addColleague (Employee &e) ;
 
     // Updates the JobSeeker Status to Employee
     // The object is moved from one database table to another

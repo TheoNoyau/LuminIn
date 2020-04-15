@@ -85,9 +85,9 @@ void JobSeeker::addSkills(vector<string> skills)
     }
 }
 
-void JobSeeker::addColleague(const Employee &e)
+void JobSeeker::addColleague(Employee &e)
 {
-
+    _oldColleagues.push_back(&e) ;
 }
 
 void JobSeeker::jobSeekerToEmployee(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
