@@ -190,6 +190,14 @@ int main()
         unsigned int sizeJobSeekers = jobSeekers.size() ;
         js->deleteProfile(jobSeekers) ;
         TEST (jobSeekers.size() == sizeJobSeekers - 1) ;
+
+        // jobSeekerToEmployee
+        js->createProfile(jobSeekers) ;
+        js->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
+        jsIndex = Employee::getIndex(js->getId(), employees) ;
+        
+        TEST (!employees[jsIndex]->getName().compare(js->getName())) ;
+        TEST (!employees[jsIndex]->getCompany().getName().compare(companies[1]->getName())) ;
     }
 
     // Company Class Tests
