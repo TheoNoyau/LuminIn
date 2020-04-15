@@ -200,6 +200,22 @@ int main()
         TEST (!employees[jsIndex]->getCompany().getName().compare(companies[1]->getName())) ;
     }
 
+    // Employee Class Tests
+    {
+        vector<Employee*> colleagues ;
+        colleagues.push_back(employees[0]) ;
+
+        Employee* e = new Employee("KERNEVES", "Theo", "tkerneves@gmail.com", "13006", {"C++", "C"}, colleagues, *(companies[1])) ;
+
+        // createProfile
+        e->createProfile(employees);
+        int eIndex = Employee::getIndex(e->getId(), employees) ;
+
+        TEST (!employees[eIndex]->getName().compare("KERNEVES")) ;
+        TEST (!employees[eIndex]->getColleagues()[0]->getFirstname().compare("Michel")) ;
+        TEST (!employees[eIndex]->getCompany().getName().compare("Google")) ;
+    }
+
     // Company Class Tests
     {
         // createProfile
