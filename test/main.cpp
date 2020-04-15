@@ -185,7 +185,7 @@ int main()
         int jsIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
 
         TEST (!jobSeekers[jsIndex]->getSkills()[2].compare("Nodejs")) ;
-        TEST (!jobSeekers[jsIndex]->getSkills()[2].compare("React")) ;
+        TEST (!jobSeekers[jsIndex]->getSkills()[3].compare("React")) ;
     }
 
     // Company Class Tests

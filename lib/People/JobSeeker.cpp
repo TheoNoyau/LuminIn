@@ -80,7 +80,9 @@ void JobSeeker::createProfile(vector<JobSeeker*> &list)
 
 void JobSeeker::addSkills(vector<string> skills)
 {
-
+    for (unsigned int i = 0; i < skills.size(); i++) {
+        _skills.push_back(skills[i]) ;
+    }
 }
 
 void JobSeeker::addColleague(const Employee &e)
