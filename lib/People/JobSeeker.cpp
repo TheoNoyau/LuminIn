@@ -90,7 +90,7 @@ void JobSeeker::addColleague(Employee &e)
     _oldColleagues.push_back(&e) ;
 }
 
-void JobSeeker::jobSeekerToEmployee(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
+void JobSeeker::jobSeekerToEmployee(vector<Employee*> employees, vector<JobSeeker*> jobseekers, Company& company)
 {
 
 }
@@ -98,6 +98,7 @@ void JobSeeker::jobSeekerToEmployee(vector<Employee*> employees, vector<JobSeeke
 void JobSeeker::deleteProfile(vector<JobSeeker*> &list)
 {
     list.erase(list.begin() + getIndex(_id, list));
+    delete this ;
 }
 
 vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> skills)
