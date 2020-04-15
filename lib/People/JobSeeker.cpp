@@ -8,17 +8,17 @@
 
 using namespace std;
 
-JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee> &colleagues) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
+JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &colleagues) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
 {
 
 }
 
-int JobSeeker::getIndex(const int id, vector<JobSeeker> jobSeekers)
+int JobSeeker::getIndex(const int id, vector<JobSeeker*> jobSeekers)
 {
     int size = jobSeekers.size() ;
     
     for (int i = 0; i < size; i++) {
-        if (jobSeekers[i].getId() == id) return i ;
+        if (jobSeekers[i]->getId() == id) return i ;
     }
 
     return -1; 
@@ -54,7 +54,7 @@ vector<string> JobSeeker::getSkills()
     return _skills;
 }
 
-vector<Employee> &JobSeeker::getColleagues()
+vector<Employee*> &JobSeeker::getColleagues()
 {
     return _oldColleagues;
 }
@@ -64,18 +64,18 @@ void JobSeeker::setId(int id)
     _id = id;
 }
 
-void JobSeeker::setId(vector<JobSeeker> &list)
+void JobSeeker::setId(vector<JobSeeker*> &list)
 {
     _id = (int)list.size() + 1 ;
 }
 
-void JobSeeker::createProfile(vector<JobSeeker> &list)
+void JobSeeker::createProfile(vector<JobSeeker*> &list)
 {
     // Giving an id to the object
     setId(list) ;
 
     // Adding to the global vector of JobSeekers of the app
-    list.push_back(*this) ;
+    list.push_back(this) ;
 }
 
 void JobSeeker::addSkills(vector<string> skills)
@@ -88,37 +88,37 @@ void JobSeeker::addColleague(const Employee &e)
 
 }
 
-void JobSeeker::jobSeekerToEmployee(vector<Employee> employees, vector<JobSeeker> jobseekers)
+void JobSeeker::jobSeekerToEmployee(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
 {
 
 }
 
-void JobSeeker::deleteProfile(vector<JobSeeker> &list)
+void JobSeeker::deleteProfile(vector<JobSeeker*> &list)
 {
 
 }
 
-vector<Job> JobSeeker::searchForJobs(vector<Job> &list, const vector<string> skills)
+vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> skills)
 {
-    vector<Job> jobs ;
+    vector<Job*> jobs ;
     return jobs ;
 }
 
-vector<Job> JobSeeker::searchForJobs(vector<Job> &list, const vector<string> skills, string zipcode)
+vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> skills, string zipcode)
 {
-    vector<Job> jobs ;
+    vector<Job*> jobs ;
     return jobs ;
 }
 
-vector<Employee> JobSeeker::searchForOldColleagues(vector<Employee> employees, const Company &company)
+vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, const Company &company)
 {
-    vector<Employee> emp ;
+    vector<Employee*> emp ;
     return emp ;
 }
 
-vector<Employee> JobSeeker::searchForOldColleagues(vector<Employee> employees, vector<string> skills)
+vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, vector<string> skills)
 {
-    vector<Employee> emp ;
+    vector<Employee*> emp ;
     return emp ;
 }
 

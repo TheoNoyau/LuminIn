@@ -20,7 +20,7 @@ class Job
     // Static
 
     // Returns a reference of the object with the right id
-    static int getIndex(const int id, std::vector<Job> jobs) ;
+    static int getIndex(const int id, std::vector<Job*> jobs) ;
 
     // Accessors
     int getId () ;
@@ -30,7 +30,7 @@ class Job
 
     // Setter 
     void setId(int id);
-    void setId(std::vector<Job> &list);
+    void setId(std::vector<Job*> &list);
 
     // Operators overloading
     Job& operator= (const Job &job) ;
@@ -40,7 +40,7 @@ class Job
     int _id ;
     std::string _title;
     std::vector<std::string> _skills ;
-    Company _company ;
+    Company &_company ;
 };
 
 #endif
