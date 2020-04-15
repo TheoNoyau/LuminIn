@@ -178,6 +178,13 @@ int main()
 
         TEST (!jobSeekers[jsIndex]->getSkills()[2].compare("Nodejs")) ;
         TEST (!jobSeekers[jsIndex]->getSkills()[3].compare("React")) ;
+
+        // addColleague
+        js->addColleague(*(employees[1])) ;
+
+        TEST (!jobSeekers[jsIndex]->getColleagues()[0]->getName().compare("Untel")) ;
+        TEST (!jobSeekers[jsIndex]->getColleagues()[1]->getFirstname().compare("Mickey")) ;
+        TEST (!jobSeekers[jsIndex]->getColleagues()[1]->getCompany().getName().compare("Disney")) ;
     }
 
     // Company Class Tests
