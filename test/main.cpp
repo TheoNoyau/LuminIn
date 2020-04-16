@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <algorithm>
 
 using namespace std ;
 
@@ -227,6 +228,16 @@ int main()
 
         TEST (!oldColleagues[0]->getFirstname().compare("Mickey")) ;
         TEST (!oldColleagues[1]->getFirstname().compare("Minnie")) ;
+
+        // searchForOldColleagues with skills
+        js3->addSkills({"C", "Python", "SQL"}) ;
+        vector<Employee*> oldColleagues2 = js3->searchForOldColleagues(employees) ;
+
+        TEST (find(oldColleagues2.begin(), oldColleagues2.end(), employees[0]) != oldColleagues2.end()) ;
+
+        js3->addSkills({"comedie", "gag"}) ;
+        oldColleagues2 = js3->searchForOldColleagues(employees) ;
+        TEST (find(oldColleagues2.begin(), oldColleagues2.end(), employees[1]) != oldColleagues2.end()) ;
     }
 
     // Employee Class Tests
