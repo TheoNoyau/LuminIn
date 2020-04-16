@@ -206,7 +206,7 @@ int main()
         JobSeeker* js3 = new JobSeeker("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
         js3->createProfile(jobSeekers) ;
 
-        vector<Job*> resJobs1 = js3->searchForJobs(jobs, {"Python", "SQL", "C"}) ;
+        vector<Job*> resJobs1 = js3->searchForJobs(jobs, {"Python", "SQL", "C", "C++"}) ;
         vector<Job*> resJobs2 = js3->searchForJobs(jobs, {"Python"}) ;
 
         TEST (!resJobs1[0]->getTitle().compare("developpeur"));
@@ -231,13 +231,13 @@ int main()
 
         // searchForOldColleagues with skills
         js3->addSkills({"C", "Python", "SQL"}) ;
-        vector<Employee*> oldColleagues2 = js3->searchForOldColleagues(employees) ;
+        vector<Employee*> oldColleagues2 = js3->searchForOldColleagues(employees, jobs) ;
 
-        TEST (find(oldColleagues2.begin(), oldColleagues2.end(), employees[0]) != oldColleagues2.end()) ;
+        TEST (Employee::getIndex(1, employees) != - 1) ;
 
         js3->addSkills({"comedie", "gag"}) ;
-        oldColleagues2 = js3->searchForOldColleagues(employees) ;
-        TEST (find(oldColleagues2.begin(), oldColleagues2.end(), employees[1]) != oldColleagues2.end()) ;
+        oldColleagues2 = js3->searchForOldColleagues(employees, jobs) ;
+        TEST (Employee::getIndex(2, employees) != - 1) ;
     }
 
     // Employee Class Tests
