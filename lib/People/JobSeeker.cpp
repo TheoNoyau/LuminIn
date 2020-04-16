@@ -150,17 +150,31 @@ vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees,
 {
     vector<Employee*> colleagues ;
 
-    for (auto e : employees) {
+    for (auto e : _oldColleagues) {
         if (e->getCompany().getId() == company.getId()) colleagues.push_back(e) ;
     }
 
     return colleagues ;
 }
 
-vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, vector<string> skills)
+vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, vector<Job*> jobs)
 {
-    vector<Employee*> emp ;
-    return emp ;
+    vector<Employee*> colleagues ;
+    vector<Job*> resJobs ;
+
+    unsigned int i ;
+
+    for (auto e : _oldColleagues) {
+        Company c = e->getCompany() ;
+        resJobs = this->searchForJobs(jobs, _skills) ; // Those are the jobs which fit the JobSeeker skills
+        
+        // We now need to filter the jobs with the company
+        i = 0 ;
+        while (i < resJobs.size() && resJobs[i]->getCompany().getId() != c.getId()) i++ ;
+        if (i < resJobs.size()) colleagues.push_back(e) ;
+    }
+
+    return colleagues ;
 }
 
 JobSeeker& JobSeeker::operator= (const JobSeeker &js) 
