@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "Employee.h"
-
 class Company ;
 class Job ;
 class Employee ;
@@ -39,20 +37,17 @@ class JobSeeker
 
     // Creates a JobSeeker profile
     // Adds the JobSeeker created into the vector given as a parameter
-    // Also stores it in the database
     void createProfile(std::vector<JobSeeker*> &list) ;
 
     // Adds new skills to the JobSeeker profile
-    // Changes are made in the object itself and into the database
     void addSkills(std::vector<std::string> skills) ;
 
     // Adds a colleague to the JobSeeker profile
-    // Changes are made in the object itself and into the database
-    void addColleague (const Employee &e) ;
+    void addColleague (Employee &e) ;
 
     // Updates the JobSeeker Status to Employee
     // The object is moved from one database table to another
-    void jobSeekerToEmployee (std::vector<Employee*> employees, std::vector<JobSeeker*> jobseekers) ;
+    Employee* jobSeekerToEmployee (std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobseekers, Company& company) ;
 
     // Deletes the JobSeeker profile in the list and in the database table
     void deleteProfile(std::vector<JobSeeker*> &list) ;
@@ -67,11 +62,12 @@ class JobSeeker
 
     // Looks for old colleagues which are working in the company given as a parameter
     // Returns a vector of those colleagues
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, const Company &company) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, Company &company) ;
 
-    // Looks for old colleagues which have the skills given as a vector in the parameters
+    // Looks for old colleagues with their company looking for people with the skills of the JobSeeker.
+    // Needs the jobs vector because needs to know what the companies are looking for.
     // Returns a vector of those colleagues
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, std::vector<std::string> skills) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, std::vector<Job*> jobs) ;
 
     // Operators overloading
     JobSeeker& operator= (const JobSeeker &js) ;

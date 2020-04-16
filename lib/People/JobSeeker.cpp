@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "JobSeeker.h"
 
 #include "Company.h"
@@ -80,46 +82,99 @@ void JobSeeker::createProfile(vector<JobSeeker*> &list)
 
 void JobSeeker::addSkills(vector<string> skills)
 {
-
+    for (unsigned int i = 0; i < skills.size(); i++) {
+        _skills.push_back(skills[i]) ;
+    }
 }
 
-void JobSeeker::addColleague(const Employee &e)
+void JobSeeker::addColleague(Employee &e)
 {
-
+    _oldColleagues.push_back(&e) ;
 }
 
-void JobSeeker::jobSeekerToEmployee(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
+Employee* JobSeeker::jobSeekerToEmployee(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers, Company& company)
 {
+    Employee* employee = new Employee (_name, _firstname, _email, _zipcode, _skills, _oldColleagues, company) ;
+    employee->createProfile(employees) ;
 
+    this->deleteProfile(jobseekers) ;
+
+    return employee ;
 }
 
 void JobSeeker::deleteProfile(vector<JobSeeker*> &list)
 {
-
+    list.erase(list.begin() + getIndex(_id, list));
+    delete this ;
 }
 
 vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> skills)
 {
     vector<Job*> jobs ;
+    bool flag = true ;
+
+    for (auto j : list) {
+        flag = true ;
+
+        // Checks wether the skills required for the jobs are in skills
+        for (unsigned int i = 0; i < j->getSkills().size(); i++) {
+            flag = flag && (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
+        }
+        if (flag) jobs.push_back(j) ;
+    }
+
     return jobs ;
 }
 
 vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> skills, string zipcode)
 {
     vector<Job*> jobs ;
+    bool flag = true ;
+
+    for (auto j : list) {
+        flag = true ;
+
+        if (!j->getCompany().getZipcode().compare(zipcode)) {
+            // Checks wether the skills required for the jobs are in skills
+            for (unsigned int i = 0; i < j->getSkills().size(); i++) {
+                flag = flag && (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
+            }
+            if (flag) jobs.push_back(j) ;
+        }
+    }
+
     return jobs ;
 }
 
-vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, const Company &company)
+vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, Company &company)
 {
-    vector<Employee*> emp ;
-    return emp ;
+    vector<Employee*> colleagues ;
+
+    for (auto e : _oldColleagues) {
+        if (e->getCompany().getId() == company.getId()) colleagues.push_back(e) ;
+    }
+
+    return colleagues ;
 }
 
-vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, vector<string> skills)
+vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> employees, vector<Job*> jobs)
 {
-    vector<Employee*> emp ;
-    return emp ;
+    vector<Employee*> colleagues ;
+    vector<Job*> resJobs ;
+
+    unsigned int i ;
+
+    for (auto e : _oldColleagues) {
+        Company c = e->getCompany() ;
+        resJobs = this->searchForJobs(jobs, _skills) ; // Those are the jobs which fit the JobSeeker skills
+        
+        // We now need to filter the jobs with the company
+        i = 0 ;
+        while (i < resJobs.size() && resJobs[i]->getCompany().getId() != c.getId()) i++ ;
+        if (i < resJobs.size()) colleagues.push_back(e) ;
+    }
+
+    return colleagues ;
 }
 
 JobSeeker& JobSeeker::operator= (const JobSeeker &js) 

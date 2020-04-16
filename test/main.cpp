@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <algorithm>
 
 using namespace std ;
 
@@ -158,12 +159,13 @@ int main()
     }
 
     // JobSeeker Class Tests
-    // createProfile
     {
         vector<Employee*> jsColleagues ;
         jsColleagues.push_back(employees[0]) ;
 
         JobSeeker* js = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+
+        // createProfile
         js->createProfile(jobSeekers);
 
         // Get the index in the vector of JobSeekers of the JobSeeker created with createProfile()
@@ -171,6 +173,87 @@ int main()
 
         TEST (!jobSeekers[jsIndex]->getName().compare("BERNARD")) ;
         TEST (!jobSeekers[jsIndex]->getColleagues()[0]->getFirstname().compare("Michel")) ;
+
+        // addSkill
+        js->addSkills({"Nodejs", "React"}) ;
+
+        TEST (!jobSeekers[jsIndex]->getSkills()[2].compare("Nodejs")) ;
+        TEST (!jobSeekers[jsIndex]->getSkills()[3].compare("React")) ;
+
+        // addColleague
+        js->addColleague(*(employees[1])) ;
+
+        TEST (!jobSeekers[jsIndex]->getColleagues()[0]->getName().compare("Untel")) ;
+        TEST (!jobSeekers[jsIndex]->getColleagues()[1]->getFirstname().compare("Mickey")) ;
+        TEST (!jobSeekers[jsIndex]->getColleagues()[1]->getCompany().getName().compare("Disney")) ;
+
+        // deleteProfile
+        unsigned int sizeJobSeekers = jobSeekers.size() ;
+        js->deleteProfile(jobSeekers) ;
+        TEST (jobSeekers.size() == sizeJobSeekers - 1) ;
+
+        // jobSeekerToEmployee
+        JobSeeker* js2 = new JobSeeker("AHOUI", "Jean", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js2->createProfile(jobSeekers) ;
+    
+        Employee* e = js2->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
+        jsIndex = Employee::getIndex(e->getId(), employees) ;
+
+        TEST (!employees[jsIndex]->getName().compare("AHOUI")) ;
+        TEST (!employees[jsIndex]->getCompany().getName().compare(companies[1]->getName())) ;
+
+        // searchForJobs with skills
+        JobSeeker* js3 = new JobSeeker("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
+        js3->createProfile(jobSeekers) ;
+
+        vector<Job*> resJobs1 = js3->searchForJobs(jobs, {"Python", "SQL", "C", "C++"}) ;
+        vector<Job*> resJobs2 = js3->searchForJobs(jobs, {"Python"}) ;
+
+        TEST (!resJobs1[0]->getTitle().compare("developpeur"));
+        TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
+        TEST (resJobs2.size() == 0) ;
+
+        // searchForJobs with skills and zipcode 
+        resJobs1 = js3->searchForJobs(jobs, {"Python", "SQL", "C"}, "75009") ;
+        resJobs2 = js3->searchForJobs(jobs, {"Python", "SQL", "C"}, "13009") ;
+
+        TEST (!resJobs1[0]->getTitle().compare("developpeur"));
+        TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
+        TEST (resJobs2.size() == 0) ;
+
+        // searchForOldColleagues with Company
+        js3->addColleague(*(employees[1])) ;
+        js3->addColleague(*(employees[2])) ;
+        vector<Employee*> oldColleagues = js3->searchForOldColleagues(employees, *(companies[0])) ;
+
+        TEST (!oldColleagues[0]->getFirstname().compare("Mickey")) ;
+        TEST (!oldColleagues[1]->getFirstname().compare("Minnie")) ;
+
+        // searchForOldColleagues with skills
+        js3->addSkills({"C", "Python", "SQL"}) ;
+        vector<Employee*> oldColleagues2 = js3->searchForOldColleagues(employees, jobs) ;
+
+        TEST (Employee::getIndex(1, employees) != - 1) ;
+
+        js3->addSkills({"comedie", "gag"}) ;
+        oldColleagues2 = js3->searchForOldColleagues(employees, jobs) ;
+        TEST (Employee::getIndex(2, employees) != - 1) ;
+    }
+
+    // Employee Class Tests
+    {
+        vector<Employee*> colleagues ;
+        colleagues.push_back(employees[0]) ;
+
+        Employee* e = new Employee("KERNEVES", "Theo", "tkerneves@gmail.com", "13006", {"C++", "C"}, colleagues, *(companies[1])) ;
+
+        // createProfile
+        e->createProfile(employees);
+        int eIndex = Employee::getIndex(e->getId(), employees) ;
+
+        TEST (!employees[eIndex]->getName().compare("KERNEVES")) ;
+        TEST (!employees[eIndex]->getColleagues()[0]->getFirstname().compare("Michel")) ;
+        TEST (!employees[eIndex]->getCompany().getName().compare("Google")) ;
     }
 
     // Company Class Tests
@@ -236,10 +319,10 @@ int main()
     updateEntry(jobs) ;
 
     // Clear the vectors of pointers to avoid memory leak
-    clearVector(companies) ;
-    clearVector(employees) ;
-    clearVector(jobSeekers) ;
-    clearVector(jobs) ;
+    // clearVector(companies) ;
+    // clearVector(employees) ;
+    // clearVector(jobSeekers) ;
+    // clearVector(jobs) ;
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     

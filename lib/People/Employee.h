@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "Company.h"
-
 class JobSeeker ;
 class Company ;
 class Job ;
@@ -33,6 +31,7 @@ class Employee
 
     // Setter
     void setId(int id);
+    void setId(std::vector<Employee*> &list) ;
 
     // Static
 
