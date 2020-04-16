@@ -1,4 +1,5 @@
 #include "Job.h"
+#include "Company.h"
 
 using namespace std ;
 
