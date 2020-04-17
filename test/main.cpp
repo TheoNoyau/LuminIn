@@ -278,13 +278,14 @@ int main()
         TEST (employees.size() == sizeEmployees - 1) ;
 
         // employeeToJobSeeker
-        Employee* e2 = new Employee("Blerfood", "Tagliatelle", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[1])) ;
+        Employee* e2 = new Employee("Blerfood", "Tagliatelle", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[0])) ;
         e2->createProfile(employees) ;
     
         JobSeeker* js = e2->employeeToJobSeeker(employees, jobSeekers) ;
         eIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
 
         TEST (!jobSeekers[eIndex]->getName().compare("Blerfood")) ;
+        TEST (Employee::getIndex(2, js->getColleagues()) != -1) ; // Colleagues from Google had been added
 
         // searchForJobs with skills
         Employee* e3 = new Employee("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[1])) ;
