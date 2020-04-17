@@ -233,11 +233,11 @@ int main()
         js3->addSkills({"C", "Python", "SQL"}) ;
         vector<Employee*> oldColleagues2 = js3->searchForOldColleagues(employees, jobs) ;
 
-        TEST (Employee::getIndex(1, employees) != - 1) ;
+        TEST (Employee::getIndex(1, oldColleagues2) != - 1) ;
 
         js3->addSkills({"comedie", "gag"}) ;
         oldColleagues2 = js3->searchForOldColleagues(employees, jobs) ;
-        TEST (Employee::getIndex(2, employees) != - 1) ;
+        TEST (Employee::getIndex(2, oldColleagues2) != - 1) ;
     }
 
     // Employee Class Tests
@@ -318,11 +318,11 @@ int main()
         e3->addSkills({"C", "Python", "SQL"}) ;
         vector<Employee*> oldColleagues2 = e3->searchForOldColleagues(employees, jobs) ;
 
-        TEST (Employee::getIndex(1, employees) != - 1) ;
+        TEST (Employee::getIndex(1, oldColleagues2) != - 1) ;
 
         e3->addSkills({"comedie", "gag"}) ;
         oldColleagues2 = e3->searchForOldColleagues(employees, jobs) ;
-        TEST (Employee::getIndex(2, employees) != - 1) ;
+        TEST (Employee::getIndex(2, oldColleagues2) != - 1) ;
     }
 
     // Company Class Tests

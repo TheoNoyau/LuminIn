@@ -57,7 +57,7 @@ class Employee
     JobSeeker* employeeToJobSeeker (std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobseekers) ;
 
     // Looks for all the jobs according to a vector of skills
-    // Returns a vector of the Jobs corresponding 
+    // Returns a vector of the Jobs corresponding
     std::vector<Job*> searchForJobs(std::vector<Job*> &list, const std::vector<std::string> skills) ;
 
     // Looks for all the jobs according to a vector of skills and a zipcode
@@ -66,7 +66,7 @@ class Employee
 
     // Searches for an old colleague given a company
     // Returns a list of Employee
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, const Company &company) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, Company &company) ;
 
     // Looks for old colleagues with their company looking for people with the skills of the Employee.
     // Needs the jobs vector because needs to know what the companies are looking for.
