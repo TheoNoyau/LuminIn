@@ -268,9 +268,9 @@ int main()
         // addColleague
         e->addColleague(*(employees[1])) ;
 
-        TEST (!jobSeekers[eIndex]->getColleagues()[0]->getName().compare("Untel")) ;
-        TEST (!jobSeekers[eIndex]->getColleagues()[1]->getFirstname().compare("Mickey")) ;
-        TEST (!jobSeekers[eIndex]->getColleagues()[1]->getCompany().getName().compare("Disney")) ;
+        TEST (!employees[eIndex]->getColleagues()[0]->getName().compare("Untel")) ;
+        TEST (!employees[eIndex]->getColleagues()[1]->getFirstname().compare("Mickey")) ;
+        TEST (!employees[eIndex]->getColleagues()[1]->getCompany().getName().compare("Disney")) ;
 
         // deleteProfile
         unsigned int sizeEmployees = employees.size() ;

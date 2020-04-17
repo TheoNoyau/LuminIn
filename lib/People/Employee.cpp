@@ -108,9 +108,9 @@ void Employee::addSkills(vector<string> skills)
     }
 }
 
-void Employee::addColleague(const Employee &e)
+void Employee::addColleague(Employee &e)
 {
-
+    _oldColleagues.push_back(&e) ;
 }
 
 void Employee::deleteProfile(vector<Employee*> &list)
