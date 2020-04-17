@@ -103,7 +103,9 @@ void Employee::createProfile(vector<Employee*> &list)
 
 void Employee::addSkills(vector<string> skills)
 {
-
+    for (unsigned int i = 0; i < skills.size(); i++) {
+        _skills.push_back(skills[i]) ;
+    }
 }
 
 void Employee::addColleague(const Employee &e)

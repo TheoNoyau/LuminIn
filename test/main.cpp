@@ -262,8 +262,8 @@ int main()
         // addSkills
         e->addSkills({"Nodejs", "React"}) ;
 
-        TEST (!jobSeekers[eIndex]->getSkills()[2].compare("Nodejs")) ;
-        TEST (!jobSeekers[eIndex]->getSkills()[3].compare("React")) ;
+        TEST (!employees[eIndex]->getSkills()[2].compare("Nodejs")) ;
+        TEST (!employees[eIndex]->getSkills()[3].compare("React")) ;
 
         // addColleague
         e->addColleague(*(employees[1])) ;
