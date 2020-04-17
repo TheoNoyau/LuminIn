@@ -84,12 +84,12 @@ void Employee::setId(vector<Employee*> &list)
 
 void Employee::setZipcode(string zipcode)
 {
-
+    _zipcode = zipcode ;
 }
 
 void Employee::setCompany(Company &c)
 {
-
+    _company = c ;
 }
 
 void Employee::createProfile(vector<Employee*> &list)
