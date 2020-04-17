@@ -43,7 +43,9 @@ class JobSeeker
     void addSkills(std::vector<std::string> skills) ;
 
     // Adds a colleague to the JobSeeker profile
-    void addColleague (Employee &e) ;
+    // Returns -1 if the Employee e is already in the JobSeeker's colleagues
+    // Returns 1 otherwise
+    int addColleague (Employee &e) ;
 
     // Updates the JobSeeker Status to Employee
     // The object is moved from one database table to another

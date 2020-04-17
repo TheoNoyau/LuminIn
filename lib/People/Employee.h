@@ -47,7 +47,9 @@ class Employee
     void addSkills (std::vector<std::string> skills) ;
 
     // Adds a colleague to the old colleagues list
-    void addColleague (Employee &e) ;
+    // Returns -1 if the Employee e is already in the Employee's colleagues
+    // Returns 1 otherwise
+    int addColleague (Employee &e) ;
 
     // Deletes Employee profile from the list and DB
     void deleteProfile(std::vector<Employee*> &list) ;

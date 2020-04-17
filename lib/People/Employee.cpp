@@ -110,9 +110,11 @@ void Employee::addSkills(vector<string> skills)
     }
 }
 
-void Employee::addColleague(Employee &e)
+int Employee::addColleague(Employee &e)
 {
+    if (Employee::getIndex(e.getId(), _oldColleagues) != -1) return -1 ;
     _oldColleagues.push_back(&e) ;
+    return 0 ;
 }
 
 void Employee::deleteProfile(vector<Employee*> &list)
