@@ -285,7 +285,7 @@ int main()
         eIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
 
         TEST (!jobSeekers[eIndex]->getName().compare("Blerfood")) ;
-        TEST (Employee::getIndex(2, js->getColleagues()) != -1) ; // Colleagues from Google had been added
+        TEST (Employee::getIndex(2, js->getColleagues()) != -1) ; // Colleagues from Disney had been added
 
         // searchForJobs with skills
         Employee* e3 = new Employee("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[1])) ;

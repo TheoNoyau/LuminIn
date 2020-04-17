@@ -38,7 +38,7 @@ class Employee
     // Static
 
     // Returns a reference of the object with the right id
-    static int getIndex(const int id, std::vector<Employee*> employees) ;
+    static int getIndex(const int id, std::vector<Employee*> &employees) ;
 
     // Creates Employee profile and adds it to the list and DB
     void createProfile(std::vector<Employee*> &list) ;
@@ -54,7 +54,7 @@ class Employee
 
     // Transitions an Employee to a JobSeeker
     // Deletes profile from Employee list and adds it to JobSeekers list
-    JobSeeker* employeeToJobSeeker (std::vector<Employee*> employees, std::vector<JobSeeker*> jobseekers) ;
+    JobSeeker* employeeToJobSeeker (std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobseekers) ;
 
     // Looks for all the jobs according to a vector of skills
     // Returns a vector of the Jobs corresponding 
@@ -66,12 +66,12 @@ class Employee
 
     // Searches for an old colleague given a company
     // Returns a list of Employee
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, const Company &company) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, const Company &company) ;
 
     // Looks for old colleagues with their company looking for people with the skills of the Employee.
     // Needs the jobs vector because needs to know what the companies are looking for.
     // Returns a vector of those colleagues
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, std::vector<Job*> jobs) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, std::vector<Job*> &jobs) ;
 
     // Operators overloading
     Employee& operator= (const Employee &employee) ;

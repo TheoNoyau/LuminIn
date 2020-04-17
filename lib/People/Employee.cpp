@@ -21,7 +21,7 @@ Employee::Employee(const Employee &copy) : _id(copy._id), _name(copy._name), _fi
 
 }
 
-int Employee::getIndex(const int id, vector<Employee*> employees)
+int Employee::getIndex(const int id, vector<Employee*> &employees)
 {
     int size = employees.size() ;
     
@@ -119,9 +119,26 @@ void Employee::deleteProfile(vector<Employee*> &list)
     delete this ;
 }
 
-JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
+JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers)
 {
-    return NULL ;
+    JobSeeker* js = new JobSeeker (_name, _firstname, _email, _zipcode, _skills, _oldColleagues) ;
+    js->createProfile(jobseekers) ;
+
+    // We add the employees of the company left in the colleagues
+    for (auto e : employees) {
+        if (e->getCompany().getId() == _company.getId()) {
+
+            // If the employees aren't already colleagues
+            if (Employee::getIndex(e->getId(), _oldColleagues) == -1) {
+                js->addColleague(*e) ;
+                
+            }
+        }
+    }
+
+    this->deleteProfile(employees) ;
+
+    return js ;
 }
 
 vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> skills)
@@ -136,13 +153,13 @@ vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> sk
     return jobs ;
 }
 
-vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, const Company &company)
+vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> &employees, const Company &company)
 {
     vector<Employee*> emp ;
     return emp ;
 }
 
-vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, vector<Job*> jobs)
+vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> &employees, vector<Job*> &jobs)
 {
     vector<Employee*> emp ;
     return emp ;
