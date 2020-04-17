@@ -4,6 +4,8 @@
 #include "Job.h"
 #include "Company.h"
 
+#include <algorithm>
+
 using namespace std;
 
 Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(c)
@@ -144,12 +146,38 @@ JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<Jo
 vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> skills)
 {
     vector<Job*> jobs ;
+    bool flag = true ;
+
+    for (auto j : list) {
+        flag = true ;
+
+        // Checks wether the skills required for the jobs are in skills
+        for (unsigned int i = 0; i < j->getSkills().size(); i++) {
+            flag = flag && (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
+        }
+        if (flag) jobs.push_back(j) ;
+    }
+
     return jobs ;
 }
 
 vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> skills, string zipcode)
 {
     vector<Job*> jobs ;
+    bool flag = true ;
+
+    for (auto j : list) {
+        flag = true ;
+
+        if (!j->getCompany().getZipcode().compare(zipcode)) {
+            // Checks wether the skills required for the jobs are in skills
+            for (unsigned int i = 0; i < j->getSkills().size(); i++) {
+                flag = flag && (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
+            }
+            if (flag) jobs.push_back(j) ;
+        }
+    }
+
     return jobs ;
 }
 
