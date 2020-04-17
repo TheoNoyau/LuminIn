@@ -85,7 +85,7 @@ class Employee
     std::string _zipcode;
     std::vector<std::string> _skills ;
     std::vector<Employee*> _oldColleagues ;
-    Company &_company ;
+    Company *_company ;
 };
 
 #endif

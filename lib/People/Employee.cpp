@@ -8,12 +8,12 @@
 
 using namespace std;
 
-Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(c)
+Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(&c)
 {
 
 }
 
-Employee::Employee(Company &c) : _name("undefined"), _firstname("undefined"), _email("undefined"), _zipcode("undefined"), _company(c)
+Employee::Employee(Company &c) : _name("undefined"), _firstname("undefined"), _email("undefined"), _zipcode("undefined"), _company(&c)
 {
     _id = -1 ;
 }
@@ -71,7 +71,7 @@ vector<Employee*> &Employee::getColleagues()
 
 Company &Employee::getCompany()
 {
-    return _company;
+    return *_company;
 }
 
 void Employee::setId(int id)
@@ -91,7 +91,7 @@ void Employee::setZipcode(string zipcode)
 
 void Employee::setCompany(Company &c)
 {
-    _company = c ;
+    _company = &c ;
 }
 
 void Employee::createProfile(vector<Employee*> &list)
@@ -128,7 +128,7 @@ JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<Jo
 
     // We add the employees of the company left in the colleagues
     for (auto e : employees) {
-        if (e->getCompany().getId() == _company.getId()) {
+        if (e->getCompany().getId() == _company->getId()) {
 
             // If the employees aren't already colleagues
             if (Employee::getIndex(e->getId(), _oldColleagues) == -1) {
