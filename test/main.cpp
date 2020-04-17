@@ -254,6 +254,74 @@ int main()
         TEST (!employees[eIndex]->getName().compare("KERNEVES")) ;
         TEST (!employees[eIndex]->getColleagues()[0]->getFirstname().compare("Michel")) ;
         TEST (!employees[eIndex]->getCompany().getName().compare("Google")) ;
+
+        // setCompany
+        e->setCompany(*(companies[0])) ;
+        TEST (!employees[eIndex]->getCompany().getName().compare("Disney")) ;
+
+        // addSkills
+        e->addSkills({"Nodejs", "React"}) ;
+
+        TEST (!jobSeekers[eIndex]->getSkills()[2].compare("Nodejs")) ;
+        TEST (!jobSeekers[eIndex]->getSkills()[3].compare("React")) ;
+
+        // addColleague
+        e->addColleague(*(employees[1])) ;
+
+        TEST (!jobSeekers[eIndex]->getColleagues()[0]->getName().compare("Untel")) ;
+        TEST (!jobSeekers[eIndex]->getColleagues()[1]->getFirstname().compare("Mickey")) ;
+        TEST (!jobSeekers[eIndex]->getColleagues()[1]->getCompany().getName().compare("Disney")) ;
+
+        // deleteProfile
+        unsigned int sizeEmployees = employees.size() ;
+        e->deleteProfile(employees) ;
+        TEST (employees.size() == sizeEmployees - 1) ;
+
+        // employeeToJobSeeker
+        Employee* e2 = new Employee("Blerfood", "Tagliatelle", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[1])) ;
+        e2->createProfile(employees) ;
+    
+        JobSeeker* js = e2->employeeToJobSeeker(employees, jobSeekers) ;
+        eIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
+
+        TEST (!jobSeekers[eIndex]->getName().compare("Blerfood")) ;
+
+        // searchForJobs with skills
+        Employee* e3 = new Employee("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[1])) ;
+        e3->createProfile(employees) ;
+
+        vector<Job*> resJobs1 = e3->searchForJobs(jobs, {"Python", "SQL", "C", "C++"}) ;
+        vector<Job*> resJobs2 = e3->searchForJobs(jobs, {"Python"}) ;
+
+        TEST (!resJobs1[0]->getTitle().compare("developpeur"));
+        TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
+        TEST (resJobs2.size() == 0) ;
+
+        // searchForJobs with skills and zipcode 
+        resJobs1 = e3->searchForJobs(jobs, {"Python", "SQL", "C"}, "75009") ;
+        resJobs2 = e3->searchForJobs(jobs, {"Python", "SQL", "C"}, "13009") ;
+
+        TEST (!resJobs1[0]->getTitle().compare("developpeur"));
+        TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
+        TEST (resJobs2.size() == 0) ;
+
+        // searchForOldColleagues with Company
+        e3->addColleague(*(employees[1])) ;
+        e3->addColleague(*(employees[2])) ;
+        vector<Employee*> oldColleagues = e3->searchForOldColleagues(employees, *(companies[0])) ;
+
+        TEST (!oldColleagues[0]->getFirstname().compare("Mickey")) ;
+        TEST (!oldColleagues[1]->getFirstname().compare("Minnie")) ;
+
+        // searchForOldColleagues with skills
+        e3->addSkills({"C", "Python", "SQL"}) ;
+        vector<Employee*> oldColleagues2 = e3->searchForOldColleagues(employees, jobs) ;
+
+        TEST (Employee::getIndex(1, employees) != - 1) ;
+
+        e3->addSkills({"comedie", "gag"}) ;
+        oldColleagues2 = e3->searchForOldColleagues(employees, jobs) ;
+        TEST (Employee::getIndex(2, employees) != - 1) ;
     }
 
     // Company Class Tests

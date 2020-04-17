@@ -82,6 +82,16 @@ void Employee::setId(vector<Employee*> &list)
     _id = (int)list.size() + 1 ;
 }
 
+void Employee::setZipcode(string zipcode)
+{
+
+}
+
+void Employee::setCompany(Company &c)
+{
+
+}
+
 void Employee::createProfile(vector<Employee*> &list)
 {
     // Giving an id to the object
@@ -91,17 +101,12 @@ void Employee::createProfile(vector<Employee*> &list)
     list.push_back(this) ;
 }
 
-void Employee::addSkill(string name)
+void Employee::addSkills(vector<string> skills)
 {
 
 }
 
-void Employee::addOldColleague(const Employee &e)
-{
-
-}
-
-void Employee::updateZipcode(string zipcode)
+void Employee::addColleague(const Employee &e)
 {
 
 }
@@ -111,9 +116,9 @@ void Employee::deleteProfile(vector<Employee*> &list)
 
 }
 
-void Employee::employeeToJobSeeker(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
+JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
 {
-
+    return NULL ;
 }
 
 vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> skills)
@@ -134,7 +139,7 @@ vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, 
     return emp ;
 }
 
-vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, vector<string> skills)
+vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, vector<Job*> jobs)
 {
     vector<Employee*> emp ;
     return emp ;

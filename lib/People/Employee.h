@@ -32,6 +32,8 @@ class Employee
     // Setter
     void setId(int id);
     void setId(std::vector<Employee*> &list) ;
+    void setZipcode(std::string zipcode) ;
+    void setCompany(Company &c) ;
 
     // Static
 
@@ -42,20 +44,17 @@ class Employee
     void createProfile(std::vector<Employee*> &list) ;
 
     // Adds a profile to the list of skills 
-    void addSkill (std::string name) ;
+    void addSkills (std::vector<std::string> skills) ;
 
     // Adds a colleague to the old colleagues list
-    void addOldColleague (const Employee &e) ;
-
-    // Updates the zipcode
-    void updateZipcode (std::string zipcode) ;
+    void addColleague (const Employee &e) ;
 
     // Deletes Employee profile from the list and DB
     void deleteProfile(std::vector<Employee*> &list) ;
 
     // Transitions an Employee to a JobSeeker
     // Deletes profile from Employee list and adds it to JobSeekers list
-    void employeeToJobSeeker (std::vector<Employee*> employees, std::vector<JobSeeker*> jobseekers) ;
+    JobSeeker* employeeToJobSeeker (std::vector<Employee*> employees, std::vector<JobSeeker*> jobseekers) ;
 
     // Looks for all the jobs according to a vector of skills
     // Returns a vector of the Jobs corresponding 
@@ -69,9 +68,10 @@ class Employee
     // Returns a list of Employee
     std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, const Company &company) ;
 
-    // Searches for an old colleague given a list of skills 
-    // Returns a list of Employee
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, std::vector<std::string> skills) ;
+    // Looks for old colleagues with their company looking for people with the skills of the Employee.
+    // Needs the jobs vector because needs to know what the companies are looking for.
+    // Returns a vector of those colleagues
+    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, std::vector<Job*> jobs) ;
 
     // Operators overloading
     Employee& operator= (const Employee &employee) ;
