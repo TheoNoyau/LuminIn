@@ -43,7 +43,9 @@ class JobSeeker
     void addSkills(std::vector<std::string> skills) ;
 
     // Adds a colleague to the JobSeeker profile
-    void addColleague (Employee &e) ;
+    // Returns -1 if the Employee e is already in the JobSeeker's colleagues
+    // Returns 1 otherwise
+    int addColleague (Employee &e) ;
 
     // Updates the JobSeeker Status to Employee
     // The object is moved from one database table to another
@@ -62,12 +64,12 @@ class JobSeeker
 
     // Looks for old colleagues which are working in the company given as a parameter
     // Returns a vector of those colleagues
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, Company &company) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, Company &company) ;
 
     // Looks for old colleagues with their company looking for people with the skills of the JobSeeker.
     // Needs the jobs vector because needs to know what the companies are looking for.
     // Returns a vector of those colleagues
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> employees, std::vector<Job*> jobs) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, std::vector<Job*> &jobs) ;
 
     // Operators overloading
     JobSeeker& operator= (const JobSeeker &js) ;

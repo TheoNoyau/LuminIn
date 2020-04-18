@@ -4,14 +4,16 @@
 #include "Job.h"
 #include "Company.h"
 
+#include <algorithm>
+
 using namespace std;
 
-Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(c)
+Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(&c)
 {
 
 }
 
-Employee::Employee(Company &c) : _name("undefined"), _firstname("undefined"), _email("undefined"), _zipcode("undefined"), _company(c)
+Employee::Employee(Company &c) : _name("undefined"), _firstname("undefined"), _email("undefined"), _zipcode("undefined"), _company(&c)
 {
     _id = -1 ;
 }
@@ -21,7 +23,7 @@ Employee::Employee(const Employee &copy) : _id(copy._id), _name(copy._name), _fi
 
 }
 
-int Employee::getIndex(const int id, vector<Employee*> employees)
+int Employee::getIndex(const int id, vector<Employee*> &employees)
 {
     int size = employees.size() ;
     
@@ -69,7 +71,7 @@ vector<Employee*> &Employee::getColleagues()
 
 Company &Employee::getCompany()
 {
-    return _company;
+    return *_company;
 }
 
 void Employee::setId(int id)
@@ -82,6 +84,16 @@ void Employee::setId(vector<Employee*> &list)
     _id = (int)list.size() + 1 ;
 }
 
+void Employee::setZipcode(string zipcode)
+{
+    _zipcode = zipcode ;
+}
+
+void Employee::setCompany(Company &c)
+{
+    _company = &c ;
+}
+
 void Employee::createProfile(vector<Employee*> &list)
 {
     // Giving an id to the object
@@ -91,53 +103,115 @@ void Employee::createProfile(vector<Employee*> &list)
     list.push_back(this) ;
 }
 
-void Employee::addSkill(string name)
+void Employee::addSkills(vector<string> skills)
 {
-
+    for (unsigned int i = 0; i < skills.size(); i++) {
+        _skills.push_back(skills[i]) ;
+    }
 }
 
-void Employee::addOldColleague(const Employee &e)
+int Employee::addColleague(Employee &e)
 {
-
-}
-
-void Employee::updateZipcode(string zipcode)
-{
-
+    if (Employee::getIndex(e.getId(), _oldColleagues) != -1) return -1 ;
+    _oldColleagues.push_back(&e) ;
+    return 0 ;
 }
 
 void Employee::deleteProfile(vector<Employee*> &list)
 {
-
+    list.erase(list.begin() + getIndex(_id, list));
+    delete this ;
 }
 
-void Employee::employeeToJobSeeker(vector<Employee*> employees, vector<JobSeeker*> jobseekers)
+JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers)
 {
+    JobSeeker* js = new JobSeeker (_name, _firstname, _email, _zipcode, _skills, _oldColleagues) ;
+    js->createProfile(jobseekers) ;
 
+    // We add the employees of the company left in the colleagues
+    for (auto e : employees) {
+        if (e->getCompany().getId() == _company->getId()) {
+
+            // If the employees aren't already colleagues
+            if (Employee::getIndex(e->getId(), _oldColleagues) == -1) {
+                js->addColleague(*e) ;
+                
+            }
+        }
+    }
+
+    this->deleteProfile(employees) ;
+
+    return js ;
 }
 
 vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> skills)
 {
     vector<Job*> jobs ;
+    bool flag = true ;
+
+    for (auto j : list) {
+        flag = true ;
+
+        // Checks wether the skills required for the jobs are in skills
+        for (unsigned int i = 0; i < j->getSkills().size(); i++) {
+            flag = flag && (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
+        }
+        if (flag) jobs.push_back(j) ;
+    }
+
     return jobs ;
 }
 
 vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> skills, string zipcode)
 {
     vector<Job*> jobs ;
+    bool flag = true ;
+
+    for (auto j : list) {
+        flag = true ;
+
+        if (!j->getCompany().getZipcode().compare(zipcode)) {
+            // Checks wether the skills required for the jobs are in skills
+            for (unsigned int i = 0; i < j->getSkills().size(); i++) {
+                flag = flag && (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
+            }
+            if (flag) jobs.push_back(j) ;
+        }
+    }
+
     return jobs ;
 }
 
-vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, const Company &company)
+vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> &employees, Company &company)
 {
-    vector<Employee*> emp ;
-    return emp ;
+    vector<Employee*> colleagues ;
+
+    for (auto e : _oldColleagues) {
+        if (e->getCompany().getId() == company.getId()) colleagues.push_back(e) ;
+    }
+
+    return colleagues ;
 }
 
-vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> employees, vector<string> skills)
+vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> &employees, vector<Job*> &jobs)
 {
-    vector<Employee*> emp ;
-    return emp ;
+    vector<Employee*> colleagues ;
+    vector<Job*> resJobs ;
+
+    unsigned int i ;
+
+    for (auto e : _oldColleagues) {
+        Company c = e->getCompany() ;
+        resJobs = this->searchForJobs(jobs, _skills) ; // Those are the jobs which fit the JobSeeker skills
+        
+        // We now need to filter the jobs with the company
+        i = 0 ;
+        while (i < resJobs.size() && resJobs[i]->getCompany().getId() != c.getId()) i++ ;
+        if (i < resJobs.size()) colleagues.push_back(e) ;
+    }
+
+    return colleagues ;
 }
 
 Employee& Employee::operator= (const Employee &employee) 
