@@ -40,9 +40,6 @@ int main()
     // // First basic test
     // TEST(!c.getEmail().compare("pro@gmail.com"));
 
-    
-        
-
     // Sets the path to csv files
     setPath("test/data/csv");
 
@@ -388,10 +385,10 @@ int main()
     updateEntry(jobs) ;
 
     // Clear the vectors of pointers to avoid memory leak
-    // clearVector(companies) ;
-    // clearVector(employees) ;
-    // clearVector(jobSeekers) ;
-    // clearVector(jobs) ;
+    clearVector(companies) ;
+    clearVector(employees) ;
+    clearVector(jobSeekers) ;
+    clearVector(jobs) ;
 
     printf("%d/%d\n", tests_reussis, tests_executes);
     
