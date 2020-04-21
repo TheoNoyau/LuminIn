@@ -29,7 +29,7 @@ class JobSeeker
     // Setter
     void setId(int id) ;
     void setId(std::vector<JobSeeker*> &list) ;
-    void setZipcode(std::string zipcode)
+    void setZipcode(std::string zipcode);
 
     // Static
 
