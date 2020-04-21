@@ -35,6 +35,7 @@ class Cli {
     public:
         Cli(std::vector<Company*> &companies, std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobSeekers, std::vector<Job*> &jobs) ;
 
+        void wait();
         void printHeader() ;
         void printQuitOrReturn() ;
         void printCompanies(std::vector<Company*> &companies) ;
