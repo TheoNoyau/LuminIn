@@ -30,6 +30,17 @@ int Company::getIndex(const int id, vector<Company*> companies)
     return -1; 
 }
 
+std::vector<Company*> Company::getCompanies(std::string name, std::vector<Company*> &companies)
+{
+    vector<Company*> res ;
+
+    for (unsigned int i = 0; i < companies.size(); i++) {
+        if (!companies[i]->getName().compare(name)) res.push_back(companies[i]) ;
+    }
+
+    return res ;
+}
+
 int Company::getId ()
 {
     return _id ;

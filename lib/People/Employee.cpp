@@ -34,6 +34,17 @@ int Employee::getIndex(const int id, vector<Employee*> &employees)
     return -1; 
 }
 
+vector<Employee*> Employee::getEmployees(string name, vector<Employee*> &employees)
+{
+    vector<Employee*> res ;
+
+    for (unsigned int i = 0; i < employees.size(); i++) {
+        if (!employees[i]->getName().compare(name)) res.push_back(employees[i]) ;
+    }
+
+    return res ;
+}
+
 int Employee::getId()
 {
     return _id;

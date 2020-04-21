@@ -22,12 +22,35 @@ void Cli::printQuitOrReturn()
 	cout << "\n'q' to quit, 'r' to go back\n" << endl;
 }
 
-void Cli::printCompanies() 
+void Cli::printCompanies(vector<Company*> &companies) 
 {
-	cout << "- Companies List -" << endl ;
-	cout << FWHT("id") << " - " << FGRN("Name") << " - " << FYEL("Zipcode") << endl ;
-	for (unsigned int i = 0; i < _companies.size(); i++) {
-		cout << KWHT << _companies[i]->getId() << RST << " - " << KGRN << _companies[i]->getName() << RST << " - " << KYEL <<  _companies[i]->getZipcode() << RST << endl ;
+	cout << FWHT("id") << "  -  " << FGRN("Name") << "  -  " << FYEL("Zipcode") << endl ;
+	for (unsigned int i = 0; i < companies.size(); i++) {
+		cout << KWHT << companies[i]->getId() << RST << "  -  " << KGRN << companies[i]->getName() << RST << "  -  " << KYEL <<  companies[i]->getZipcode() << RST << endl ;
+	}
+}
+
+void Cli::printEmployees(std::vector<Employee*> &employees)
+{
+	cout << FWHT("id") << "  -  " << FCYN("Last name") << "  -  " << FYEL("Firstname") << " - " << FGRN("Company") << endl ;
+	for (unsigned int i = 0; i < employees.size(); i++) {
+		cout << KWHT << employees[i]->getId() << RST << "  -  " << KCYN << employees[i]->getName() << RST << "  -  " << KYEL <<  employees[i]->getFirstname() << RST << "  -  " << KGRN << employees[i]->getCompany().getName() << RST << endl ;
+	}
+}
+
+void Cli::printJobs(vector<Job*> &jobs) 
+{
+	cout << FWHT("id") << "  -  " << FMAG("Title") << "  -  " << FGRN("Company") << "  -  " << FBLU("Company e-mail") << "  -  " << FYEL("Company Zipcode") << endl ;
+	for (unsigned int i = 0; i < jobs.size(); i++) {
+		cout << KWHT << jobs[i]->getId() << RST << " - " << KMAG << jobs[i]->getTitle() << RST << " - " << KGRN <<  jobs[i]->getCompany().getName() << RST << "  -  " << KBLU << jobs[i]->getCompany().getEmail() << RST << "  -  " << KYEL <<  jobs[i]->getCompany().getZipcode() << RST << endl ;
+	}
+}
+
+void Cli::printJobSeekers(std::vector<JobSeeker*> &jobSeekers)
+{
+	cout << FWHT("id") << "  -  " << FGRN("Name") << "  -  " << FYEL("Firstname") << "  -  " << FMAG("E-mail") << endl ;
+	for (unsigned int i = 0; i < jobSeekers.size(); i++) {
+		cout << KWHT << jobSeekers[i]->getId() << RST << "  -  " << KGRN << jobSeekers[i]->getName() << RST << "  -  " << KYEL <<  jobSeekers[i]->getFirstname() << RST << "  -  " << KMAG << jobSeekers[i]->getEmail() << RST << endl ; ;
 	}
 }
 
@@ -157,7 +180,7 @@ void Cli::printMenuCreateProfileEmp()
 	vector<Employee*> colleagues ;
 	system("clear") ;
 	printHeader() ;
-	cout << BOLD(FGRN("* Employee - Create Profile *")) << endl << endl ;
+	cout << BOLD(FBLU("* Employee - Create Profile *")) << endl << endl ;
 	cout << "Last name: " ;
 	cin >> name ;
 	cout << "First name: " ;
@@ -171,7 +194,7 @@ void Cli::printMenuCreateProfileEmp()
 		cout << skill << " has been added to your skills" << endl ;
 		skills.push_back(skill);
 	}
-	printCompanies();
+	printCompanies(_companies);
 	cout << "Id of the company you are working for (see above): ";
 	cin >> idCompany ;
 	while (Company::getIndex(idCompany, _companies) == -1) {
@@ -221,7 +244,12 @@ void Cli::printMenuCompany(int id)
 
 void Cli::printMenuEmployee(int id)
 {
+	system("clear");
+	printHeader() ;
+	cout << BOLD(FBLU("* Employee *")) << endl << endl ;
 
+	cout << BOLD("Profile") << endl ;
+	cout << "1. " ;
 }
 
 void Cli::printMenuJobSeeker(int id)
