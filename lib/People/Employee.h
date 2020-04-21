@@ -40,6 +40,9 @@ class Employee
     // Returns a reference of the object with the right id
     static int getIndex(const int id, std::vector<Employee*> &employees) ;
 
+    // Returns a vector of employees with the attribute given in the parameters
+    static std::vector<Employee*> getEmployees(std::string name, std::vector<Employee*> &employees) ;
+
     // Creates Employee profile and adds it to the list and DB
     void createProfile(std::vector<Employee*> &list) ;
 

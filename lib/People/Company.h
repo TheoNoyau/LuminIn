@@ -31,6 +31,9 @@ class Company
     // Returns a reference of the object with the right id
     static int getIndex(const int id, std::vector<Company*> companies) ;
 
+    // Returns a vector of companies with the attribute given in the parameters
+    static std::vector<Company*> getCompanies(std::string name, std::vector<Company*> &companies) ;
+
     // Creates Company profile and adds it in the list and DB 
     void createProfile(std::vector<Company*> &list) ;
 
