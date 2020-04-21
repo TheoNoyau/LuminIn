@@ -37,10 +37,26 @@ build/test.o: test/main.cpp lib/People/Company.h lib/People/JobSeeker.h lib/Peop
 build/test: build/test.o build/libpeople.a build/libdb.a | build
 	g++ build/test.o build/libpeople.a build/libdb.a -Lbuild/ -lpeople -ldb -o build/test
 
+build/cli.o: lib/UI/CLI/cli.cpp lib/UI/CLI/cli.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h | build
+	g++ -Wall -pedantic -g -c lib/UI/CLI/cli.cpp -I ./lib -o build/cli.o
+
+build/libcli.a: build/cli.o
+	ar crs build/libcli.a build/cli.o
+	
+build/luminin.o: application/main.cpp lib/UI/CLI/cli.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h lib/DB/BDD.h | build
+	g++ -Wall -Werror -pedantic -g -c application/main.cpp -I ./lib -o build/luminin.o
+	
+build/luminin: build/luminin.o build/libpeople.a build/libdb.a build/libcli.a | build
+	g++ build/luminin.o build/libpeople.a build/libdb.a build/libcli.a -Lbuild/ -lpeople -ldb -lcli -o build/luminin
+
 # S'assure de l'existence tout les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli
-all: build/test
+all: build/test build/luminin
 
 # Lance le programme de test.
 check: build/test
 	./build/test
+
+# Lance le programme final
+app: build/luminin
+	./build/luminin
