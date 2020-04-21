@@ -36,7 +36,10 @@ class Cli {
 
         void printHeader() ;
         void printQuitOrReturn() ;
-        void printCompanies() ;
+        void printCompanies(std::vector<Company*> &companies) ;
+        void printEmployees(std::vector<Employee*> &employees) ;
+        void printJobs(std::vector<Job*> &jobs) ;
+        void printJobSeekers(std::vector<JobSeeker*> &jobSeekers) ;
 
         // Create profile or login
         void printMenu();
