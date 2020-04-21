@@ -38,7 +38,7 @@ build/test: build/test.o build/libpeople.a build/libdb.a | build
 	g++ build/test.o build/libpeople.a build/libdb.a -Lbuild/ -lpeople -ldb -o build/test
 
 build/cli.o: lib/UI/CLI/cli.cpp lib/UI/CLI/cli.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h | build
-	g++ -Wall -pedantic -g -c lib/UI/CLI/cli.cpp -I ./lib -o build/cli.o
+	g++ -Wall -Werror -pedantic -g -c lib/UI/CLI/cli.cpp -I ./lib -o build/cli.o
 
 build/libcli.a: build/cli.o
 	ar crs build/libcli.a build/cli.o
