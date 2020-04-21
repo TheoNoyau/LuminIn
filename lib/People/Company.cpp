@@ -30,7 +30,7 @@ int Company::getIndex(const int id, vector<Company*> companies)
     return -1; 
 }
 
-std::vector<Company*> Company::getCompanies(std::string name, std::vector<Company*> &companies)
+vector<Company*> Company::getCompanies(string name, vector<Company*> &companies)
 {
     vector<Company*> res ;
 
