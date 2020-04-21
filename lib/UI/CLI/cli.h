@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 /* FOREGROUND */
 #define RST  "\x1B[0m"

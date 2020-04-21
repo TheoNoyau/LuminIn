@@ -5,6 +5,10 @@
 #include "People/JobSeeker.h"
 #include "People/Job.h"
 
+#include <iostream>
+#include <vector>
+#include <string>
+
 using namespace std ;
 
 Cli::Cli(vector<Company*> &companies, vector<Employee*> &employees, vector<JobSeeker*> &jobSeekers, vector<Job*> &jobs) : _companies(companies), _employees(employees), _jobSeekers(jobSeekers), _jobs(jobs)
@@ -256,64 +260,117 @@ void Cli::printMenuJobSeeker(int id)
 {
 	system("clear");
 	printHeader() ;
-	cout << BOLD(FMAG("* Jobseeker - Menu *")) << endl << endl ;
-	cout << "Profile: " << endl;
+	char choice;
+	cout << UNDL(BOLD(FMAG("* Jobseeker - Menu *"))) << endl << endl ;
+	cout << UNDL("Your profile:") << endl;
 	cout << "1. Add a skill" << endl;
 	cout << "2. Add a colleague" << endl;
 	cout << "3. Change zipcode" << endl;
-	cout << "4. Transition to jobseeker" << endl;
-	cout << "Search for jobs: " << endl;
+	cout << "4. Transition to jobseeker" << endl << endl;
+	cout << UNDL("Search for jobs:") << endl;
 	cout << "5. Search by skills" << endl;
 	cout << "6. Search by skills and zipcode" << endl;
 	printQuitOrReturn();
+	cout << "Enter your choice: ";
+	cin >> choice;
 	switch (choice) {
-		case '1':
+		case '1': {
 			system("clear");
 			cout << BOLD(FMAG("* Jobseeker - Add Skills *")) << endl << endl ;
 			cout << "Enter skills you want to add: (type 'end' to quit)" << endl;
 			string skill;
-			while (cin >> skill && skill.compare('end')) _jobSeekers[JobSeeker::getIndex(id)].skills.push_back(skill);
+			vector<string> skills;
+			while (cin >> skill && skill.compare("end")) {
+				skills.push_back(skill);
+				_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->addSkills(skills);
+			}
+			cout << "Successfuly added skills" << endl;
 			printMenuJobSeeker(id);
 			break;
-		case '2':
+		}
+		case '2':{
 			system("clear");
-			string name;
-			char colleagueId;
+			string ename, colleagueId;
+			vector<Employee*> employees;
 			cout << BOLD(FMAG("* Jobseeker - Add Colleague *")) << endl << endl ;
 			cout << "Search for the name of your colleague: ";
 			cin >> ename;
-			// printemployees(ename);
+			employees = Employee::getEmployees(ename, _employees);
+			printEmployees(employees);
 			cout << "Enter the ID of your colleague from the list above: (type 'end' to quit) ";
-			while (cin >> colleagueId && colleagueId.compare('end')){
-				Employee *e = _employees[Employee::getIndex(stoi(colleagueId))];
-				_jobSeekers[JobSeeker::getIndex(id)].colleagues.push_back(e);
+			while (cin >> colleagueId && colleagueId.compare("end")){
+				Employee *e = _employees[Employee::getIndex(stoi(colleagueId), _employees)];
+				_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->addColleague(*e);
 			}
+			cout << "Successfuly added colleague" << endl;
 			printMenuJobSeeker(id);
 			break;
-		case '3':
+		}
+		case '3':{
 			system("clear");
 			cout << BOLD(FMAG("* Jobseeker - Change zipcode *")) << endl << endl ;
 			string zipcode;
 			cout << "Enter new zipcode: ";
 			cin >> zipcode;
-			_employees[JobSeeker::getIndex(id)].setZipcode(zipcode);
+			_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->setZipcode(zipcode);
+			cout << "Succesfuly updated your zipcode" << endl;
 			printMenuJobSeeker(id);
 			break;
-		case '4':
+		}
+		case '4':{
 			system("clear");
 			string cname;
 			int cid;
+			vector<Company*> companies;
 			cout << BOLD(FMAG("* Jobseeker -  Transition *")) << endl << endl ;
-			cout << "Search for the name of you new company: ";
-			cin >> name;
-			cout << "Enter the ID of your new company: ";
+			cout << "Search for the name of your new company: ";
+			cin >> cname;
+			companies = Company::getCompanies(cname, _companies);
+			printCompanies(companies);
+			cout << "Enter the ID of your new company (see above): ";
 			cin >> cid;
-			Company *c = _companies[Company::getIndex(cid)];
-			Employee *e = _jobSeekers[JobSeeker::getIndex(id)].jobSeekerToEmployee(_employees, _jobSeekers, c);
+			Company *c = _companies[Company::getIndex(cid, _companies)];
+			Employee *e = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->jobSeekerToEmployee(_employees, _jobSeekers, *c);
 			cout << "Succesfuly added you as an employee of " << c->getName() << "!" << endl;
 			printMenuEmployee(e->getId());
-		case '5':
-			
+			break;
+		}
+		case '5':{
+			system("clear");
+			vector<Job*> jobs;
+			cout << BOLD(FMAG("* Jobseeker - Search for available jobs *")) << endl << endl ;
+			cout << "Do you want to search by: " << endl;
+			cout << "1. Skills" << endl;
+			cout << "2. Skills and zipcode" << endl;
+			cout << "Enter your choice: ";
+			int choice; cin >> choice;
+			if (choice == 1){
+				vector<string> skills;
+				string skill;
+				cout << "Enter a list of skills (type 'end' to quit):" << endl; 
+				while(cin >> skill && skill.compare("end")){
+					skills.push_back(skill);
+				}
+				jobs = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForJobs(_jobs, skills);
+				if (jobs.size() == 0) cout << "No job offer corresponding to the set of skills you entered" << endl;
+				else printJobs(jobs);
+			}
+			else if (choice == 2){
+				vector<string> skills;
+				string skill, zipcode;
+				cout << "Enter a list of skills (type 'end' to quit):" << endl; 
+				while(cin >> skill && skill.compare("end")){
+					skills.push_back(skill);
+				}
+				cout << "Enter the zipcode area you want to search for: ";
+				cin >> zipcode; 
+				jobs = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForJobs(_jobs, skills, zipcode);
+				if (jobs.size() == 0) cout << "No job offer corresponding to the set of skills and zipcode you entered" << endl;
+				else printJobs(jobs);
+			} else cout << "Error, please try again" << endl;
+			printMenuJobSeeker(id);
+			break;
+		}
 		case 'q':
 			return;	
 		case 'r':
@@ -321,7 +378,7 @@ void Cli::printMenuJobSeeker(int id)
 			break;
 		default:
 			cout << "Error, please try again" << endl;
-			printMenu();
+			printMenuJobSeeker(id);
 			break;
 	}
 
