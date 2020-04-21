@@ -71,6 +71,11 @@ void JobSeeker::setId(vector<JobSeeker*> &list)
     _id = (int)list.size() + 1 ;
 }
 
+void JobSeeker::setZipcode(string zipcode)
+{
+    _zipcode = zipcode ;
+}
+
 void JobSeeker::createProfile(vector<JobSeeker*> &list)
 {
     // Giving an id to the object
