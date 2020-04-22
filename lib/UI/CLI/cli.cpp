@@ -81,6 +81,21 @@ void Cli::printInfoJS(int id)
 	cout << BOLD(FCYN("-------------------------------")) << endl << endl;
 }
 
+void Cli::printInfoEmp(int id)
+{
+	Employee *e = _employees[Employee::getIndex(id, _employees)];
+	cout << endl;
+	cout << BOLD(FCYN("----------- INFO BOX ----------")) << endl;
+	cout << BOLD(FCYN("|")) << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Personnal ID: ") << e->getId() << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Name: ") << e->getFirstname() << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Lastname: ") << e->getName() << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Email: ") << e->getEmail() << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Zipcode: ") << e->getZipcode() << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Company: ") << e->getCompany().getName() << endl;
+	cout << BOLD(FCYN("-------------------------------")) << endl << endl;
+}
+
 void Cli::printMenu()
 {
     system("clear") ;
@@ -298,7 +313,7 @@ void Cli::printMenuEmployee(int id)
 	printHeader() ;
 	char choice;
 	cout << BOLD(FBLU("* Employee - Menu *")) << endl << endl ;
-	// printinfobox
+	printInfoEmp(id);
 	cout << UNDL("Your profile:") << endl;
 	cout << "1. Add a skill" << endl;
 	cout << "2. Add a colleague" << endl;

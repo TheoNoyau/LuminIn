@@ -35,6 +35,7 @@ class Cli {
     public:
         Cli(std::vector<Company*> &companies, std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobSeekers, std::vector<Job*> &jobs) ;
 
+        // Waits for input from user before going on
         void wait();
         void printHeader() ;
         void printQuitOrReturn() ;
@@ -43,7 +44,10 @@ class Cli {
         void printJobs(std::vector<Job*> &jobs) ;
         void printJobSeekers(std::vector<JobSeeker*> &jobSeekers) ;
 
+        // Box info
         void printInfoJS(int id);
+        void printInfoEmp(int id);
+
         // Create profile or login
         void printMenu();
         // 
