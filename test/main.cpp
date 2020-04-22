@@ -221,19 +221,19 @@ int main()
         // searchForOldColleagues with Company
         js3->addColleague(*(employees[1])) ;
         js3->addColleague(*(employees[2])) ;
-        vector<Employee*> oldColleagues = js3->searchForOldColleagues(employees, *(companies[0])) ;
+        vector<Employee*> oldColleagues = js3->searchForOldColleagues(*(companies[0])) ;
 
         TEST (!oldColleagues[0]->getFirstname().compare("Mickey")) ;
         TEST (!oldColleagues[1]->getFirstname().compare("Minnie")) ;
 
         // searchForOldColleagues with skills
         js3->addSkills({"C", "Python", "SQL"}) ;
-        vector<Employee*> oldColleagues2 = js3->searchForOldColleagues(employees, jobs) ;
+        vector<Employee*> oldColleagues2 = js3->searchForOldColleagues(jobs) ;
 
         TEST (Employee::getIndex(1, oldColleagues2) != - 1) ;
 
         js3->addSkills({"comedie", "gag"}) ;
-        oldColleagues2 = js3->searchForOldColleagues(employees, jobs) ;
+        oldColleagues2 = js3->searchForOldColleagues(jobs) ;
         TEST (Employee::getIndex(2, oldColleagues2) != - 1) ;
     }
 
@@ -306,19 +306,19 @@ int main()
         // searchForOldColleagues with Company
         e3->addColleague(*(employees[1])) ;
         e3->addColleague(*(employees[2])) ;
-        vector<Employee*> oldColleagues = e3->searchForOldColleagues(employees, *(companies[0])) ;
+        vector<Employee*> oldColleagues = e3->searchForOldColleagues(*(companies[0])) ;
 
         TEST (!oldColleagues[0]->getFirstname().compare("Mickey")) ;
         TEST (!oldColleagues[1]->getFirstname().compare("Minnie")) ;
 
         // searchForOldColleagues with skills
         e3->addSkills({"C", "Python", "SQL"}) ;
-        vector<Employee*> oldColleagues2 = e3->searchForOldColleagues(employees, jobs) ;
+        vector<Employee*> oldColleagues2 = e3->searchForOldColleagues(jobs) ;
 
         TEST (Employee::getIndex(1, oldColleagues2) != - 1) ;
 
         e3->addSkills({"comedie", "gag"}) ;
-        oldColleagues2 = e3->searchForOldColleagues(employees, jobs) ;
+        oldColleagues2 = e3->searchForOldColleagues(jobs) ;
         TEST (Employee::getIndex(2, oldColleagues2) != - 1) ;
     }
 

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 /* FOREGROUND */
 #define RST  "\x1B[0m"
@@ -34,6 +35,7 @@ class Cli {
     public:
         Cli(std::vector<Company*> &companies, std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobSeekers, std::vector<Job*> &jobs) ;
 
+        void wait();
         void printHeader() ;
         void printQuitOrReturn() ;
         void printCompanies(std::vector<Company*> &companies) ;
@@ -41,6 +43,7 @@ class Cli {
         void printJobs(std::vector<Job*> &jobs) ;
         void printJobSeekers(std::vector<JobSeeker*> &jobSeekers) ;
 
+        void printInfoJS(int id);
         // Create profile or login
         void printMenu();
         // 

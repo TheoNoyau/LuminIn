@@ -194,7 +194,7 @@ vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> sk
     return jobs ;
 }
 
-vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> &employees, Company &company)
+vector<Employee*> Employee::searchForOldColleagues(Company &company)
 {
     vector<Employee*> colleagues ;
 
@@ -205,7 +205,7 @@ vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> &employees,
     return colleagues ;
 }
 
-vector<Employee*> Employee::searchForOldColleagues(vector<Employee*> &employees, vector<Job*> &jobs)
+vector<Employee*> Employee::searchForOldColleagues(vector<Job*> &jobs)
 {
     vector<Employee*> colleagues ;
     vector<Job*> resJobs ;

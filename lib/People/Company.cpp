@@ -30,7 +30,7 @@ int Company::getIndex(const int id, vector<Company*> companies)
     return -1; 
 }
 
-std::vector<Company*> Company::getCompanies(std::string name, std::vector<Company*> &companies)
+vector<Company*> Company::getCompanies(string name, vector<Company*> &companies)
 {
     vector<Company*> res ;
 
@@ -92,6 +92,7 @@ void Company::updateProfile(vector<Company*> &list, string name, string zipcode,
 void Company::deleteProfile(vector<Company*> &list) 
 {
     list.erase(list.begin() + getIndex(_id, list));  
+    delete this;
 }
 
 void Company::createJob(vector<Job*> &list, string title, const vector<string> skills)

@@ -71,6 +71,11 @@ void JobSeeker::setId(vector<JobSeeker*> &list)
     _id = (int)list.size() + 1 ;
 }
 
+void JobSeeker::setZipcode(string zipcode)
+{
+    _zipcode = zipcode ;
+}
+
 void JobSeeker::createProfile(vector<JobSeeker*> &list)
 {
     // Giving an id to the object
@@ -148,7 +153,7 @@ vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> s
     return jobs ;
 }
 
-vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> &employees, Company &company)
+vector<Employee*> JobSeeker::searchForOldColleagues(Company &company)
 {
     vector<Employee*> colleagues ;
 
@@ -159,7 +164,7 @@ vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> &employees
     return colleagues ;
 }
 
-vector<Employee*> JobSeeker::searchForOldColleagues(vector<Employee*> &employees, vector<Job*> &jobs)
+vector<Employee*> JobSeeker::searchForOldColleagues(vector<Job*> &jobs)
 {
     vector<Employee*> colleagues ;
     vector<Job*> resJobs ;
