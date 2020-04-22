@@ -385,7 +385,22 @@ void Cli::printMenuJobSeeker(int id)
 			break;
 		}
 		case '5':{
-
+			system("clear");
+			cout << BOLD(FMAG("* Jobseeker - Delete Profile *")) << endl << endl ;
+			cout << BOLD("Are you sure you want to delete your profile? (y/n): ");
+			char choice; cin >> choice;
+			if (choice == 'y') {
+				_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->deleteProfile(_jobSeekers);
+				system("clear");
+				cout << BOLD(FRED("Succesfuly deleted your profile")) << endl;
+				wait();
+				printMenu();
+			} else if (choice == 'n') {
+				cout << BOLD(FGRN("Operation aborted")) << endl;
+				wait();
+				printMenuJobSeeker(id);
+			}
+			break;
 		}
 		case '6':{
 			system("clear");
