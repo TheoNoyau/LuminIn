@@ -65,12 +65,12 @@ class JobSeeker
 
     // Looks for old colleagues which are working in the company given as a parameter
     // Returns a vector of those colleagues
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, Company &company) ;
+    std::vector<Employee*> searchForOldColleagues (Company &company) ;
 
     // Looks for old colleagues with their company looking for people with the skills of the JobSeeker.
     // Needs the jobs vector because needs to know what the companies are looking for.
     // Returns a vector of those colleagues
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, std::vector<Job*> &jobs) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Job*> &jobs) ;
 
     // Operators overloading
     JobSeeker& operator= (const JobSeeker &js) ;

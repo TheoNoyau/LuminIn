@@ -71,12 +71,12 @@ class Employee
 
     // Searches for an old colleague given a company
     // Returns a list of Employee
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, Company &company) ;
+    std::vector<Employee*> searchForOldColleagues (Company &company) ;
 
     // Looks for old colleagues with their company looking for people with the skills of the Employee.
     // Needs the jobs vector because needs to know what the companies are looking for.
     // Returns a vector of those colleagues
-    std::vector<Employee*> searchForOldColleagues (std::vector<Employee*> &employees, std::vector<Job*> &jobs) ;
+    std::vector<Employee*> searchForOldColleagues (std::vector<Job*> &jobs) ;
 
     // Operators overloading
     Employee& operator= (const Employee &employee) ;
