@@ -98,7 +98,7 @@ void Cli::printLogin()
     system("clear");
 	printHeader();
 	cout << BOLD(FWHT("* Login *")) << endl << endl ;
-    int id;
+    int id, flag;
 	char choice;
     cout << "You are:" << endl;
     cout << "1. A Company" << endl;
@@ -110,15 +110,36 @@ void Cli::printLogin()
     cout << "Please enter your ID" << endl;
     cin >> id;
 	switch (choice) {
-		case '1':
-			printMenuCompany(id);
+		case '1': {
+			flag = Company::getIndex(id, _companies);
+			if (flag == -1) {
+				cout << endl;
+				cout << BOLD(FRED("No company corresponding to ID given, please try again")) << endl;
+				wait();
+				printLogin();
+			} else printMenuCompany(id); 
 			break;
-		case '2':
-			printMenuEmployee(id);
+		}
+		case '2': {
+			flag = Employee::getIndex(id, _employees);
+			if (flag == -1) {
+				cout << endl;
+				cout << BOLD(FRED("No employee corresponding to ID given, please try again")) << endl;
+				wait();
+				printLogin();
+			} else printMenuEmployee(id); 
 			break;
-		case '3':
-			printMenuJobSeeker(id);
+		}
+		case '3': {
+			flag = JobSeeker::getIndex(id, _jobSeekers);
+			if (flag == -1) {
+				cout << endl;
+				cout << BOLD(FRED("No jobseeker corresponding to ID given, please try again")) << endl;
+				wait();
+				printLogin();
+			} else printMenuJobSeeker(id); 
 			break;
+		}
 		case 'q':
 			return;
 		case 'r':
@@ -275,10 +296,10 @@ void Cli::printMenuJobSeeker(int id)
 	cout << "1. Add a skill" << endl;
 	cout << "2. Add a colleague" << endl;
 	cout << "3. Change zipcode" << endl;
-	cout << "4. Transition to jobseeker" << endl << endl;
+	cout << "4. Transition to jobseeker" << endl;
+	cout << "5. Delete profile" << endl << endl;
 	cout << UNDL("Search for jobs:") << endl;
-	cout << "5. Search by skills" << endl;
-	cout << "6. Search by skills and zipcode" << endl;
+	cout << "6. Search" << endl;
 	printQuitOrReturn();
 	cout << "Enter your choice: ";
 	cin >> choice;
@@ -364,6 +385,9 @@ void Cli::printMenuJobSeeker(int id)
 			break;
 		}
 		case '5':{
+
+		}
+		case '6':{
 			system("clear");
 			vector<Job*> jobs;
 			cout << BOLD(FMAG("* Jobseeker - Search for available jobs *")) << endl << endl ;
@@ -381,6 +405,7 @@ void Cli::printMenuJobSeeker(int id)
 				}
 				jobs = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForJobs(_jobs, skills);
 				if (jobs.size() == 0){
+					cout << endl;
 					cout << BOLD(FRED("No job offer corresponding to the set of skills you entered")) << endl;
 					wait();
 				}
@@ -396,11 +421,13 @@ void Cli::printMenuJobSeeker(int id)
 				cin >> zipcode; 
 				jobs = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForJobs(_jobs, skills, zipcode);
 				if (jobs.size() == 0) {
+					cout << endl;
 					cout << BOLD(FRED("No job offer corresponding to the set of skills and zipcode you entered")) << endl;
 					wait();
 				}
 				else printJobs(jobs);
 			} else {
+				cout << endl;
 				cout << BOLD(FRED("Error, please try again")) << endl;
 				wait();
 			}
@@ -413,7 +440,8 @@ void Cli::printMenuJobSeeker(int id)
 			printMenu();
 			break;
 		default:
-			cout << "Error, please try again" << endl;
+			cout << endl;
+			cout << BOLD(FRED("Error, please try again")) << endl;
 			wait();
 			printMenuJobSeeker(id);
 			break;
