@@ -92,6 +92,7 @@ void Company::updateProfile(vector<Company*> &list, string name, string zipcode,
 void Company::deleteProfile(vector<Company*> &list) 
 {
     list.erase(list.begin() + getIndex(_id, list));  
+    delete this;
 }
 
 void Company::createJob(vector<Job*> &list, string title, const vector<string> skills)
