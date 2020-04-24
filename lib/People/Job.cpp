@@ -49,6 +49,11 @@ void Job::setId(vector<Job*> &list)
     _id = (int)list.size() + 1; 
 }
 
+void Job::deleteJob(vector<Job*> jobs) {
+    jobs.erase(jobs.begin() + getIndex(_id, jobs));  
+    delete this;
+}
+
 Job& Job::operator= (const Job &job)
 {
     _id = job._id ;

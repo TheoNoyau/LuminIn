@@ -30,6 +30,9 @@ class Job
     void setId(int id);
     void setId(std::vector<Job*> &list);
 
+    // Deletes job profile from the list
+    void deleteJob(std::vector<Job*> jobs) ;
+
     // Operators overloading
     Job& operator= (const Job &job) ;
 

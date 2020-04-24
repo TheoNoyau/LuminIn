@@ -89,8 +89,14 @@ void Company::updateProfile(vector<Company*> &list, string name, string zipcode,
     // list[getIndex(_id, list)] = this;
 }
 
-void Company::deleteProfile(vector<Company*> &list) 
+void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs) 
 {
+    for (unsigned int i = 0; i < jobs.size(); i++) {
+        if (jobs[i]->getCompany().getId() == _id) {
+            jobs[i]->deleteJob(jobs) ;
+        }
+    }
+
     list.erase(list.begin() + getIndex(_id, list));  
     delete this;
 }

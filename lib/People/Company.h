@@ -34,14 +34,14 @@ class Company
     // Returns a vector of companies with the attribute given in the parameters
     static std::vector<Company*> getCompanies(std::string name, std::vector<Company*> &companies) ;
 
-    // Creates Company profile and adds it in the list and DB 
+    // Creates Company profile and adds it in the list 
     void createProfile(std::vector<Company*> &list) ;
 
     // Updates profile given a name, zipcode and email
     void updateProfile(std::vector<Company*> &list, std::string name, std::string zipcode, std::string email) ;
 
-    // Deletes Company profile from the list and DB
-    void deleteProfile(std::vector<Company*> &list) ;
+    // Deletes Company profile from the list and deletes all the jobs offers from the company
+    void deleteProfile(std::vector<Company*> &list, std::vector<Job*> &jobs) ;
 
     // Creates a job given a title and a list of skills
     void createJob(std::vector<Job*> &list, std::string title, const std::vector<std::string> skills) ;
