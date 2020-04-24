@@ -19,6 +19,17 @@ int Job::getIndex(const int id, vector<Job*> jobs)
     return -1; 
 }
 
+vector<Job*> Job::getJobs(string title, vector<Job*> &jobs)
+{
+    vector<Job*> res ;
+
+    for (unsigned int i = 0; i < jobs.size(); i++) {
+        if (!jobs[i]->getTitle().compare(title)) res.push_back(jobs[i]) ;
+    }
+
+    return res ;
+}
+
 int Job::getId ()
 {
     return _id ;

@@ -20,6 +20,9 @@ class Job
     // Returns a reference of the object with the right id
     static int getIndex(const int id, std::vector<Job*> jobs) ;
 
+    // Returns a vector of jobs with the attribute given in the parameters
+    static std::vector<Job*> getJobs(std::string title, std::vector<Job*> &jobs) ;
+
     // Accessors
     int getId () ;
     std::string getTitle () ;
