@@ -22,6 +22,12 @@ class Company
     std::string getZipcode () ;
     std::string getEmail () ;
 
+    // Returns a vector of the jobs offers from the company
+    std::vector<Job*> getJobs(std::vector<Job*>& jobs);
+
+    // Returns a vector of jobs of the company with the given title
+    std::vector<Job*> getJobs(std::vector<Job*>& jobs, std::string title);
+
     // Setter
     void setId(std::vector<Company*> &list);
     void setId(int id);
