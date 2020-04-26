@@ -176,10 +176,12 @@ void Cli::printLogin()
 		case 'r':
 			printMenu();
 			break;
-		default:
+		default: {
 			cout << "Error, please try again" << endl;
+			wait();
 			printMenu();
 			break;
+		}
 	}
 }
 
@@ -418,6 +420,7 @@ void Cli::printMenuEmployee(int id)
 			system("clear");
 			cout << BOLD(FMAG("* Employee - Transition *")) << endl << endl ;
 			cout << "All your current colleagues will be added to your list of colleagues." << endl;
+			cout << endl;
 			cout << BOLD("Are you sure you want to transition to Jobseeker status? (y/n): ");
 			char choice; cin >> choice;
 			if (choice == 'y') {
@@ -699,22 +702,24 @@ void Cli::printMenuJobSeeker(int id)
 			cout << "Search for the name of your new company: ";
 			cin >> cname;
 			companies = Company::getCompanies(cname, _companies);
-			if (companies.size() != 0){
+			if (companies.size() == 0){
+				cout << endl;
+				cout << BOLD(FRED("No company corresponding to your search")) << endl;
+				wait();
+				printMenuJobSeeker(id);
+			} else {
 				printCompanies(companies);
 				cout << "Enter the ID of your new company (see above): ";
 				cin >> cid;
 				Company *c = _companies[Company::getIndex(cid, _companies)];
 				Employee *e = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->jobSeekerToEmployee(_employees, _jobSeekers, *c);
 				cout << endl;
+				system("clear");
+				cout << e->getId() << endl;
 				cout << BOLD(FGRN("Succesfuly added you as an employee of ")) << "\x1B[1m" <<c->getName() << RST << BOLD(FGRN("!")) << endl;
 				wait();
 				printMenuEmployee(e->getId());
-			} else {
-				cout << endl;
-				cout << BOLD(FRED("No company corresponding to your search")) << endl;
-				wait();
 			}
-			printMenuJobSeeker(id);
 			break;
 		}
 		case '5':{
