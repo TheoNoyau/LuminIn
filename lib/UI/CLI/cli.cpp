@@ -833,22 +833,17 @@ void Cli::printMenuJobSeeker(int id)
 				if (flag == -1){
 					cout << endl;
 					cout << BOLD(FRED("ID not valid")) << endl;
-					wait();
-					printMenuJobSeeker(id);
 				} else {
 					Employee *e = _employees[flag];
 					_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->addColleague(*e);
 					cout << endl;
 					cout << BOLD(FGRN("Successfuly added ")) << "\x1B[1m" <<e->getFirstname() << RST << " " << "\x1B[1m" << e->getName() << RST << BOLD(FGRN(" as a colleague")) << endl;
-					wait();
-					printMenuJobSeeker(id);
-				}
-				
+				}	
 			} else {
 				cout << endl;
 				cout << BOLD(FRED("No name corresponding to your search")) << endl;
-				wait();
 			}
+			wait();
 			printMenuJobSeeker(id);
 			break;
 		}
@@ -935,8 +930,12 @@ void Cli::printMenuJobSeeker(int id)
 					cout << endl;
 					cout << BOLD(FRED("No job offer corresponding to the set of skills you entered")) << endl;
 					wait();
+					printMenuJobSeeker(id);
+				} else {
+					printJobs(jobs);
+					wait();
+					printMenuJobSeeker(id);
 				}
-				else printJobs(jobs);
 			} else if (choice == '2'){
 				vector<string> skills;
 				string skill, zipcode;
@@ -951,16 +950,19 @@ void Cli::printMenuJobSeeker(int id)
 					cout << endl;
 					cout << BOLD(FRED("No job offer corresponding to the set of skills and zipcode you entered")) << endl;
 					wait();
+				} else {
+					printJobs(jobs);
+					wait();
+					printMenuJobSeeker(id);
 				}
-				else printJobs(jobs);
 			} else if (choice == 'q') return;
 			else if (choice == 'r') printMenuJobSeeker(id);
 			else {
 				cout << endl;
 				cout << BOLD(FRED("Error, please try again")) << endl;
 				wait();
+				printMenuJobSeeker(id);
 			}
-			printMenuJobSeeker(id);
 			break;
 		}
 		case '7': {
@@ -991,18 +993,20 @@ void Cli::printMenuJobSeeker(int id)
 						cout << endl;
 						cout << BOLD(FRED("No company corresponding to ID given, please try again")) << endl;
 						wait();
+						printMenuJobSeeker(id);
 					} else {
 						Company *c = _companies[flag];
 						vector<Employee*> colleagues = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForOldColleagues(*c);
 						if (colleagues.size() == 0) {
 							cout << "You don't have any old colleagues working at " << c->getName() << endl;
 							wait();
+							printMenuJobSeeker(id);
 						} else {
 							cout << "Here is a list of your old colleagues working at " << c->getName() << ": " << endl << endl;
 							printEmployees(colleagues);
 							wait();
+							printMenuJobSeeker(id);
 						}
-						printMenuJobSeeker(id);
 					}
 				}
 			} else if (choice == '2'){
@@ -1010,12 +1014,13 @@ void Cli::printMenuJobSeeker(int id)
 				if (colleagues.size() == 0) {
 					cout << "Unfortunately, you don't have any old colleagues working at a Company looking for your skills" << endl;
 					wait();
+					printMenuJobSeeker(id);
 				} else {
 					cout << "Search results: " << endl;
 					printEmployees(colleagues);
 					wait();
+					printMenuJobSeeker(id);
 				}
-				printMenuJobSeeker(id);
 			} else if (choice == 'q') return;
 			else if (choice == 'r') printMenuJobSeeker(id);
 			else {
