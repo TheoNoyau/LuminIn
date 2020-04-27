@@ -44,6 +44,8 @@ class Cli {
         void printJobSeekers(std::vector<JobSeeker*> &jobSeekers) ;
 
         void printInfoJS(int id);
+        void printInfoComp(int id) ;
+
         // Create profile or login
         void printMenu();
         // 
