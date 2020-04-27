@@ -118,14 +118,14 @@ void JobSeeker::deleteProfile(vector<JobSeeker*> &list)
 vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> skills)
 {
     vector<Job*> jobs ;
-    bool flag = true ;
+    bool flag = false ;
 
     for (auto j : list) {
-        flag = true ;
+        flag = false ;
 
         // Checks wether the skills required for the jobs are in skills
         for (unsigned int i = 0; i < j->getSkills().size(); i++) {
-            flag = flag && (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
+            flag = flag || (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
         }
         if (flag) jobs.push_back(j) ;
     }
@@ -136,15 +136,15 @@ vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> s
 vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> skills, string zipcode)
 {
     vector<Job*> jobs ;
-    bool flag = true ;
+    bool flag = false ;
 
     for (auto j : list) {
-        flag = true ;
+        flag = false ;
 
         if (!j->getCompany().getZipcode().compare(zipcode)) {
             // Checks wether the skills required for the jobs are in skills
             for (unsigned int i = 0; i < j->getSkills().size(); i++) {
-                flag = flag && (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
+                flag = flag || (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
             }
             if (flag) jobs.push_back(j) ;
         }
