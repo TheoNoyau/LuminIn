@@ -294,7 +294,8 @@ int main()
 
         TEST (!resJobs1[0]->getTitle().compare("developpeur"));
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
-        TEST (resJobs2.size() == 0) ;
+
+        TEST (!resJobs2[0]->getTitle().compare("developpeur"));
 
         // searchForJobs with skills and zipcode 
         resJobs1 = e3->searchForJobs(jobs, {"Python", "SQL", "C"}, "75009") ;
