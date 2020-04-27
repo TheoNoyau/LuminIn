@@ -20,6 +20,9 @@ class Job
     // Returns a reference of the object with the right id
     static int getIndex(const int id, std::vector<Job*> jobs) ;
 
+    // Returns a vector of jobs with the attribute given in the parameters
+    static std::vector<Job*> getJobs(std::string title, std::vector<Job*> &jobs) ;
+
     // Accessors
     int getId () ;
     std::string getTitle () ;
@@ -29,6 +32,9 @@ class Job
     // Setter 
     void setId(int id);
     void setId(std::vector<Job*> &list);
+
+    // Deletes job profile from the list
+    void deleteJob(std::vector<Job*> jobs) ;
 
     // Operators overloading
     Job& operator= (const Job &job) ;

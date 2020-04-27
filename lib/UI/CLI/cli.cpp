@@ -81,6 +81,19 @@ void Cli::printInfoJS(int id)
 	cout << BOLD(FCYN("-------------------------------")) << endl << endl;
 }
 
+void Cli::printInfoComp(int id)
+{
+	Company *c = _companies[Company::getIndex(id, _companies)];
+	cout << endl;
+	cout << BOLD(FCYN("----------- INFO BOX ----------")) << endl;
+	cout << BOLD(FCYN("|")) << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Company ID: ") << c->getId() << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Name: ") << c->getName() << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Email: ") << c->getEmail() << endl;
+	cout << BOLD(FCYN("|")) << BOLD("Zipcode: ") << c->getZipcode() << endl;
+  cout << BOLD(FCYN("-------------------------------")) << endl << endl;
+}
+
 void Cli::printInfoEmp(int id)
 {
 	Employee *e = _employees[Employee::getIndex(id, _employees)];
@@ -306,7 +319,166 @@ void Cli::printMenuCreateProfileJS()
 
 void Cli::printMenuCompany(int id)
 {
+	system("clear");
+	printHeader() ;
+	char choice;
+	Company* c = _companies[Company::getIndex(id, _companies)] ;
+
+	string jobTitle, skill ;
+	int jobId, jobIndex;
+	vector<Job*> jobs ;
+	vector<string> skills;
+	string zipcode ;
+	vector<JobSeeker*> jobSeekers ;
+
+	cout << BOLD(FGRN("* Company - Menu*")) << endl << endl ;
+	printInfoComp(id);
+	cout << UNDL("Company management:") << endl;
+	cout << "1. Create job offer" << endl;
+	cout << "2. Delete job offer" << endl;
+	cout << "3. Company's job offers" << endl;
+	cout << "4. Delete profile" << endl << endl;
+	cout << UNDL("Search: ") << endl;
+	cout << "5. Search for job seekers" << endl;
+
+	printQuitOrReturn();
+	cout << "Enter your choice: ";
+	cin >> choice;
+
+	switch (choice) {
+		case '1': 
+			system("clear");
+			cout << BOLD(FGRN("* Company - Create Job Offer *")) << endl << endl ;
+
+			// Job Title
+			cout << "Job Title: " ;
+			cin >> jobTitle ;
+
+			// Job Skills
+			cout << "Enter skills required for the job: (type 'end' to quit)" << endl;
+			skills.clear() ;
+			while (cin >> skill && skill.compare("end")) {
+				skills.push_back(skill);
+				cout << "Added " << skill << " to list" << endl;
+			}
+			
+			// Job creation
+			c->createJob(_jobs, jobTitle, skills) ;
+			cout << endl;
+			cout << BOLD(FGRN("Job offer successfuly created")) << endl;
+			wait();
+			printMenuCompany(id);
+			break;
+		case '2': {
+			system("clear");
+			cout << BOLD(FGRN("* Company - Delete Job Offer *")) << endl << endl ;
+			cout << "Search for the title of the job offer: ";
+			cin >> jobTitle;
+			jobs = c->getJobs(_jobs, jobTitle) ;
+			if (jobs.size() != 0){
+				printJobs(jobs);
+				cout << "Enter the ID of the job offer from the list above: ";
+				cin >> jobId;
+
+				jobIndex = Job::getIndex(jobId, jobs);
+				if (jobIndex == -1) {
+					cout << endl;
+					cout << BOLD(FRED("No job offer corresponding to ID given, please try again")) << endl;
+					wait();
+					printMenuCompany(id);
+					break ;
+				}
+
+				c->deleteJob(_jobs, *(_jobs[jobIndex])) ;
+
+				cout << endl;
+				cout << BOLD(FGRN("Job offer successfuly deleted")) << endl;
+				wait();
+			} else {
+				cout << endl;
+				cout << BOLD(FRED("No job offer corresponding to your search")) << endl;
+				wait();
+			}
+			printMenuCompany(id);
+			break;
+		}
+		case '3': 
+			system("clear");
+			cout << BOLD(FGRN("* Company - Job Offers *")) << endl << endl ;
+			
+			jobs = c->getJobs(_jobs) ;
+			if (jobs.size() != 0) printJobs(jobs) ;
+			else cout << BOLD(FRED("You don't have any job offers at the moment")) << endl;
+
+			wait() ;
+			printMenuCompany(id) ;
+			break ;
+		
+		case '4': 
+			system("clear");
+			cout << BOLD(FGRN("* Company - Delete Company *")) << endl << endl ;
+			cout << BOLD("Are you sure you want to delete your company profile? (y/n): ");
+
+			cin >> choice;
+			if (choice == 'y') {
+				c->deleteProfile(_companies, _jobs);
+				system("clear");
+				cout << BOLD(FRED("Succesfuly deleted your company profile")) << endl;
+				wait();
+				printMenu();
+			} else if (choice == 'n') {
+				cout << endl;
+				cout << BOLD(FGRN("Operation aborted")) << endl;
+				wait();
+				printMenuCompany(id);
+			}
+			break;
+		
+		case '5': 
+			system("clear");
+			
+			cout << BOLD(FGRN("* Company - Search for job seekers *")) << endl << endl ;
+
+			// Skills search
+			skills.clear() ;
+			cout << "Enter skills required by job seekers you are looking for: (type 'end' to quit)" << endl;
+			while (cin >> skill && skill.compare("end")) {
+				skills.push_back(skill);
+				cout << "Added " << skill << " to list" << endl;
+			}
+
+			// Zipcode search
+			cout << "Enter zipcode (enter 'q' if you don't want to filter by zipcode): ";
+			cin >> zipcode ;
+
+			if (!zipcode.compare("q")) {
+				jobSeekers = c->searchForJobSeekers(_jobSeekers, skills) ;
+			} else {
+				jobSeekers = c->searchForJobSeekers(_jobSeekers, skills, zipcode) ;
+			}
+
+			if (jobSeekers.size() == 0) {
+				cout << endl;
+				cout << BOLD(FRED("No job seekers corresponding to the set of skills and/or zipcode you entered")) << endl;
+			} else printJobSeekers(jobSeekers) ;
+
+			wait();
+			printMenuCompany(id) ;
+
+			break;
 	
+		case 'q':
+			break;	
+		case 'r':
+			printMenu();
+			break;
+		default:
+			cout << endl;
+			cout << BOLD(FRED("Error, please try again")) << endl;
+			wait();
+			printMenuCompany(id);
+			break;
+	}
 }
 
 void Cli::printMenuEmployee(int id)

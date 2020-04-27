@@ -41,6 +41,30 @@ vector<Company*> Company::getCompanies(string name, vector<Company*> &companies)
     return res ;
 }
 
+vector<Job*> Company::getJobs(vector<Job*> &jobs) {
+    vector<Job*> res ;
+
+    for (unsigned int i = 0; i < jobs.size(); i++) {
+        if (jobs[i]->getCompany().getId() == _id) {
+            res.push_back(jobs[i]) ;
+        }
+    }
+
+    return res ;
+}
+
+vector<Job*> Company::getJobs(vector<Job*> &jobs, string title) {
+    vector<Job*> res ;
+
+    for (unsigned int i = 0; i < jobs.size(); i++) {
+        if (jobs[i]->getCompany().getId() == _id && !jobs[i]->getTitle().compare(title)) {
+            res.push_back(jobs[i]) ;
+        }
+    }
+
+    return res ;
+}
+
 int Company::getId ()
 {
     return _id ;
@@ -89,8 +113,14 @@ void Company::updateProfile(vector<Company*> &list, string name, string zipcode,
     // list[getIndex(_id, list)] = this;
 }
 
-void Company::deleteProfile(vector<Company*> &list) 
+void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs) 
 {
+    for (unsigned int i = 0; i < jobs.size(); i++) {
+        if (jobs[i]->getCompany().getId() == _id) {
+            deleteJob(jobs, *(jobs[i])) ;
+        }
+    }
+
     list.erase(list.begin() + getIndex(_id, list));  
     delete this;
 }
@@ -103,10 +133,14 @@ void Company::createJob(vector<Job*> &list, string title, const vector<string> s
 
     // Add it to list of Jobs
     list.push_back(newJob);
+
+    // Add it to company's list of jobs
+    _jobs.push_back(newJob);
 }
 
 void Company::deleteJob(vector<Job*> &list, Job &j) 
 {
+    // Delete from the global vector
     list.erase(list.begin() + Job::getIndex(j.getId(), list));
 }
 

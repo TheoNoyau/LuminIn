@@ -46,6 +46,7 @@ class Cli {
 
         // Box info
         void printInfoJS(int id);
+        void printInfoComp(int id) ;
         void printInfoEmp(int id);
 
         // Create profile or login
