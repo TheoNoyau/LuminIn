@@ -383,6 +383,24 @@ int main()
         // Francois should be in relevantJs even if it has only one skill in common with the skill given in parameters
         relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python"});
         TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+
+        // Tests to check order: the job seekers having the most skills in common must be in the first indexes
+        vector<Employee*> jsColleagues ;
+        jsColleagues.push_back(employees[0]) ;
+        
+        JobSeeker* jsTest1 = new JobSeeker("TEST1", "t1", "test@test.fr", "09100", {"A"}, jsColleagues) ;
+        jsTest1->createProfile(jobSeekers);
+
+        JobSeeker* jsTest2 = new JobSeeker("TEST2", "t2", "test@test.fr", "09100", {"A", "C", "B"}, jsColleagues) ;
+        jsTest2->createProfile(jobSeekers);
+
+        JobSeeker* jsTest3 = new JobSeeker("TEST3", "t3", "test@test.fr", "09100", {"C", "B"}, jsColleagues) ;
+        jsTest3->createProfile(jobSeekers);
+
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"A", "B", "C"});
+        TEST(relevantJs[0]->getId() == jsTest2->getId()) ;
+        TEST(relevantJs[3]->getId() == jsTest2->getId()) ;
+        TEST(relevantJs[2]->getId() == jsTest2->getId()) ;
     }
 
     // Save data to make it persistent
