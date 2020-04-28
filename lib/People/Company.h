@@ -55,11 +55,11 @@ class Company
     // Deletes a job
     void deleteJob(std::vector<Job*> &list, Job &j) ;
 
-    // Searches for relevant job seekers given a list of skills
+    // Searches for relevant job seekers given a list of skills (at least one skill in common)
     // Returns a list of JobSeeker
     std::vector<JobSeeker*> searchForJobSeekers(std::vector<JobSeeker*> &list, std::vector<std::string> skills) ;
 
-    // Searches for relevant job seekers given a list of skills and a zipcode
+    // Searches for relevant job seekers given a list of skills (at least one skill in common) and a zipcode
     // Returns a list of JobSeeker
     std::vector<JobSeeker*> searchForJobSeekers(std::vector<JobSeeker*> &list, std::vector<std::string> skills, std::string zipcode) ;
 

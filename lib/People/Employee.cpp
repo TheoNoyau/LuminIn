@@ -164,7 +164,7 @@ vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> sk
     for (auto j : list) {
         flag = false ;
 
-        // Checks wether the skills required for the jobs are in skills
+        // Checks wether there are skills in common between skills and j->getSkills
         for (unsigned int i = 0; i < j->getSkills().size(); i++) {
             flag = flag || (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
         }
@@ -183,7 +183,7 @@ vector<Job*> Employee::searchForJobs(vector<Job*> &list, const vector<string> sk
         flag = false ;
 
         if (!j->getCompany().getZipcode().compare(zipcode)) {
-            // Checks wether the skills required for the jobs are in skills
+            // Checks wether there are skills in common between skills and j->getSkills
             for (unsigned int i = 0; i < j->getSkills().size(); i++) {
                 flag = flag || (find(skills.begin(), skills.end(), j->getSkills()[i]) != skills.end()) ;
             }

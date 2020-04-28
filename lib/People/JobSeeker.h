@@ -55,11 +55,11 @@ class JobSeeker
     // Deletes the JobSeeker profile in the list and in the database table
     void deleteProfile(std::vector<JobSeeker*> &list) ;
 
-    // Looks for all the jobs according to a vector of skills
+    // Looks for all the jobs according to a vector of skills (at least one skill in common)
     // Returns a vector of the Jobs corresponding 
     std::vector<Job*> searchForJobs(std::vector<Job*> &list, const std::vector<std::string> skills) ;
 
-    // Looks for all the jobs according to a vector of skills and a zipcode
+    // Looks for all the jobs according to a vector of skills (at least one skill in common) and a zipcode
     // Returns a vector of the Jobs corresponding
     std::vector<Job*> searchForJobs(std::vector<Job*> &list, const std::vector<std::string> skills, std::string zipcode) ;
 

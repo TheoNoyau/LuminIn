@@ -147,21 +147,17 @@ void Company::deleteJob(vector<Job*> &list, Job &j)
 vector<JobSeeker*> Company::searchForJobSeekers(vector<JobSeeker*> &list, vector<string> skills)
 {
     vector<JobSeeker*> js ;
-    sort(skills.begin(), skills.end());
-     
-    for (JobSeeker* newjs : list){
-        vector<string> jsSkills = newjs->getSkills();
-        sort(jsSkills.begin(), jsSkills.end());
-        // Iterate only with smallest list size
-        int n = min(jsSkills.size(), skills.size());
-        int count = 0;
-        for (int j = 0; j < n; j++){
-            if (skills[j].compare(jsSkills[j]) == 0) count++;
-        }
-        // If all skill requirements are met, add JobSeeker to list
-        if (count == (int)skills.size()) js.push_back(newjs);
-    }
+    vector<string> jsSkills ;
+    bool flag = false ;
 
+    for (auto newJs : list) {
+        // Checks wether there are skills in common between skills and newJs->getSkills
+        for (unsigned int i = 0; i < newJs->getSkills().size(); i++) {
+            flag = flag || (find(skills.begin(), skills.end(), newJs->getSkills()[i]) != skills.end()) ;
+        }
+        if (flag) js.push_back(newJs) ;
+    }
+     
     return js ;
 }
 
