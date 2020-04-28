@@ -16,6 +16,11 @@ Cli::Cli(vector<Company*> &companies, vector<Employee*> &employees, vector<JobSe
 
 }
 
+void setLogPath(std::string path)
+{
+	_logpath = path;
+}
+
 void Cli::wait()
 {
 	cout << "Press 'q' to continue..." << endl;

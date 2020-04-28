@@ -35,6 +35,7 @@ class Cli {
     public:
         Cli(std::vector<Company*> &companies, std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobSeekers, std::vector<Job*> &jobs) ;
 
+        void setLogPath(std::string path);
         // Waits for input from user before going on
         void wait();
         void printHeader() ;
@@ -96,6 +97,7 @@ class Cli {
         std::vector<Employee*> &_employees ;
         std::vector<JobSeeker*> &_jobSeekers ;
         std::vector<Job*> &_jobs ;
+        std::string _logpath;
 } ;
 
 #endif
