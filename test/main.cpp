@@ -362,11 +362,15 @@ int main()
 
         // Not ordered list of skills
         relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
-        TEST(relevantJs.size() == 1);
-        TEST(!relevantJs[0]->getFirstname().compare("Francois"));
+        TEST(relevantJs.size() >= 1);
+        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
-        // No profile matching
-        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Java","Sportif"});
+        // More skills than needed
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C",});
+        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+
+        // No matching
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Rigoureux","Sportif"});
         TEST(relevantJs.size() == 0);
     
         // Test for search with zipcode
@@ -374,10 +378,11 @@ int main()
         TEST(relevantJs.size() == 0);
 
         relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
-        TEST(relevantJs.size() == 1);
-        TEST(!relevantJs[0]->getFirstname().compare("Francois"));
+        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
-
+        // Francois should be in relevantJs even if it has only one skill in common with the skill given in parameters
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python"});
+        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
     }
 
     // Save data to make it persistent
