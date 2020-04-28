@@ -1,0 +1,3 @@
+[2020/04/28 12:30:35] getTimeAndDate() was called with arguments [1, 2].
+[2020/04/28 12:30:35] getTimeAndDate() was called.
+[2020/04/28 12:30:35] getTimeAndDate() was called with argument [banane].

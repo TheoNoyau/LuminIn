@@ -4,6 +4,7 @@
 #include "People/Employee.h"
 #include "People/JobSeeker.h"
 #include "People/Job.h"
+#include "Journal/journal.h"
 
 #include <iostream>
 #include <vector>
@@ -14,6 +15,11 @@ using namespace std ;
 Cli::Cli(vector<Company*> &companies, vector<Employee*> &employees, vector<JobSeeker*> &jobSeekers, vector<Job*> &jobs) : _companies(companies), _employees(employees), _jobSeekers(jobSeekers), _jobs(jobs)
 {
 
+}
+
+void Cli::setLogPath(std::string path)
+{
+	_logpath = path;
 }
 
 void Cli::wait()
@@ -248,6 +254,11 @@ void Cli::printMenuCreateProfileComp()
 	cin >> email ;
 
 	Company *c = new Company(name, zipcode, email) ;
+
+	// Logging action
+	vector<string> args{"vector<Company*> _companies"};
+	logger(_logpath, "Company.createProfile", args);
+
 	c->createProfile(_companies) ;
 	printMenuCompany(c->getId());
 }
@@ -286,6 +297,11 @@ void Cli::printMenuCreateProfileEmp()
 	companyIndex = Company::getIndex(idCompany, _companies) ;
 	Company *c = _companies[companyIndex] ;
 	Employee *e = new Employee(name, firstname, email, zipcode, skills, colleagues, *c) ;
+
+	// Logging action 
+	vector<string> args{"vector<Employee*> _employees"};
+	logger(_logpath, "Employee.createProfile", args);
+
 	e->createProfile(_employees) ;
 	printMenuEmployee(e->getId()) ;
 }
@@ -311,6 +327,9 @@ void Cli::printMenuCreateProfileJS()
 		cout << skill << " has been added to your skills" << endl ;
 		skills.push_back(skill);
 	}
+	// Logging action 
+	vector<string> args{"vector<JobSeeker*> _jobSeekers"};
+	logger(_logpath, "JobSeeker.createProfile", args);
 
 	JobSeeker *js = new JobSeeker(name, firstname, email, zipcode, skills, colleagues);
 	js->createProfile(_jobSeekers);
@@ -361,9 +380,15 @@ void Cli::printMenuCompany(int id)
 				skills.push_back(skill);
 				cout << "Added " << skill << " to list" << endl;
 			}
-			
+			// Logging action
+			{ 
+				vector<string> args{"vector<Job*> _jobs", "string "+ jobTitle, "vector<string> skills"};
+				logger(_logpath, "Company.createJob", args);
+			}
+
 			// Job creation
 			c->createJob(_jobs, jobTitle, skills) ;
+
 			cout << endl;
 			cout << BOLD(FGRN("Job offer successfuly created")) << endl;
 			wait();
@@ -374,6 +399,13 @@ void Cli::printMenuCompany(int id)
 			cout << BOLD(FGRN("* Company - Delete Job Offer *")) << endl << endl ;
 			cout << "Search for the title of the job offer: ";
 			cin >> jobTitle;
+
+			// Logging action 
+			{
+				vector<string> args{"vector<Job*> _jobs", "string '"+ jobTitle+"'"};
+				logger(_logpath, "Company.getJobs", args);
+			}
+
 			jobs = c->getJobs(_jobs, jobTitle) ;
 			if (jobs.size() != 0){
 				printJobs(jobs);
@@ -388,9 +420,13 @@ void Cli::printMenuCompany(int id)
 					printMenuCompany(id);
 					break ;
 				}
+				// Logging action
+				{ 
+					vector<string> args{"vector<Job*> _jobs", "Job '"+_jobs[jobIndex]->getTitle()+"'"};
+					logger(_logpath, "Company.deleteJob", args);
+				}
 
 				c->deleteJob(_jobs, *(_jobs[jobIndex])) ;
-
 				cout << endl;
 				cout << BOLD(FGRN("Job offer successfuly deleted")) << endl;
 				wait();
@@ -421,6 +457,12 @@ void Cli::printMenuCompany(int id)
 
 			cin >> choice;
 			if (choice == 'y') {
+				// Logging action
+				{ 
+					vector<string> args{"vector<Company*> _companies", "vector<Job*> _jobs"};
+					logger(_logpath, "Company.deleteProfile", args);
+				}
+
 				c->deleteProfile(_companies, _jobs);
 				system("clear");
 				cout << BOLD(FRED("Succesfuly deleted your company profile")) << endl;
@@ -452,8 +494,20 @@ void Cli::printMenuCompany(int id)
 			cin >> zipcode ;
 
 			if (!zipcode.compare("q")) {
+				// Logging action
+				{ 
+					vector<string> args{"vector<JobSeeker*> _jobSeekers", "vector<string> skills"};
+					logger(_logpath, "Company.searchForJobSeekers", args);
+				}
+
 				jobSeekers = c->searchForJobSeekers(_jobSeekers, skills) ;
 			} else {
+				// Logging action
+				{ 
+					vector<string> args{"vector<JobSeeker*> _jobSeekers", "vector<string> skills", "string '"+zipcode+"'"};
+					logger(_logpath, "Company.searchForJobSeekers", args);
+				}
+
 				jobSeekers = c->searchForJobSeekers(_jobSeekers, skills, zipcode) ;
 			}
 
@@ -512,6 +566,12 @@ void Cli::printMenuEmployee(int id)
 				skills.push_back(skill);
 				cout << "Added " << skill << " to list" << endl;
 			}
+			// Logging action
+			{ 
+				vector<string> args{"vector<string> skills"};
+				logger(_logpath, "Employee.addSkills", args);
+			}
+
 			_employees[Employee::getIndex(id, _employees)]->addSkills(skills);
 			cout << endl;
 			cout << BOLD(FGRN("Successfuly added skills")) << endl;
@@ -538,6 +598,13 @@ void Cli::printMenuEmployee(int id)
 					cout << BOLD(FRED("ID not valid")) << endl;
 				} else {
 					Employee *e = _employees[flag];
+
+					// Logging action
+					{ 
+						vector<string> args{"Employee '"+e->getName()+"'"};
+						logger(_logpath, "Employee.addColleague", args);
+					}
+
 					_employees[Employee::getIndex(id, _employees)]->addColleague(*e);
 					cout << endl;
 					cout << BOLD(FGRN("Successfuly added ")) << "\x1B[1m" << e->getFirstname() << RST << " " << "\x1B[1m" << e->getName() << RST << BOLD(FGRN(" as a colleague")) << endl;
@@ -556,11 +623,18 @@ void Cli::printMenuEmployee(int id)
 			string zipcode;
 			cout << "Enter new zipcode: ";
 			cin >> zipcode;
+
+			// Logging action
+			{ 
+				vector<string> args{"string '"+zipcode+"'"};
+				logger(_logpath, "Employee.setZipCode", args);
+			}
+
 			_employees[Employee::getIndex(id, _employees)]->setZipcode(zipcode);
 			cout << endl;
 			cout << BOLD(FGRN("Succesfuly updated your zipcode")) << endl;
 			wait();
-			printMenuJobSeeker(id);
+			printMenuEmployee(id);
 			break;
 		}
 		case '4':{
@@ -577,6 +651,13 @@ void Cli::printMenuEmployee(int id)
 				cout << "Enter the ID of your new company (see above): ";
 				cin >> cid;
 				Company *c = _companies[Company::getIndex(cid, _companies)];
+
+				// Logging action
+				{ 
+					vector<string> args{"Company '"+c->getName()+"'"};
+					logger(_logpath, "Employee.setCompany", args);
+				}
+
 				_employees[Employee::getIndex(id, _employees)]->setCompany(*c);
 				cout << endl;
 				cout << BOLD(FGRN("Succesfuly added you as an employee of ")) << "\x1B[1m" << c->getName() << RST << BOLD(FGRN("!")) << endl;
@@ -596,6 +677,12 @@ void Cli::printMenuEmployee(int id)
 			cout << BOLD("Are you sure you want to transition to Jobseeker status? (y/n): ");
 			char choice; cin >> choice;
 			if (choice == 'y') {
+				// Logging action
+				{ 
+					vector<string> args{"vector<Employee*> _employees", "vector<JobSeeker*> _jobSeekers"};
+					logger(_logpath, "Employee.employeeToJobSeeker", args);
+				}
+
 				JobSeeker *js = _employees[Employee::getIndex(id, _employees)]->employeeToJobSeeker(_employees, _jobSeekers);
 				system("clear");
 				cout << BOLD(FGRN("Succesfuly transitioned to Jobseeker status")) << endl;
@@ -615,6 +702,12 @@ void Cli::printMenuEmployee(int id)
 			cout << BOLD("Are you sure you want to delete your profile? (y/n): ");
 			char choice; cin >> choice;
 			if (choice == 'y') {
+				// Logging action
+				{ 
+					vector<string> args{"vector<Employee*> _employees"};
+					logger(_logpath, "Employee.deleteProfile", args);
+				}
+
 				_employees[Employee::getIndex(id, _employees)]->deleteProfile(_employees);
 				system("clear");
 				cout << BOLD(FRED("Succesfuly deleted your profile")) << endl;
@@ -646,6 +739,13 @@ void Cli::printMenuEmployee(int id)
 					while(cin >> skill && skill.compare("end")){
 						skills.push_back(skill);
 					}
+
+					// Logging action
+					{ 
+						vector<string> args{"vector<Job*> _jobs", "vector<string> skills"};
+						logger(_logpath, "Employee.searchForJobs", args);
+					}
+
 					jobs = _employees[Employee::getIndex(id, _employees)]->searchForJobs(_jobs, skills);
 					if (jobs.size() == 0){
 						cout << endl;
@@ -665,7 +765,14 @@ void Cli::printMenuEmployee(int id)
 					}
 					cout << endl;
 					cout << "Enter the zipcode area you want to search for: ";
-					cin >> zipcode; 
+					cin >> zipcode;
+
+					// Logging action
+					{ 
+						vector<string> args{"vector<Job*> _jobs", "vector<string> skills", "string '"+zipcode+"'"};
+						logger(_logpath, "Employee.searchForJobs", args);
+					}
+
 					jobs = _employees[Employee::getIndex(id, _employees)]->searchForJobs(_jobs, skills, zipcode);
 					if (jobs.size() == 0) {
 						cout << endl;
@@ -722,7 +829,14 @@ void Cli::printMenuEmployee(int id)
 							cout << BOLD(FRED("No company corresponding to ID given, please try again")) << endl;
 						} else {
 							Company *c = _companies[flag];
-							vector<Employee*> colleagues = _employees[Employee::getIndex(id, _employees)]->searchForOldColleagues(*c);
+
+							// Logging action
+							{ 
+								vector<string> args{"Company '"+c->getName()+"'"};
+								logger(_logpath, "Employee.searchForOldColleagues", args);
+							}
+
+							vector<Employee*> colleagues = _employees[Employee::getIndex(id, _employees)]->searchForOldColleagues(*c);							
 							if (colleagues.size() == 0) {
 								cout << "You don't have any old colleagues working at " << c->getName() << endl;
 							} else {
@@ -736,7 +850,13 @@ void Cli::printMenuEmployee(int id)
 					break;	
 				}
 				case '2': {
-					vector<Employee*> colleagues = _employees[Employee::getIndex(id, _employees)]->searchForOldColleagues(_jobs); 
+					// Logging action
+					{ 
+						vector<string> args{"vector<Job*> _jobs"};
+						logger(_logpath, "Employee.searchForOldColleagues", args);
+					} 
+
+					vector<Employee*> colleagues = _employees[Employee::getIndex(id, _employees)]->searchForOldColleagues(_jobs);
 					if (colleagues.size() == 0) {
 						cout << "Unfortunately, you don't have any old colleagues working at a Company looking for your personnal set of skills" << endl;
 					} else {
@@ -809,6 +929,12 @@ void Cli::printMenuJobSeeker(int id)
 				skills.push_back(skill);
 				cout << "Added " << skill << " to list" << endl;
 			}
+			// Logging action
+			{ 
+				vector<string> args{"vector<string> skills"};
+				logger(_logpath, "JobSeeker.addSkills", args);
+			}
+
 			_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->addSkills(skills);
 			cout << endl;
 			cout << BOLD(FGRN("Successfuly added skills")) << endl;
@@ -835,6 +961,13 @@ void Cli::printMenuJobSeeker(int id)
 					cout << BOLD(FRED("ID not valid")) << endl;
 				} else {
 					Employee *e = _employees[flag];
+
+					// Logging action
+					{ 
+						vector<string> args{"Employee '"+e->getName()+"'"};
+						logger(_logpath, "JobSeeker.addColleague", args);
+					}
+
 					_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->addColleague(*e);
 					cout << endl;
 					cout << BOLD(FGRN("Successfuly added ")) << "\x1B[1m" <<e->getFirstname() << RST << " " << "\x1B[1m" << e->getName() << RST << BOLD(FGRN(" as a colleague")) << endl;
@@ -853,6 +986,13 @@ void Cli::printMenuJobSeeker(int id)
 			string zipcode;
 			cout << "Enter new zipcode: ";
 			cin >> zipcode;
+
+			// Logging action
+			{ 
+				vector<string> args{"string '"+zipcode+"'"};
+				logger(_logpath, "JobSeeker.setZipCode", args);
+			}
+
 			_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->setZipcode(zipcode);
 			cout << endl;
 			cout << BOLD(FGRN("Succesfuly updated your zipcode")) << endl;
@@ -879,6 +1019,13 @@ void Cli::printMenuJobSeeker(int id)
 				cout << "Enter the ID of your new company (see above): ";
 				cin >> cid;
 				Company *c = _companies[Company::getIndex(cid, _companies)];
+
+				// Logging action
+				{ 
+					vector<string> args{"vector<Employee*> _employees", "vector<JobSeeker*> _jobSeekers", "Company '"+c->getName()+"'"};
+					logger(_logpath, "JobSeeker.jobSeekerToEmployee", args);
+				}
+
 				Employee *e = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->jobSeekerToEmployee(_employees, _jobSeekers, *c);
 				cout << endl;
 				system("clear");
@@ -895,6 +1042,12 @@ void Cli::printMenuJobSeeker(int id)
 			cout << BOLD("Are you sure you want to delete your profile? (y/n): ");
 			char choice; cin >> choice;
 			if (choice == 'y') {
+				// Logging action
+				{ 
+					vector<string> args{"vector<JobSeeker*> _jobSeekers"};
+					logger(_logpath, "JobSeeker.deleteProfile", args);
+				}
+
 				_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->deleteProfile(_jobSeekers);
 				system("clear");
 				cout << BOLD(FRED("Succesfuly deleted your profile")) << endl;
@@ -925,6 +1078,13 @@ void Cli::printMenuJobSeeker(int id)
 				while(cin >> skill && skill.compare("end")){
 					skills.push_back(skill);
 				}
+
+				// Logging action
+				{ 
+					vector<string> args{"vector<Job*> _jobs", "vector<string> skills"};
+					logger(_logpath, "JobSeeker.searchForJobs", args);
+				}
+
 				jobs = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForJobs(_jobs, skills);
 				if (jobs.size() == 0){
 					cout << endl;
@@ -945,6 +1105,13 @@ void Cli::printMenuJobSeeker(int id)
 				}
 				cout << "Enter the zipcode area you want to search for: ";
 				cin >> zipcode; 
+
+				// Logging action
+				{ 
+					vector<string> args{"vector<Job*> _jobs", "vector<string> skills", "string '"+zipcode+"'"};
+					logger(_logpath, "JobSeeker.searchForJobs", args);
+				}
+
 				jobs = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForJobs(_jobs, skills, zipcode);
 				if (jobs.size() == 0) {
 					cout << endl;
@@ -996,6 +1163,13 @@ void Cli::printMenuJobSeeker(int id)
 						printMenuJobSeeker(id);
 					} else {
 						Company *c = _companies[flag];
+
+						// Logging action
+						{ 
+							vector<string> args{"Company '"+c->getName()+"'"};
+							logger(_logpath, "JobSeeker.searchForOldColleagues", args);
+						}
+
 						vector<Employee*> colleagues = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForOldColleagues(*c);
 						if (colleagues.size() == 0) {
 							cout << "You don't have any old colleagues working at " << c->getName() << endl;
@@ -1010,6 +1184,12 @@ void Cli::printMenuJobSeeker(int id)
 					}
 				}
 			} else if (choice == '2'){
+				// Logging action
+				{ 
+					vector<string> args{"vector<Job*> _jobs"};
+					logger(_logpath, "JobSeeker.searchForOldColleagues", args);
+				} 
+					
 				vector<Employee*> colleagues = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->searchForOldColleagues(_jobs); 
 				if (colleagues.size() == 0) {
 					cout << "Unfortunately, you don't have any old colleagues working at a Company looking for your skills" << endl;

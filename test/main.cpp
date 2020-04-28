@@ -3,6 +3,7 @@
 #include "People/Job.h"
 #include "People/Company.h"
 #include "DB/BDD.h"
+#include "Journal/journal.h"
 
 #include <vector>
 #include <string>
@@ -376,6 +377,15 @@ int main()
         TEST(!relevantJs[0]->getFirstname().compare("Francois"));
 
 
+    }
+    // Logger testing
+    {
+        vector<string> args{"1","2"};
+        logger("test/log/log.txt", "getTimeAndDate", args);
+        vector<string> args2{};
+        logger("test/log/log.txt", "getTimeAndDate", args2);
+        vector<string> args3{"banane"};
+        logger("test/log/log.txt", "getTimeAndDate", args3);
     }
 
     // Save data to make it persistent
