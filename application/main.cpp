@@ -20,6 +20,7 @@ int main ()
 
     // App
     Cli app(companies, employees, jobSeekers, jobs);
+    app.setLogPath("application/log/log.txt");
     app.printMenu() ;
 
     // Save data to make it persistent
