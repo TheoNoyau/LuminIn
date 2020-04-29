@@ -219,6 +219,23 @@ int main()
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
         TEST (resJobs2.size() == 0) ;
 
+        // Tests to check order: the jobs having the most skills in common must be in the first indexes
+        Company* compTest = new Company("Company Test", "09700", "company-test@test.fr") ;
+        compTest->createProfile(companies) ;
+
+        compTest->createJob(jobs, "JobTest1", {"B", "E"}) ;
+        compTest->createJob(jobs, "JobTest2", {"D", "B", "A"}) ;
+        compTest->createJob(jobs, "JobTest3", {"A", "D", "E"}) ;
+
+        resJobs1 = js3->searchForJobs(jobs, {"A", "B", "D"}) ;
+
+        TEST(resJobs1.size() == 3) ;
+        TEST(!resJobs1[0]->getTitle().compare("JobTest2")) ;
+        TEST(!resJobs1[1]->getTitle().compare("JobTest3")) ;
+        TEST(!resJobs1[2]->getTitle().compare("JobTest1")) ;
+
+        compTest->deleteProfile(companies, jobs) ; // Deletes all the jobs with it
+
         // searchForOldColleagues with Company
         js3->addColleague(*(employees[1])) ;
         js3->addColleague(*(employees[2])) ;
@@ -305,6 +322,23 @@ int main()
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
         TEST (resJobs2.size() == 0) ;
 
+        // Tests to check order: the jobs having the most skills in common must be in the first indexes
+        Company* compTest = new Company("Company Test", "09700", "company-test@test.fr") ;
+        compTest->createProfile(companies) ;
+
+        compTest->createJob(jobs, "JobTest1", {"B", "E"}) ;
+        compTest->createJob(jobs, "JobTest2", {"D", "B", "A"}) ;
+        compTest->createJob(jobs, "JobTest3", {"A", "D", "E"}) ;
+
+        resJobs1 = e3->searchForJobs(jobs, {"A", "B", "D"}) ;
+
+        TEST(resJobs1.size() == 3) ;
+        TEST(!resJobs1[0]->getTitle().compare("JobTest2")) ;
+        TEST(!resJobs1[1]->getTitle().compare("JobTest3")) ;
+        TEST(!resJobs1[2]->getTitle().compare("JobTest1")) ;
+
+        compTest->deleteProfile(companies, jobs) ; // Deletes all the jobs with it
+
         // searchForOldColleagues with Company
         e3->addColleague(*(employees[1])) ;
         e3->addColleague(*(employees[2])) ;
@@ -355,35 +389,35 @@ int main()
         // polytech->deleteJob(jobs, jobs[2]);
 
         // searchForJobSeekers
-         vector<JobSeeker*> relevantJs ;//= polytech->searchForJobSeekers(jobSeekers, {"comedie"});
-        // TEST(relevantJs.size() >= 2);
-        // TEST(JobSeeker::getIndex(1, relevantJs) != -1);
-        // TEST(JobSeeker::getIndex(3, relevantJs) != -1);
-        // TEST(JobSeeker::getIndex(2, relevantJs) == -1);
+         vector<JobSeeker*> relevantJs = polytech->searchForJobSeekers(jobSeekers, {"comedie"});
+        TEST(relevantJs.size() >= 2);
+        TEST(JobSeeker::getIndex(1, relevantJs) != -1);
+        TEST(JobSeeker::getIndex(3, relevantJs) != -1);
+        TEST(JobSeeker::getIndex(2, relevantJs) == -1);
 
-        // // Not ordered list of skills
-        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
-        // TEST(relevantJs.size() >= 1);
-        // TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+        // Not ordered list of skills
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
+        TEST(relevantJs.size() >= 1);
+        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
-        // // More skills than needed
-        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C",});
-        // TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+        // More skills than needed
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C",});
+        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
-        // // No matching
-        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Rigoureux","Sportif"});
-        // TEST(relevantJs.size() == 0);
+        // No matching
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Rigoureux","Sportif"});
+        TEST(relevantJs.size() == 0);
     
-        // // Test for search with zipcode
-        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "31300");
-        // TEST(relevantJs.size() == 0);
+        // Test for search with zipcode
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "31300");
+        TEST(relevantJs.size() == 0);
 
-        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
-        // TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
+        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
-        // // Francois should be in relevantJs even if it has only one skill in common with the skill given in parameters
-        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python"});
-        // TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+        // Francois should be in relevantJs even if it has only one skill in common with the skill given in parameters
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python"});
+        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
         // Tests to check order: the job seekers having the most skills in common must be in the first indexes
         vector<Employee*> jsColleagues ;
