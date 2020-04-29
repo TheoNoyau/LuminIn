@@ -147,18 +147,27 @@ void Company::deleteJob(vector<Job*> &list, Job &j)
 vector<JobSeeker*> Company::searchForJobSeekers(vector<JobSeeker*> &list, vector<string> skills)
 {
     vector<JobSeeker*> js ;
-    vector<string> jsSkills ;
-    bool flag = false ;
+    vector<pair<int, JobSeeker*>> jsAndSkills ;
+
+    bool found ;
+    int size = 0 ;
 
     for (auto newJs : list) {
-        flag = false ;
+        size = 0 ;
 
         // Checks wether there are skills in common between skills and newJs->getSkills
         for (unsigned int i = 0; i < newJs->getSkills().size(); i++) {
-            flag = flag || (find(skills.begin(), skills.end(), newJs->getSkills()[i]) != skills.end()) ;
+            found = find(skills.begin(), skills.end(), newJs->getSkills()[i]) != skills.end() ;
+            if (found) size++ ;
         }
-        if (flag) js.push_back(newJs) ;
+        if (size > 0) jsAndSkills.push_back(make_pair(size, newJs)) ; 
     }
+
+    // Sort the job seekers (ascending order) according to the size of their skills vector they have in common with skills
+    sort(jsAndSkills.begin(), jsAndSkills.end()) ;
+    
+    // Get only jsAndSkills.second by descending order
+    for (int i = jsAndSkills.size() - 1; i >= 0 ; i--) js.push_back(jsAndSkills[i].second);
      
     return js ;
 }
@@ -166,20 +175,29 @@ vector<JobSeeker*> Company::searchForJobSeekers(vector<JobSeeker*> &list, vector
 vector<JobSeeker*> Company::searchForJobSeekers(vector<JobSeeker*> &list, vector<string> skills, string zipcode)
 {
     vector<JobSeeker*> js ;
-    vector<string> jsSkills ;
-    bool flag = false ;
+    vector<pair<int, JobSeeker*>> jsAndSkills ;
+
+    bool found ;
+    int size = 0 ;
 
     for (auto newJs : list) {
-        flag = false ;
+        size = 0 ;
 
         if (!newJs->getZipcode().compare(zipcode)) {
             // Checks wether there are skills in common between skills and newJs->getSkills
             for (unsigned int i = 0; i < newJs->getSkills().size(); i++) {
-                flag = flag || (find(skills.begin(), skills.end(), newJs->getSkills()[i]) != skills.end()) ;
+                found = find(skills.begin(), skills.end(), newJs->getSkills()[i]) != skills.end() ;
+                if (found) size++ ;
             }
-            if (flag) js.push_back(newJs) ;
+            if (size > 0) jsAndSkills.push_back(make_pair(size, newJs)) ; 
         }
     }
+
+    // Sort the job seekers (ascending order) according to the size of their skills vector they have in common with skills
+    sort(jsAndSkills.begin(), jsAndSkills.end()) ;
+    
+    // Get only jsAndSkills.second by descending order
+    for (int i = jsAndSkills.size() - 1; i >= 0 ; i--) js.push_back(jsAndSkills[i].second);
      
     return js ;
 }

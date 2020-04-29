@@ -355,52 +355,58 @@ int main()
         // polytech->deleteJob(jobs, jobs[2]);
 
         // searchForJobSeekers
-        vector<JobSeeker*> relevantJs = polytech->searchForJobSeekers(jobSeekers, {"comedie"});
-        TEST(relevantJs.size() >= 2);
-        TEST(JobSeeker::getIndex(1, relevantJs) != -1);
-        TEST(JobSeeker::getIndex(3, relevantJs) != -1);
+         vector<JobSeeker*> relevantJs ;//= polytech->searchForJobSeekers(jobSeekers, {"comedie"});
+        // TEST(relevantJs.size() >= 2);
+        // TEST(JobSeeker::getIndex(1, relevantJs) != -1);
+        // TEST(JobSeeker::getIndex(3, relevantJs) != -1);
+        // TEST(JobSeeker::getIndex(2, relevantJs) == -1);
 
-        // Not ordered list of skills
-        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
-        TEST(relevantJs.size() >= 1);
-        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+        // // Not ordered list of skills
+        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C","SQL"});
+        // TEST(relevantJs.size() >= 1);
+        // TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
-        // More skills than needed
-        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C",});
-        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+        // // More skills than needed
+        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python","C",});
+        // TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
-        // No matching
-        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Rigoureux","Sportif"});
-        TEST(relevantJs.size() == 0);
+        // // No matching
+        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Rigoureux","Sportif"});
+        // TEST(relevantJs.size() == 0);
     
-        // Test for search with zipcode
-        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "31300");
-        TEST(relevantJs.size() == 0);
+        // // Test for search with zipcode
+        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "31300");
+        // TEST(relevantJs.size() == 0);
 
-        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
-        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"SQL","C","Python"}, "75020");
+        // TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
-        // Francois should be in relevantJs even if it has only one skill in common with the skill given in parameters
-        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python"});
-        TEST(JobSeeker::getIndex(2, relevantJs) != -1);
+        // // Francois should be in relevantJs even if it has only one skill in common with the skill given in parameters
+        // relevantJs = polytech->searchForJobSeekers(jobSeekers, {"Python"});
+        // TEST(JobSeeker::getIndex(2, relevantJs) != -1);
 
         // Tests to check order: the job seekers having the most skills in common must be in the first indexes
         vector<Employee*> jsColleagues ;
         jsColleagues.push_back(employees[0]) ;
-        
+
         JobSeeker* jsTest1 = new JobSeeker("TEST1", "t1", "test@test.fr", "09100", {"A"}, jsColleagues) ;
         jsTest1->createProfile(jobSeekers);
 
-        JobSeeker* jsTest2 = new JobSeeker("TEST2", "t2", "test@test.fr", "09100", {"A", "C", "B"}, jsColleagues) ;
+        JobSeeker* jsTest2 = new JobSeeker("TEST2", "t2", "test@test.fr", "09100", {"A", "D", "B"}, jsColleagues) ;
         jsTest2->createProfile(jobSeekers);
 
-        JobSeeker* jsTest3 = new JobSeeker("TEST3", "t3", "test@test.fr", "09100", {"C", "B"}, jsColleagues) ;
+        JobSeeker* jsTest3 = new JobSeeker("TEST3", "t3", "test@test.fr", "09100", {"D", "B"}, jsColleagues) ;
         jsTest3->createProfile(jobSeekers);
 
-        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"A", "B", "C"});
+        relevantJs = polytech->searchForJobSeekers(jobSeekers, {"A", "B", "D"});
+        TEST(relevantJs.size() == 3) ;
         TEST(relevantJs[0]->getId() == jsTest2->getId()) ;
-        TEST(relevantJs[3]->getId() == jsTest2->getId()) ;
-        TEST(relevantJs[2]->getId() == jsTest2->getId()) ;
+        TEST(relevantJs[1]->getId() == jsTest3->getId()) ;
+        TEST(relevantJs[2]->getId() == jsTest1->getId()) ;
+
+        jsTest1->deleteProfile(jobSeekers) ;
+        jsTest2->deleteProfile(jobSeekers) ;
+        jsTest3->deleteProfile(jobSeekers) ;
     }
 
     // Save data to make it persistent
