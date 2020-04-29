@@ -60,8 +60,9 @@ void Job::setId(vector<Job*> &list)
     _id = (int)list.size() + 1; 
 }
 
-void Job::deleteJob(vector<Job*> jobs) {
-    jobs.erase(jobs.begin() + getIndex(_id, jobs));  
+void Job::deleteJob(vector<Job*> &jobs) {
+    // jobs.erase((jobs.begin() + getIndex(_id, jobs)); 
+    // jobs.erase(remove(jobs.begin(), jobs.end(), this), jobs.end()) 
     delete this;
 }
 

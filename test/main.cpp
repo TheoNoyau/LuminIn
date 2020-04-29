@@ -234,7 +234,7 @@ int main()
         TEST(!resJobs1[1]->getTitle().compare("JobTest3")) ;
         TEST(!resJobs1[2]->getTitle().compare("JobTest1")) ;
 
-        compTest->deleteProfile(companies, jobs) ; // Deletes all the jobs with it
+        compTest->deleteProfile(companies, jobs) ;
 
         // searchForOldColleagues with Company
         js3->addColleague(*(employees[1])) ;
@@ -313,11 +313,11 @@ int main()
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
 
         TEST (!resJobs2[0]->getTitle().compare("developpeur"));
+        TEST (resJobs2.size() == 1) ;
 
         // searchForJobs with skills and zipcode 
         resJobs1 = e3->searchForJobs(jobs, {"Python", "SQL", "C"}, "75009") ;
         resJobs2 = e3->searchForJobs(jobs, {"Python", "SQL", "C"}, "13009") ;
-
         TEST (!resJobs1[0]->getTitle().compare("developpeur"));
         TEST (!resJobs1[0]->getCompany().getName().compare("Google"));
         TEST (resJobs2.size() == 0) ;
