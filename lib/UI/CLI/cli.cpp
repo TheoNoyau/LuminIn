@@ -242,16 +242,17 @@ void Cli::printMenuCreateProfile()
 
 void Cli::printMenuCreateProfileComp() 
 {
-	string name, zipcode, email ;
+	char name[100], zipcode[10], email[100] ;
 	system("clear") ;
 	printHeader() ;
+	cin.ignore();
 	cout << BOLD(FGRN("* Company - Create Company*")) << endl << endl ;
 	cout << "Enter a name for your company: " ;
-	cin >> name ;
+	cin.getline(name, 100);
 	cout << "Enter zipcode: " ;
-	cin >> zipcode ;
+	cin.getline(zipcode, 10);
 	cout << "E-mail adress: " ;
-	cin >> email ;
+	cin.getline(email, 100);
 
 	Company *c = new Company(name, zipcode, email) ;
 
