@@ -1,0 +1,6 @@
+[2020/04/28 14:09:41] Employee.createProfile() was called with argument [vector<Employee*> _employees].
+[2020/04/28 14:10:11] Employee.setZipCode() was called with argument [string '13010'].
+[2020/04/28 14:11:48] Employee.setCompany() was called with argument [Company 'Google'].
+[2020/04/28 14:12:08] Employee.employeeToJobSeeker() was called with arguments [vector<Employee*> _employees, vector<JobSeeker*> _jobSeekers].
+[2020/04/28 14:12:24] JobSeeker.addSkills() was called with argument [vector<string> skills].
+[2020/04/28 14:12:57] JobSeeker.searchForJobs() was called with arguments [vector<Job*> _jobs, vector<string> skills].
