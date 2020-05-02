@@ -61,11 +61,11 @@ class Employee
     // Deletes profile from Employee list and adds it to JobSeekers list
     JobSeeker* employeeToJobSeeker (std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobseekers) ;
 
-    // Looks for all the jobs according to a vector of skills
+    // Looks for all the jobs according to a vector of skills (at least one skill in common)
     // Returns a vector of the Jobs corresponding
     std::vector<Job*> searchForJobs(std::vector<Job*> &list, const std::vector<std::string> skills) ;
 
-    // Looks for all the jobs according to a vector of skills and a zipcode
+    // Looks for all the jobs according to a vector of skills (at least one skill in common) and a zipcode
     // Returns a vector of the Jobs corresponding
     std::vector<Job*> searchForJobs(std::vector<Job*> &list, const std::vector<std::string> skills, std::string zipcode) ;
 

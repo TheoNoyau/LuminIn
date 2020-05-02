@@ -426,7 +426,7 @@ void Cli::printMenuCompany(int id)
 					logger(_logpath, "Company.deleteJob", args);
 				}
 
-				c->deleteJob(_jobs, *(_jobs[jobIndex])) ;
+				c->deleteJob(_jobs, _jobs[jobIndex]) ;
 				cout << endl;
 				cout << BOLD(FGRN("Job offer successfuly deleted")) << endl;
 				wait();

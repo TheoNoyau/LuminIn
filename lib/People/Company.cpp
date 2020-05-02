@@ -115,11 +115,9 @@ void Company::updateProfile(vector<Company*> &list, string name, string zipcode,
 
 void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs) 
 {
-    for (unsigned int i = 0; i < jobs.size(); i++) {
-        if (jobs[i]->getCompany().getId() == _id) {
-            deleteJob(jobs, *(jobs[i])) ;
-        }
-    }
+     for (auto j : jobs) {
+        if (j->getCompany().getId() == _id) deleteJob(jobs, j) ;
+     }
 
     list.erase(list.begin() + getIndex(_id, list));  
     delete this;
@@ -138,52 +136,67 @@ void Company::createJob(vector<Job*> &list, string title, const vector<string> s
     _jobs.push_back(newJob);
 }
 
-void Company::deleteJob(vector<Job*> &list, Job &j) 
+void Company::deleteJob(vector<Job*> &list, Job *j) 
 {
     // Delete from the global vector
-    list.erase(list.begin() + Job::getIndex(j.getId(), list));
+    list.erase(find(list.begin(), list.end(), j), list.end()) ;
 }
 
 vector<JobSeeker*> Company::searchForJobSeekers(vector<JobSeeker*> &list, vector<string> skills)
 {
     vector<JobSeeker*> js ;
-    sort(skills.begin(), skills.end());
-     
-    for (JobSeeker* newjs : list){
-        vector<string> jsSkills = newjs->getSkills();
-        sort(jsSkills.begin(), jsSkills.end());
-        // Iterate only with smallest list size
-        int n = min(jsSkills.size(), skills.size());
-        int count = 0;
-        for (int j = 0; j < n; j++){
-            if (skills[j].compare(jsSkills[j]) == 0) count++;
+    vector<pair<int, JobSeeker*>> jsAndSkills ;
+
+    bool found ;
+    int size = 0 ;
+
+    for (auto newJs : list) {
+        size = 0 ;
+
+        // Checks wether there are skills in common between skills and newJs->getSkills
+        for (unsigned int i = 0; i < newJs->getSkills().size(); i++) {
+            found = find(skills.begin(), skills.end(), newJs->getSkills()[i]) != skills.end() ;
+            if (found) size++ ;
         }
-        // If all skill requirements are met, add JobSeeker to list
-        if (count == (int)skills.size()) js.push_back(newjs);
+        if (size > 0) jsAndSkills.push_back(make_pair(size, newJs)) ; 
     }
 
+    // Sort the job seekers (ascending order) according to the size of their skills vector they have in common with skills
+    sort(jsAndSkills.begin(), jsAndSkills.end()) ;
+    
+    // Get only jsAndSkills.second by descending order
+    for (int i = jsAndSkills.size() - 1; i >= 0 ; i--) js.push_back(jsAndSkills[i].second);
+     
     return js ;
 }
 
 vector<JobSeeker*> Company::searchForJobSeekers(vector<JobSeeker*> &list, vector<string> skills, string zipcode)
 {
     vector<JobSeeker*> js ;
-    sort(skills.begin(), skills.end());
-     
-    for (JobSeeker* newjs : list){
-        if (newjs->getZipcode().compare(zipcode) == 0){
-            vector<string> jsSkills = newjs->getSkills();
-            sort(jsSkills.begin(), jsSkills.end());
-            // Iterate only with smallest list size
-            int n = min(jsSkills.size(), skills.size());
-            int count = 0;
-            for (int j = 0; j < n; j++){
-                if (skills[j].compare(jsSkills[j]) == 0) count++;
+    vector<pair<int, JobSeeker*>> jsAndSkills ;
+
+    bool found ;
+    int size = 0 ;
+
+    for (auto newJs : list) {
+        size = 0 ;
+
+        if (!newJs->getZipcode().compare(zipcode)) {
+            // Checks wether there are skills in common between skills and newJs->getSkills
+            for (unsigned int i = 0; i < newJs->getSkills().size(); i++) {
+                found = find(skills.begin(), skills.end(), newJs->getSkills()[i]) != skills.end() ;
+                if (found) size++ ;
             }
-            // If all skill requirements are met, add JobSeeker to list
-            if (count == (int)skills.size()) js.push_back(newjs);
+            if (size > 0) jsAndSkills.push_back(make_pair(size, newJs)) ; 
         }
     }
+
+    // Sort the job seekers (ascending order) according to the size of their skills vector they have in common with skills
+    sort(jsAndSkills.begin(), jsAndSkills.end()) ;
+    
+    // Get only jsAndSkills.second by descending order
+    for (int i = jsAndSkills.size() - 1; i >= 0 ; i--) js.push_back(jsAndSkills[i].second);
+     
     return js ;
 }
 
