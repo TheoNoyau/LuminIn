@@ -389,7 +389,7 @@ void Cli::printMenuCompany(int id)
 					break ;
 				}
 
-				c->deleteJob(_jobs, *(_jobs[jobIndex])) ;
+				c->deleteJob(_jobs, _jobs[jobIndex]) ;
 
 				cout << endl;
 				cout << BOLD(FGRN("Job offer successfuly deleted")) << endl;
