@@ -41,8 +41,15 @@ vector<Company*> getCompanies()
         while (getline(s, data, ',')) {
             dataLine.push_back(data) ;
         }
+
+        // Concatenate the fields corresponding to company's name (which were separated with a comma) => Ex: Google, Inc.
+        for (unsigned int i = 2; i < dataLine.size() - 2; i++) {
+            dataLine[1] = dataLine[1] + "," + dataLine[i] ;
+        }
+
+        Company *company = new Company(dataLine[1], dataLine[dataLine.size() - 2], dataLine[dataLine.size() - 1]) ;
+
         companyId = stoi(dataLine[0]) ;
-        Company *company = new Company(dataLine[1], dataLine[2], dataLine[3]) ;
         company->setId(companyId) ;
 
         companies.push_back(company) ;
