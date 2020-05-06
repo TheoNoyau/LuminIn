@@ -111,6 +111,17 @@ int main()
         TEST (companies[0]->getId() == 1) ;
         TEST (!companies[1]->getName().compare("Google")) ;
         TEST (!companies[2]->getZipcode().compare("31")) ;
+
+        // Tests comapany names with comma(s) (other functions are already tested below)
+        Company* googleInc = new Company("Google, Inc.", "09700", "contact@google.fr") ;
+        googleInc->createProfile(companies) ;
+
+        
+        updateEntry(companies) ;
+        companies = getCompanies() ;
+
+        int googleIncIndex = Company::getIndex(googleInc->getId(), companies) ;
+        TEST(!companies[googleIncIndex]->getName().compare("Google, Inc.")) ;
     }
 
     // getCompany
