@@ -641,12 +641,14 @@ void Cli::printMenuEmployee(int id)
 		}
 		case '4':{
 			system("clear");
-			string cname;
+			string cname ;
 			int cid;
 			vector<Company*> companies;
 			cout << BOLD(FMAG("* Employee -  Change company *")) << endl << endl ;
 			cout << "Search for the name of your new company: ";
-			cin >> cname;
+			cin.ignore() ;
+			getline(cin, cname) ;
+			cout << cname << endl ;
 			companies = Company::getCompanies(cname, _companies);
 			if (companies.size() != 0){
 				printCompanies(companies);
@@ -756,7 +758,11 @@ void Cli::printMenuEmployee(int id)
 						wait();
 						printMenuEmployee(id);
 					}
-					else printJobs(jobs);
+					else {
+						printJobs(jobs);
+						wait();
+						printMenuEmployee(id);
+					}
 					break;
 				}
 				case '2':{
