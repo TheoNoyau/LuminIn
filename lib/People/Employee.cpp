@@ -143,9 +143,7 @@ JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<Jo
 
     // We add the employees of the company left in the colleagues
     for (auto e : employees) {
-        cout << "aaa : " << e->getId() << endl ;
         if (e->getCompany().getId() == _company->getId()) {
-
             // If the employees aren't already colleagues
             if (Employee::getIndex(e->getId(), _oldColleagues) == -1) {
                 js->addColleague(*e) ;
