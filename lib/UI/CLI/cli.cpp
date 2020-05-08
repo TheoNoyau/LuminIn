@@ -465,7 +465,7 @@ void Cli::printMenuCompany(int id)
 					logger(_logpath, "Company.deleteProfile", args);
 				}
 
-				c->deleteProfile(_companies, _jobs);
+				c->deleteProfile(_companies, _jobs, _employees);
 				system("clear");
 				cout << BOLD(FRED("Succesfuly deleted your company profile")) << endl;
 				wait();

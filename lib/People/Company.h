@@ -7,6 +7,7 @@
 
 class JobSeeker ;
 class Job ;
+class Employee ;
 
 class Company
 {
