@@ -139,8 +139,11 @@ JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<Jo
     JobSeeker* js = new JobSeeker (_name, _firstname, _email, _zipcode, _skills, _oldColleagues) ;
     js->createProfile(jobseekers) ;
 
+    this->deleteProfile(employees) ;
+
     // We add the employees of the company left in the colleagues
     for (auto e : employees) {
+        cout << "aaa : " << e->getId() << endl ;
         if (e->getCompany().getId() == _company->getId()) {
 
             // If the employees aren't already colleagues
@@ -150,8 +153,6 @@ JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<Jo
             }
         }
     }
-
-    this->deleteProfile(employees) ;
 
     return js ;
 }

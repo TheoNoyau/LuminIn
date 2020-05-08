@@ -686,6 +686,7 @@ void Cli::printMenuEmployee(int id)
 
 				JobSeeker *js = _employees[Employee::getIndex(id, _employees)]->employeeToJobSeeker(_employees, _jobSeekers);
 				system("clear");
+				cout << js->getId() << endl ;
 				cout << BOLD(FGRN("Succesfuly transitioned to Jobseeker status")) << endl;
 				wait();
 				printMenuJobSeeker(js->getId());

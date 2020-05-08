@@ -52,7 +52,7 @@ class Cli {
 
         // Create profile or login
         void printMenu();
-        // 
+        
         void printMenuCreateProfile();
         void printMenuCreateProfileComp();
         void printMenuCreateProfileEmp();
