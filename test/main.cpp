@@ -246,7 +246,7 @@ int main()
         TEST(!resJobs1[1]->getTitle().compare("JobTest3")) ;
         TEST(!resJobs1[2]->getTitle().compare("JobTest1")) ;
 
-        compTest->deleteProfile(companies, jobs) ;
+        compTest->deleteProfile(companies, jobs, employees, jobSeekers) ;
 
         // searchForOldColleagues with Company
         js3->addColleague(*(employees[1])) ;
@@ -349,7 +349,7 @@ int main()
         TEST(!resJobs1[1]->getTitle().compare("JobTest3")) ;
         TEST(!resJobs1[2]->getTitle().compare("JobTest1")) ;
 
-        compTest->deleteProfile(companies, jobs) ; // Deletes all the jobs with it
+        compTest->deleteProfile(companies, jobs, employees, jobSeekers) ; // Deletes all the jobs with it
 
         // searchForOldColleagues with Company
         e3->addColleague(*(employees[1])) ;
