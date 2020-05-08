@@ -372,7 +372,8 @@ void Cli::printMenuCompany(int id)
 
 			// Job Title
 			cout << "Job Title: " ;
-			cin >> jobTitle ;
+			cin.ignore() ;
+			getline(cin, jobTitle) ;
 
 			// Job Skills
 			cout << "Enter skills required for the job: (type 'end' to quit)" << endl;
@@ -399,7 +400,8 @@ void Cli::printMenuCompany(int id)
 			system("clear");
 			cout << BOLD(FGRN("* Company - Delete Job Offer *")) << endl << endl ;
 			cout << "Search for the title of the job offer: ";
-			cin >> jobTitle;
+			cin.ignore() ;
+			getline(cin, jobTitle) ;
 
 			// Logging action 
 			{
@@ -427,7 +429,8 @@ void Cli::printMenuCompany(int id)
 					logger(_logpath, "Company.deleteJob", args);
 				}
 
-				c->deleteJob(_jobs, _jobs[jobIndex]) ;
+				// c->deleteJob(_jobs, _jobs[jobIndex]) ;
+				_jobs[jobIndex]->deleteJob(_jobs) ;
 				cout << endl;
 				cout << BOLD(FGRN("Job offer successfuly deleted")) << endl;
 				wait();
@@ -464,7 +467,7 @@ void Cli::printMenuCompany(int id)
 					logger(_logpath, "Company.deleteProfile", args);
 				}
 
-				c->deleteProfile(_companies, _jobs);
+				c->deleteProfile(_companies, _jobs, _employees, _jobSeekers);
 				system("clear");
 				cout << BOLD(FRED("Succesfuly deleted your company profile")) << endl;
 				wait();
@@ -640,12 +643,14 @@ void Cli::printMenuEmployee(int id)
 		}
 		case '4':{
 			system("clear");
-			string cname;
+			string cname ;
 			int cid;
 			vector<Company*> companies;
 			cout << BOLD(FMAG("* Employee -  Change company *")) << endl << endl ;
 			cout << "Search for the name of your new company: ";
-			cin >> cname;
+			cin.ignore() ;
+			getline(cin, cname) ;
+			cout << cname << endl ;
 			companies = Company::getCompanies(cname, _companies);
 			if (companies.size() != 0){
 				printCompanies(companies);
@@ -754,7 +759,11 @@ void Cli::printMenuEmployee(int id)
 						wait();
 						printMenuEmployee(id);
 					}
-					else printJobs(jobs);
+					else {
+						printJobs(jobs);
+						wait();
+						printMenuEmployee(id);
+					}
 					break;
 				}
 				case '2':{
@@ -814,7 +823,9 @@ void Cli::printMenuEmployee(int id)
 			switch(choice) {
 				case '1': {
 					cout << "Enter the name of the Company you are interested in: ";
-					string cname; cin >> cname;
+					string cname; 
+					cin.ignore() ;
+					getline(cin, cname) ;
 					vector<Company*> companies = Company::getCompanies(cname, _companies);
 					if (companies.size() == 0) {
 						cout << endl;
@@ -861,7 +872,7 @@ void Cli::printMenuEmployee(int id)
 					if (colleagues.size() == 0) {
 						cout << "Unfortunately, you don't have any old colleagues working at a Company looking for your personnal set of skills" << endl;
 					} else {
-						cout << "Search results: " << endl;
+						cout << "Colleagues working at a company looking for your skills: " << endl;
 						printEmployees(colleagues);
 					}
 					wait();
@@ -1004,7 +1015,7 @@ void Cli::printMenuJobSeeker(int id)
 		case '4':{
 			system("clear");
 			string cname;
-			int cid;
+			int cid, compIndex;
 			vector<Company*> companies;
 			cout << BOLD(FMAG("* Jobseeker -  Transition *")) << endl << endl ;
 			cout << "Search for the name of your new company: ";
@@ -1019,8 +1030,19 @@ void Cli::printMenuJobSeeker(int id)
 				printCompanies(companies);
 				cout << "Enter the ID of your new company (see above): ";
 				cin >> cid;
-				Company *c = _companies[Company::getIndex(cid, _companies)];
 
+				compIndex = Company::getIndex(cid, companies) ;
+				
+				if (compIndex == -1) {
+					cout << endl;
+					cout << BOLD(FRED("No company corresponding to ID given, please try again")) << endl;
+					wait();
+					printMenuJobSeeker(id);
+					break ;
+				}
+
+				Company *c = _companies[Company::getIndex(cid, _companies)];
+				
 				// Logging action
 				{ 
 					vector<string> args{"vector<Employee*> _employees", "vector<JobSeeker*> _jobSeekers", "Company '"+c->getName()+"'"};
@@ -1118,6 +1140,7 @@ void Cli::printMenuJobSeeker(int id)
 					cout << endl;
 					cout << BOLD(FRED("No job offer corresponding to the set of skills and zipcode you entered")) << endl;
 					wait();
+					printMenuJobSeeker(id);
 				} else {
 					printJobs(jobs);
 					wait();
@@ -1145,7 +1168,9 @@ void Cli::printMenuJobSeeker(int id)
 			char choice; cin >> choice;
 			if (choice == '1') {
 				cout << "Enter the name of the Company you are interested in: ";
-				string cname; cin >> cname;
+				string cname; 
+				cin.ignore() ;
+				getline(cin, cname) ;
 				vector<Company*> companies = Company::getCompanies(cname, _companies);
 				if (companies.size() == 0) {
 					cout << endl;
@@ -1197,7 +1222,7 @@ void Cli::printMenuJobSeeker(int id)
 					wait();
 					printMenuJobSeeker(id);
 				} else {
-					cout << "Search results: " << endl;
+					cout << "Colleagues working at a company looking for your skills: " << endl;
 					printEmployees(colleagues);
 					wait();
 					printMenuJobSeeker(id);

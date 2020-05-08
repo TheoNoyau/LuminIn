@@ -130,8 +130,9 @@ int Employee::addColleague(Employee &e)
 
 void Employee::deleteProfile(vector<Employee*> &list)
 {
-    list.erase(list.begin() + getIndex(_id, list));
-    delete this ;
+    auto it = list.begin() + Employee::getIndex(_id, list) ;
+    delete * it ;
+    list.erase(it) ;
 }
 
 JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers)
@@ -139,10 +140,11 @@ JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<Jo
     JobSeeker* js = new JobSeeker (_name, _firstname, _email, _zipcode, _skills, _oldColleagues) ;
     js->createProfile(jobseekers) ;
 
+    this->deleteProfile(employees) ;
+
     // We add the employees of the company left in the colleagues
     for (auto e : employees) {
         if (e->getCompany().getId() == _company->getId()) {
-
             // If the employees aren't already colleagues
             if (Employee::getIndex(e->getId(), _oldColleagues) == -1) {
                 js->addColleague(*e) ;
@@ -150,8 +152,6 @@ JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<Jo
             }
         }
     }
-
-    this->deleteProfile(employees) ;
 
     return js ;
 }
@@ -225,7 +225,7 @@ vector<Employee*> Employee::searchForOldColleagues(Company &company)
     vector<Employee*> colleagues ;
 
     for (auto e : _oldColleagues) {
-        if (e->getCompany().getId() == company.getId()) colleagues.push_back(e) ;
+        if (e->getCompany().getId() == company.getId() && getIndex(e->getId(), _oldColleagues) != -1) colleagues.push_back(e) ;
     }
 
     return colleagues ;
@@ -244,7 +244,7 @@ vector<Employee*> Employee::searchForOldColleagues(vector<Job*> &jobs)
         
         // We now need to filter the jobs with the company
         i = 0 ;
-        while (i < resJobs.size() && resJobs[i]->getCompany().getId() != c.getId()) i++ ;
+        while (i < resJobs.size() && resJobs[i]->getCompany().getId() != c.getId() && getIndex(e->getId(), _oldColleagues) != -1) i++ ;
         if (i < resJobs.size()) colleagues.push_back(e) ;
     }
 

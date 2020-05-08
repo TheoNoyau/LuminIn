@@ -3,6 +3,7 @@
 #include "JobSeeker.h"
 #include "Company.h"
 #include "Job.h"
+#include "Employee.h"
 
 #include <vector>
 #include <algorithm>
@@ -109,18 +110,23 @@ void Company::updateProfile(vector<Company*> &list, string name, string zipcode,
     _name = name;
     _zipcode = zipcode;
     _email = email;
-
-    // list[getIndex(_id, list)] = this;
 }
 
-void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs) 
+void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs, vector<Employee*> &employees, vector<JobSeeker*> &jobSeekers) 
 {
      for (auto j : jobs) {
-        if (j->getCompany().getId() == _id) deleteJob(jobs, j) ;
+        if (j->getCompany().getId() == _id) j->deleteJob(jobs) ;
      }
 
-    list.erase(list.begin() + getIndex(_id, list));  
-    delete this;
+    for (auto e : employees) {
+        if (e->getCompany().getId() == _id) e->employeeToJobSeeker(employees, jobSeekers) ;
+    }
+
+    // Removing Company
+    auto it = list.begin() + Company::getIndex(_id, list) ;
+    delete * it ;
+    list.erase(it) ;
+    cout << "test" << endl ;
 }
 
 void Company::createJob(vector<Job*> &list, string title, const vector<string> skills)
@@ -139,7 +145,9 @@ void Company::createJob(vector<Job*> &list, string title, const vector<string> s
 void Company::deleteJob(vector<Job*> &list, Job *j) 
 {
     // Delete from the global vector
-    list.erase(find(list.begin(), list.end(), j), list.end()) ;
+    auto it = list.begin() + Job::getIndex(j->getId(), list) ;
+    delete * it ;
+    list.erase(it) ;
 }
 
 vector<JobSeeker*> Company::searchForJobSeekers(vector<JobSeeker*> &list, vector<string> skills)
