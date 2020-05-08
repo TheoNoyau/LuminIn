@@ -372,7 +372,8 @@ void Cli::printMenuCompany(int id)
 
 			// Job Title
 			cout << "Job Title: " ;
-			cin >> jobTitle ;
+			cin.ignore() ;
+			getline(cin, jobTitle) ;
 
 			// Job Skills
 			cout << "Enter skills required for the job: (type 'end' to quit)" << endl;
@@ -399,7 +400,8 @@ void Cli::printMenuCompany(int id)
 			system("clear");
 			cout << BOLD(FGRN("* Company - Delete Job Offer *")) << endl << endl ;
 			cout << "Search for the title of the job offer: ";
-			cin >> jobTitle;
+			cin.ignore() ;
+			getline(cin, jobTitle) ;
 
 			// Logging action 
 			{
@@ -870,7 +872,7 @@ void Cli::printMenuEmployee(int id)
 					if (colleagues.size() == 0) {
 						cout << "Unfortunately, you don't have any old colleagues working at a Company looking for your personnal set of skills" << endl;
 					} else {
-						cout << "Search results: " << endl;
+						cout << "Colleagues working at a company looking for your skills: " << endl;
 						printEmployees(colleagues);
 					}
 					wait();
@@ -1138,6 +1140,7 @@ void Cli::printMenuJobSeeker(int id)
 					cout << endl;
 					cout << BOLD(FRED("No job offer corresponding to the set of skills and zipcode you entered")) << endl;
 					wait();
+					printMenuJobSeeker(id);
 				} else {
 					printJobs(jobs);
 					wait();
@@ -1219,7 +1222,7 @@ void Cli::printMenuJobSeeker(int id)
 					wait();
 					printMenuJobSeeker(id);
 				} else {
-					cout << "Search results: " << endl;
+					cout << "Colleagues working at a company looking for your skills: " << endl;
 					printEmployees(colleagues);
 					wait();
 					printMenuJobSeeker(id);
