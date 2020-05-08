@@ -1005,7 +1005,7 @@ void Cli::printMenuJobSeeker(int id)
 		case '4':{
 			system("clear");
 			string cname;
-			int cid;
+			int cid, compIndex;
 			vector<Company*> companies;
 			cout << BOLD(FMAG("* Jobseeker -  Transition *")) << endl << endl ;
 			cout << "Search for the name of your new company: ";
@@ -1020,8 +1020,19 @@ void Cli::printMenuJobSeeker(int id)
 				printCompanies(companies);
 				cout << "Enter the ID of your new company (see above): ";
 				cin >> cid;
-				Company *c = _companies[Company::getIndex(cid, _companies)];
 
+				compIndex = Company::getIndex(cid, companies) ;
+				
+				if (compIndex == -1) {
+					cout << endl;
+					cout << BOLD(FRED("No company corresponding to ID given, please try again")) << endl;
+					wait();
+					printMenuJobSeeker(id);
+					break ;
+				}
+
+				Company *c = _companies[Company::getIndex(cid, _companies)];
+				
 				// Logging action
 				{ 
 					vector<string> args{"vector<Employee*> _employees", "vector<JobSeeker*> _jobSeekers", "Company '"+c->getName()+"'"};
