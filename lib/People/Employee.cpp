@@ -130,8 +130,9 @@ int Employee::addColleague(Employee &e)
 
 void Employee::deleteProfile(vector<Employee*> &list)
 {
-    list.erase(list.begin() + getIndex(_id, list));
-    delete this ;
+    auto it = list.begin() + Employee::getIndex(_id, list) ;
+    delete * it ;
+    list.erase(it) ;
 }
 
 JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers)

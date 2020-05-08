@@ -111,8 +111,9 @@ Employee* JobSeeker::jobSeekerToEmployee(vector<Employee*> &employees, vector<Jo
 
 void JobSeeker::deleteProfile(vector<JobSeeker*> &list)
 {
-    list.erase(list.begin() + getIndex(_id, list));
-    delete this ;
+    auto it = list.begin() + JobSeeker::getIndex(_id, list) ;
+    delete * it ;
+    list.erase(it) ;
 }
 
 vector<Job*> JobSeeker::searchForJobs(vector<Job*> &list, const vector<string> skills)
