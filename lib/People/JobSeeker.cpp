@@ -178,7 +178,7 @@ vector<Employee*> JobSeeker::searchForOldColleagues(Company &company)
     vector<Employee*> colleagues ;
 
     for (auto e : _oldColleagues) {
-        if (e->getCompany().getId() == company.getId()) colleagues.push_back(e) ;
+        if (e->getCompany().getId() == company.getId() && Employee::getIndex(e->getId(), _oldColleagues) != -1) colleagues.push_back(e) ;
     }
 
     return colleagues ;
@@ -197,7 +197,7 @@ vector<Employee*> JobSeeker::searchForOldColleagues(vector<Job*> &jobs)
         
         // We now need to filter the jobs with the company
         i = 0 ;
-        while (i < resJobs.size() && resJobs[i]->getCompany().getId() != c.getId()) i++ ;
+        while (i < resJobs.size() && resJobs[i]->getCompany().getId() != c.getId() && Employee::getIndex(e->getId(), _oldColleagues) != -1) i++ ;
         if (i < resJobs.size()) colleagues.push_back(e) ;
     }
 

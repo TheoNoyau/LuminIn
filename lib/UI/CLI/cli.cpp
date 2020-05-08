@@ -689,7 +689,6 @@ void Cli::printMenuEmployee(int id)
 
 				JobSeeker *js = _employees[Employee::getIndex(id, _employees)]->employeeToJobSeeker(_employees, _jobSeekers);
 				system("clear");
-				cout << js->getId() << endl ;
 				cout << BOLD(FGRN("Succesfuly transitioned to Jobseeker status")) << endl;
 				wait();
 				printMenuJobSeeker(js->getId());
@@ -822,7 +821,9 @@ void Cli::printMenuEmployee(int id)
 			switch(choice) {
 				case '1': {
 					cout << "Enter the name of the Company you are interested in: ";
-					string cname; cin >> cname;
+					string cname; 
+					cin.ignore() ;
+					getline(cin, cname) ;
 					vector<Company*> companies = Company::getCompanies(cname, _companies);
 					if (companies.size() == 0) {
 						cout << endl;
@@ -1164,7 +1165,9 @@ void Cli::printMenuJobSeeker(int id)
 			char choice; cin >> choice;
 			if (choice == '1') {
 				cout << "Enter the name of the Company you are interested in: ";
-				string cname; cin >> cname;
+				string cname; 
+				cin.ignore() ;
+				getline(cin, cname) ;
 				vector<Company*> companies = Company::getCompanies(cname, _companies);
 				if (companies.size() == 0) {
 					cout << endl;
