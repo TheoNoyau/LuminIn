@@ -112,16 +112,21 @@ void Company::updateProfile(vector<Company*> &list, string name, string zipcode,
     _email = email;
 }
 
-void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs, vector<Employee*> &employees) 
+void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs, vector<Employee*> &employees, vector<JobSeeker*> &jobSeekers) 
 {
      for (auto j : jobs) {
         if (j->getCompany().getId() == _id) j->deleteJob(jobs) ;
      }
 
+    for (auto e : employees) {
+        if (e->getCompany().getId() == _id) e->employeeToJobSeeker(employees, jobSeekers) ;
+    }
+
     // Removing Company
     auto it = list.begin() + Company::getIndex(_id, list) ;
     delete * it ;
     list.erase(it) ;
+    cout << "test" << endl ;
 }
 
 void Company::createJob(vector<Job*> &list, string title, const vector<string> skills)

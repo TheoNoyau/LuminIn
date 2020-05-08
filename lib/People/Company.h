@@ -49,7 +49,7 @@ class Company
 
     // Deletes Company profile from the list and deletes all the jobs offers from the company
     // Also switches all the employees to job seekers
-    void deleteProfile(std::vector<Company*> &list, std::vector<Job*> &jobs, std::vector<Employee*> &employees) ;
+    void deleteProfile(std::vector<Company*> &list, std::vector<Job*> &jobs, std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobSeekers) ;
 
     // Creates a job given a title and a list of skills
     void createJob(std::vector<Job*> &list, std::string title, const std::vector<std::string> skills) ;
