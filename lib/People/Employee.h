@@ -54,8 +54,9 @@ class Employee
     // Returns 1 otherwise
     int addColleague (Employee &e) ;
 
-    // Deletes Employee profile from the list and DB
-    void deleteProfile(std::vector<Employee*> &list) ;
+    // Deletes Employee profile from the global vector
+    // Also removes its reference from the employees or job seekers he was colleague with
+    void deleteProfile(std::vector<Employee*> &list, std::vector<JobSeeker*> &jobSeekers) ;
 
     // Transitions an Employee to a JobSeeker
     // Deletes profile from Employee list and adds it to JobSeekers list

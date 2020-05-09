@@ -301,7 +301,7 @@ int main()
 
         // deleteProfile
         unsigned int sizeEmployees = employees.size() ;
-        e->deleteProfile(employees) ;
+        e->deleteProfile(employees, jobSeekers) ;
         TEST (employees.size() == sizeEmployees - 1) ;
 
         // employeeToJobSeeker

@@ -128,17 +128,26 @@ int Employee::addColleague(Employee &e)
     return 0 ;
 }
 
-void Employee::deleteProfile(vector<Employee*> &list)
+void Employee::deleteProfile(vector<Employee*> &list, vector<JobSeeker*> &jobSeekers)
 {
     vector<Employee*>::iterator it ;
     int colleagueIndex ;
 
-    // Remove employee from colleagues of other employees
+    // Removes employee from colleagues of other employees
     for (auto e : list) {
         colleagueIndex = Employee::getIndex(_id, e->getColleagues()) ;
         if (colleagueIndex != -1) {
             it = e->getColleagues().begin() + colleagueIndex ;
             e->getColleagues().erase(it) ;
+        }
+    }
+
+    // Removes employee from colleagues of job seekers
+    for (auto js : jobSeekers) {
+        colleagueIndex = Employee::getIndex(_id, js->getColleagues()) ;
+        if (colleagueIndex != -1) {
+            it = js->getColleagues().begin() + colleagueIndex ;
+            js->getColleagues().erase(it) ;
         }
     }
 
@@ -153,7 +162,7 @@ JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<Jo
     JobSeeker* js = new JobSeeker (_name, _firstname, _email, _zipcode, _skills, _oldColleagues) ;
     js->createProfile(jobseekers) ;
 
-    this->deleteProfile(employees) ;
+    this->deleteProfile(employees, jobseekers) ;
 
     // We add the employees of the company left in the colleagues
     for (auto e : employees) {
