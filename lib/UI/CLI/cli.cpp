@@ -714,7 +714,7 @@ void Cli::printMenuEmployee(int id)
 					logger(_logpath, "Employee.deleteProfile", args);
 				}
 
-				_employees[Employee::getIndex(id, _employees)]->deleteProfile(_employees);
+				_employees[Employee::getIndex(id, _employees)]->deleteProfile(_employees, _jobSeekers);
 				system("clear");
 				cout << BOLD(FRED("Succesfuly deleted your profile")) << endl;
 				wait();

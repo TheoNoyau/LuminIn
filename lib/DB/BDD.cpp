@@ -247,8 +247,7 @@ vector<Employee*> getEmployees()
     for (unsigned int i = 0; i < employees.size(); i++) {
         for (unsigned int j = 0; j < employees[i]->getColleagues().size(); j++) {
             if (!employees[i]->getColleagues()[j]->getName().compare("undefined")) {
-                Employee *e = new Employee(*employees[employees[i]->getColleagues()[j]->getId() - 1]) ;
-                employees[i]->getColleagues()[j] = e ;
+                employees[i]->getColleagues()[j] = employees[Employee::getIndex(employees[i]->getColleagues()[j]->getId(), employees)] ;
             }
         }
     }
