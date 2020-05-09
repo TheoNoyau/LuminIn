@@ -130,7 +130,20 @@ int Employee::addColleague(Employee &e)
 
 void Employee::deleteProfile(vector<Employee*> &list)
 {
-    auto it = list.begin() + Employee::getIndex(_id, list) ;
+    vector<Employee*>::iterator it ;
+    int colleagueIndex ;
+
+    // Remove employee from colleagues of other employees
+    for (auto e : list) {
+        colleagueIndex = Employee::getIndex(_id, e->getColleagues()) ;
+        if (colleagueIndex != -1) {
+            it = e->getColleagues().begin() + colleagueIndex ;
+            e->getColleagues().erase(it) ;
+        }
+    }
+
+    // Remove from global vector
+    it = list.begin() + Employee::getIndex(_id, list) ;
     delete * it ;
     list.erase(it) ;
 }
