@@ -15,7 +15,7 @@ class JobSeeker
 
     // Class constructor
     // A JobSeeker needs and id as PK, a name, a firstname, an email, a zipcode, a vector of skills and a vector of old colleagues from old jobs
-    JobSeeker(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee*> &colleagues);
+    JobSeeker(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee*> &colleagues, std::string hashedPassword = "0000");
 
     // Accessors
     int getId() ;
@@ -25,6 +25,7 @@ class JobSeeker
     std::string getZipcode() ;
     std::vector<std::string> getSkills() ;
     std::vector<Employee*> &getColleagues() ;
+    std::string getHashedPassword() ;
 
     // Setter
     void setId(int id) ;
@@ -38,7 +39,7 @@ class JobSeeker
 
     // Creates a JobSeeker profile
     // Adds the JobSeeker created into the vector given as a parameter
-    void createProfile(std::vector<JobSeeker*> &list) ;
+    void createProfile(std::vector<JobSeeker*> &list, std::string password) ;
 
     // Adds new skills to the JobSeeker profile
     void addSkills(std::vector<std::string> skills) ;
@@ -84,6 +85,7 @@ class JobSeeker
     std::string _zipcode;
     std::vector<std::string> _skills ;
     std::vector<Employee*> _oldColleagues ;
+    std::string _hashedPassword ;
 };
 
 #endif

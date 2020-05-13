@@ -110,7 +110,7 @@ vector<JobSeeker*> getJobSeekers()
             colleagues.push_back(employees[colleagueId - 1]) ;
         }
 
-        JobSeeker* js = new JobSeeker(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues) ;
+        JobSeeker* js = new JobSeeker(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, dataLine[7]) ;
 
         jobseekerId = stoi(dataLine[0]) ;
         js->setId(jobseekerId) ;
@@ -327,8 +327,7 @@ void createEntry (JobSeeker &js)
         db << js.getColleagues()[i]->getId();
         if (i < sizeColleagues) db << ";";
     }
-    db << ",";
-    db << "\n";
+    db << "," << js.getHashedPassword() << "\n";
 
     db.close();
 }
@@ -397,7 +396,7 @@ void updateEntry(vector<JobSeeker*> &list)
 {
     fstream db;
     db.open(dbPath + "/jobseekers.csv", ios::out);
-    db << "id,nom,prenom,mail,code postal,competences,collegues\n";
+    db << "id,nom,prenom,mail,code postal,competences,collegues,password\n";
     db.close();
 
     int size = list.size();

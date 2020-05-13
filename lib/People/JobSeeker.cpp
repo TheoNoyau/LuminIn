@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <functional>
+#include <sstream>
 
 #include "JobSeeker.h"
 
@@ -10,7 +12,7 @@
 
 using namespace std;
 
-JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &colleagues) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
+JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &colleagues, string hashedPassword) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues), _hashedPassword(hashedPassword)
 {
 
 }
@@ -61,6 +63,11 @@ vector<Employee*> &JobSeeker::getColleagues()
     return _oldColleagues;
 }
 
+string JobSeeker::getHashedPassword()
+{
+    return _hashedPassword ;
+}
+
 void JobSeeker::setId(int id)
 {
     _id = id;
@@ -76,10 +83,17 @@ void JobSeeker::setZipcode(string zipcode)
     _zipcode = zipcode ;
 }
 
-void JobSeeker::createProfile(vector<JobSeeker*> &list)
+void JobSeeker::createProfile(vector<JobSeeker*> &list, string password)
 {
+    hash<string> passwordHash ;
+    stringstream ss ;
+
     // Giving an id to the object
     setId(list) ;
+
+    // Hash password and converting size_t into string
+    ss << passwordHash(password) ;
+    _hashedPassword = ss.str() ;
 
     // Adding to the global vector of JobSeekers of the app
     list.push_back(this) ;

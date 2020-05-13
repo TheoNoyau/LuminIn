@@ -176,7 +176,7 @@ int main()
         JobSeeker* js = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
 
         // createProfile
-        js->createProfile(jobSeekers);
+        js->createProfile(jobSeekers, "");
 
         // Get the index in the vector of JobSeekers of the JobSeeker created with createProfile()
         int jsIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
@@ -204,7 +204,7 @@ int main()
 
         // jobSeekerToEmployee
         JobSeeker* js2 = new JobSeeker("AHOUI", "Jean", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-        js2->createProfile(jobSeekers) ;
+        js2->createProfile(jobSeekers, "") ;
     
         Employee* e = js2->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
         jsIndex = Employee::getIndex(e->getId(), employees) ;
@@ -214,7 +214,7 @@ int main()
 
         // searchForJobs with skills
         JobSeeker* js3 = new JobSeeker("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-        js3->createProfile(jobSeekers) ;
+        js3->createProfile(jobSeekers, "") ;
 
         vector<Job*> resJobs1 = js3->searchForJobs(jobs, {"Python", "SQL", "C", "C++"}) ;
         vector<Job*> resJobs2 = js3->searchForJobs(jobs, {"Python"}) ;
@@ -437,13 +437,13 @@ int main()
         jsColleagues.push_back(employees[0]) ;
 
         JobSeeker* jsTest1 = new JobSeeker("TEST1", "t1", "test@test.fr", "09100", {"A"}, jsColleagues) ;
-        jsTest1->createProfile(jobSeekers);
+        jsTest1->createProfile(jobSeekers, "");
 
         JobSeeker* jsTest2 = new JobSeeker("TEST2", "t2", "test@test.fr", "09100", {"A", "D", "B"}, jsColleagues) ;
-        jsTest2->createProfile(jobSeekers);
+        jsTest2->createProfile(jobSeekers, "");
 
         JobSeeker* jsTest3 = new JobSeeker("TEST3", "t3", "test@test.fr", "09100", {"D", "B"}, jsColleagues) ;
-        jsTest3->createProfile(jobSeekers);
+        jsTest3->createProfile(jobSeekers, "");
 
         relevantJs = polytech->searchForJobSeekers(jobSeekers, {"A", "B", "D"});
         TEST(relevantJs.size() == 3) ;
@@ -488,9 +488,9 @@ int main()
         JobSeeker* jsTest = new JobSeeker("JOBSEEKER", "Test", "job@seeker.fr", "13009", {"C++", "Java"}, colleagues) ;
         jsTest->createProfile(jobSeekers, "choucroute64") ;
 
-        TEST(empTest->getHashedPassword().compare("choucroute64")) ;
-        TEST(checkPassword(empTest->getHashedPassword(),"abcdertze*$5") == false) ;
-        TEST(checkPassword(empTest->getHashedPassword(), "choucroute64") == true);
+        TEST(jsTest->getHashedPassword().compare("choucroute64")) ;
+        TEST(checkPassword(jsTest->getHashedPassword(),"abcdertze*$5") == false) ;
+        TEST(checkPassword(jsTest->getHashedPassword(), "choucroute64") == true);
     }
 
     // Save data to make it persistent

@@ -174,7 +174,7 @@ void Employee::deleteProfile(vector<Employee*> &list, vector<JobSeeker*> &jobSee
 JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers)
 {
     JobSeeker* js = new JobSeeker (_name, _firstname, _email, _zipcode, _skills, _oldColleagues) ;
-    js->createProfile(jobseekers) ;
+    js->createProfile(jobseekers, "") ;
 
     this->deleteProfile(employees, jobseekers) ;
 
