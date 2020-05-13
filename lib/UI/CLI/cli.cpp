@@ -216,7 +216,20 @@ void Cli::printLogin()
 				cout << BOLD(FRED("No jobseeker corresponding to ID given, please try again")) << endl;
 				wait();
 				printLogin();
-			} else printMenuJobSeeker(id); 
+			} else {
+				cout << endl ;
+				cout << "Password: " << endl ;
+				cin.ignore() ;
+				getline(cin, password) ;
+
+				if (!checkPassword(_jobSeekers[flag]->getHashedPassword(), password)) {
+					cout << endl << BOLD(FRED("Wrong password, please try again!")) << endl;
+					wait();
+					printLogin();
+				}
+
+				printMenuJobSeeker(id); 
+			}
 			break;
 		}
 		case 'q':
@@ -344,7 +357,7 @@ void Cli::printMenuCreateProfileEmp()
 void Cli::printMenuCreateProfileJS() 
 {
 	system("clear");
-	string name, firstname, email, zipcode, skill;
+	string name, firstname, email, zipcode, skill, password;
 	vector<string> skills;
 	vector<Employee*> colleagues ;
 	printHeader() ;
@@ -355,6 +368,9 @@ void Cli::printMenuCreateProfileJS()
 	cin >> firstname;
 	cout << "Email: ";
 	cin >> email;
+	cout << "Password: " ;
+	cin.ignore();
+	getline(cin, password) ;
 	cout << "Zipcode: ";
 	cin >> zipcode;
 	cout << "Enter a list of skills: (type 'end' to finish)" << endl;
@@ -367,7 +383,7 @@ void Cli::printMenuCreateProfileJS()
 	logger(_logpath, "JobSeeker.createProfile", args);
 
 	JobSeeker *js = new JobSeeker(name, firstname, email, zipcode, skills, colleagues);
-	js->createProfile(_jobSeekers);
+	js->createProfile(_jobSeekers, password);
 	printMenuJobSeeker(js->getId());
 }
 

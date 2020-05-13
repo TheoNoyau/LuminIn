@@ -83,6 +83,11 @@ void JobSeeker::setZipcode(string zipcode)
     _zipcode = zipcode ;
 }
 
+void JobSeeker::setHashedPassword(string hashedPassword) 
+{
+    _hashedPassword = hashedPassword ;
+}
+
 void JobSeeker::createProfile(vector<JobSeeker*> &list, string password)
 {
     hash<string> passwordHash ;
@@ -116,7 +121,12 @@ int JobSeeker::addColleague(Employee &e)
 Employee* JobSeeker::jobSeekerToEmployee(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers, Company& company)
 {
     Employee* employee = new Employee (_name, _firstname, _email, _zipcode, _skills, _oldColleagues, company) ;
-    employee->createProfile(employees, _hashedPassword) ;
+
+    // We give empty password as password parameter because we don't have access to clear password in this situation
+    employee->createProfile(employees, "") ;
+
+    // Whe then need this function call
+    employee->setHashedPassword(_hashedPassword) ;
 
     this->deleteProfile(jobseekers) ;
 

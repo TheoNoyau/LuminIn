@@ -35,6 +35,7 @@ class Employee
     void setId(std::vector<Employee*> &list) ;
     void setZipcode(std::string zipcode) ;
     void setCompany(Company &c) ;
+    void setHashedPassword(std::string hashedPassword) ;
 
     // Static
 

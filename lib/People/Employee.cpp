@@ -112,6 +112,11 @@ void Employee::setCompany(Company &c)
     _company = &c ;
 }
 
+void Employee::setHashedPassword(string hashedPassword) 
+{
+    _hashedPassword = hashedPassword ;
+}
+
 void Employee::createProfile(vector<Employee*> &list, string password)
 {
     hash<string> passwordHash ;
@@ -174,7 +179,12 @@ void Employee::deleteProfile(vector<Employee*> &list, vector<JobSeeker*> &jobSee
 JobSeeker* Employee::employeeToJobSeeker(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers)
 {
     JobSeeker* js = new JobSeeker (_name, _firstname, _email, _zipcode, _skills, _oldColleagues) ;
-    js->createProfile(jobseekers, _hashedPassword) ;
+
+    // We give empty password as password parameter because we don't have access to clear password in this situation
+    js->createProfile(jobseekers, "") ;
+
+    // Whe then need this function call
+    js->setHashedPassword(_hashedPassword) ;
 
     this->deleteProfile(employees, jobseekers) ;
 

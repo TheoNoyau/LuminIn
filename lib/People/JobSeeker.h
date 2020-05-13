@@ -31,6 +31,7 @@ class JobSeeker
     void setId(int id) ;
     void setId(std::vector<JobSeeker*> &list) ;
     void setZipcode(std::string zipcode);
+    void setHashedPassword(std::string hashedPassword) ;
 
     // Static
 

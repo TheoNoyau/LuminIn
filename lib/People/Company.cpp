@@ -139,7 +139,6 @@ void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs, vector<E
     auto it = list.begin() + Company::getIndex(_id, list) ;
     delete * it ;
     list.erase(it) ;
-    cout << "test" << endl ;
 }
 
 void Company::createJob(vector<Job*> &list, string title, const vector<string> skills)
