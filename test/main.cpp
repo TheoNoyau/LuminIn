@@ -491,6 +491,17 @@ int main()
         TEST(jsTest->getHashedPassword().compare("choucroute64")) ;
         TEST(checkPassword(jsTest->getHashedPassword(),"abcdertze*$5") == false) ;
         TEST(checkPassword(jsTest->getHashedPassword(), "choucroute64") == true);
+
+        // Transitions
+        JobSeeker *jsEmp = empTest->employeeToJobSeeker(employees, jobSeekers) ;
+        TEST(checkPassword(jsEmp->getHashedPassword(), "PaSsWord$123") == true) ;
+
+        Employee *empJs = jsTest->jobSeekerToEmployee(employees, jobSeekers, *companies[0]) ;
+        TEST(checkPassword(empJs->getHashedPassword(), "choucroute64") == true) ;
+
+        jsEmp->deleteProfile(jobSeekers) ;
+        empJs->deleteProfile(employees, jobSeekers) ;
+        compTest->deleteProfile(companies, jobs, employees, jobSeekers) ;
     }
 
     // Save data to make it persistent
