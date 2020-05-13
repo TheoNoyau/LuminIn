@@ -10,7 +10,7 @@
 
 using namespace std ;
 
-Company::Company(string name, string zipcode, string email) : _name(name), _zipcode(zipcode), _email(email)
+Company::Company(string name, string zipcode, string email, string hashedPassword) : _name(name), _zipcode(zipcode), _email(email), _hashedPassword(hashedPassword)
 {
     
 }
@@ -86,6 +86,11 @@ string Company::getEmail ()
     return _email ;
 }
 
+string Company::getHashedPassword() 
+{
+    return _hashedPassword ;
+}
+
 void Company::setId(vector<Company*> &list)
 {
     _id = (int)list.size() + 1;
@@ -96,7 +101,7 @@ void Company::setId(int id)
     _id = id;
 }
 
-void Company::createProfile(vector<Company*> &list) 
+void Company::createProfile(vector<Company*> &list, string password) 
 {
     // Set a unique ID
     setId(list);
@@ -216,4 +221,8 @@ Company& Company::operator= (const Company &company)
     _email = company._email ;
 
     return *this ;
+}
+
+bool Company::checkPassword(std::string password) {
+    return false;
 }

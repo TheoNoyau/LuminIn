@@ -14,7 +14,7 @@ class Company
     public:
     // Class contructor
     // A Company needs a name, zipcode and email     
-    Company(std::string name, std::string zipcode, std::string email);
+    Company(std::string name, std::string zipcode, std::string email, std::string hashedPassword = "");
     Company();
 
     // Accessors
@@ -22,6 +22,7 @@ class Company
     std::string getName () ;
     std::string getZipcode () ;
     std::string getEmail () ;
+    std::string getHashedPassword() ;
 
     // Returns a vector of the jobs offers from the company
     std::vector<Job*> getJobs(std::vector<Job*>& jobs);
@@ -41,8 +42,10 @@ class Company
     // Returns a vector of companies with the attribute given in the parameters
     static std::vector<Company*> getCompanies(std::string name, std::vector<Company*> &companies) ;
 
-    // Creates Company profile and adds it in the list 
-    void createProfile(std::vector<Company*> &list) ;
+    // Creates Company profile and adds it in the list
+    // Password is the password which will be needed to log in
+    // Password is hashed before being put in the global vector
+    void createProfile(std::vector<Company*> &list, std::string password) ;
 
     // Updates profile given a name, zipcode and email
     void updateProfile(std::vector<Company*> &list, std::string name, std::string zipcode, std::string email) ;
@@ -65,6 +68,9 @@ class Company
     // Returns a list of JobSeeker
     std::vector<JobSeeker*> searchForJobSeekers(std::vector<JobSeeker*> &list, std::vector<std::string> skills, std::string zipcode) ;
 
+    // Returns whether the password given in parameters matches the hashed password stored in the DB
+    bool checkPassword(std::string password) ;
+
     // Operators overloading
     Company& operator= (const Company &company) ;
 
@@ -75,6 +81,7 @@ class Company
     std::string _zipcode;
     std::string _email;
     std::vector<Job*> _jobs ;
+    std::string _hashedPassword ;
 };
 
 #endif

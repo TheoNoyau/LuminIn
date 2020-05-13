@@ -114,7 +114,7 @@ int main()
 
         // Tests comapany names with comma(s) (other functions are already tested below)
         Company* googleInc = new Company("Google, Inc.", "09700", "contact@google.fr") ;
-        googleInc->createProfile(companies) ;
+        googleInc->createProfile(companies, "") ;
 
         
         updateEntry(companies) ;
@@ -233,7 +233,7 @@ int main()
 
         // Tests to check order: the jobs having the most skills in common must be in the first indexes
         Company* compTest = new Company("Company Test", "09700", "company-test@test.fr") ;
-        compTest->createProfile(companies) ;
+        compTest->createProfile(companies, "") ;
 
         compTest->createJob(jobs, "JobTest1", {"B", "E"}) ;
         compTest->createJob(jobs, "JobTest2", {"D", "B", "A"}) ;
@@ -336,7 +336,7 @@ int main()
 
         // Tests to check order: the jobs having the most skills in common must be in the first indexes
         Company* compTest = new Company("Company Test", "09700", "company-test@test.fr") ;
-        compTest->createProfile(companies) ;
+        compTest->createProfile(companies, "") ;
 
         compTest->createJob(jobs, "JobTest1", {"B", "E"}) ;
         compTest->createJob(jobs, "JobTest2", {"D", "B", "A"}) ;
@@ -374,7 +374,7 @@ int main()
     {
         // createProfile
         Company* polytech = new Company("Polytech","13009","polytech@univ-amu.fr");
-        polytech->createProfile(companies);
+        polytech->createProfile(companies, "");
         int polytechIndex = Company::getIndex(polytech->getId(), companies);
 
         TEST(!companies[polytechIndex]->getName().compare("Polytech"));
@@ -462,6 +462,17 @@ int main()
         logger("test/log/log.txt", "getTimeAndDate", args2);
         vector<string> args3{"banane"};
         logger("test/log/log.txt", "getTimeAndDate", args3);
+    }
+
+    // Password handling testing
+    {
+        // Company password
+        Company* compTest = new Company("Company Test", "75100", "company@test.fr") ;
+        compTest->createProfile(companies, "MotDePasse123") ;
+
+        TEST(compTest->getHashedPassword().compare("MotDePasse123")) ;
+        TEST(compTest->checkPassword("Abdsgf") == false) ;
+        TEST(compTest->checkPassword("MotDePasse123") == true);
     }
 
     // Save data to make it persistent
