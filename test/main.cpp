@@ -483,6 +483,14 @@ int main()
         TEST(empTest->getHashedPassword().compare("PaSsWord$123")) ;
         TEST(checkPassword(empTest->getHashedPassword(),"abcdertze*$5") == false) ;
         TEST(checkPassword(empTest->getHashedPassword(), "PaSsWord$123") == true);
+
+        // Job Seeker password
+        JobSeeker* jsTest = new JobSeeker("JOBSEEKER", "Test", "job@seeker.fr", "13009", {"C++", "Java"}, colleagues) ;
+        jsTest->createProfile(jobSeekers, "choucroute64") ;
+
+        TEST(empTest->getHashedPassword().compare("choucroute64")) ;
+        TEST(checkPassword(empTest->getHashedPassword(),"abcdertze*$5") == false) ;
+        TEST(checkPassword(empTest->getHashedPassword(), "choucroute64") == true);
     }
 
     // Save data to make it persistent
