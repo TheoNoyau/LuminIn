@@ -5,6 +5,7 @@
 #include "People/JobSeeker.h"
 #include "People/Job.h"
 #include "Journal/journal.h"
+#include "Security/password.h"
 
 #include <iostream>
 #include <vector>
@@ -174,7 +175,7 @@ void Cli::printLogin()
 				cin.ignore() ;
 				getline(cin, password) ;
 
-				if (!_companies[flag]->checkPassword(password)) {
+				if (!checkPassword(_companies[flag]->getHashedPassword(), password)) {
 					cout << endl << BOLD(FRED("Wrong password, please try again!")) << endl;
 					wait();
 					printLogin();

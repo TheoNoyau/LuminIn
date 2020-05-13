@@ -68,9 +68,6 @@ class Company
     // Returns a list of JobSeeker
     std::vector<JobSeeker*> searchForJobSeekers(std::vector<JobSeeker*> &list, std::vector<std::string> skills, std::string zipcode) ;
 
-    // Returns whether the password given in parameters matches the hashed password stored in the DB
-    bool checkPassword(std::string password) ;
-
     // Operators overloading
     Company& operator= (const Company &company) ;
 

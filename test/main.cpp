@@ -4,6 +4,7 @@
 #include "People/Company.h"
 #include "DB/BDD.h"
 #include "Journal/journal.h"
+#include "Security/password.h"
 
 #include <vector>
 #include <string>
@@ -471,8 +472,8 @@ int main()
         compTest->createProfile(companies, "MotDePasse123") ;
 
         TEST(compTest->getHashedPassword().compare("MotDePasse123")) ;
-        TEST(compTest->checkPassword("Abdsgf") == false) ;
-        TEST(compTest->checkPassword("MotDePasse123") == true);
+        TEST(checkPassword(compTest->getHashedPassword(),"Abdsgf") == false) ;
+        TEST(checkPassword(compTest->getHashedPassword(), "MotDePasse123") == true);
     }
 
     // Save data to make it persistent

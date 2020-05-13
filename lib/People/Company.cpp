@@ -230,15 +230,3 @@ Company& Company::operator= (const Company &company)
 
     return *this ;
 }
-
-bool Company::checkPassword(std::string password) 
-{
-    hash<string> passwordHash ;
-    size_t convertedHash ;
-    stringstream ss(_hashedPassword) ;
-    
-    // Converts _hashedPassword in size_t
-    ss >> convertedHash ;
-
-    return passwordHash(password) == convertedHash ;
-}
