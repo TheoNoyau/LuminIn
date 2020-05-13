@@ -10,6 +10,12 @@ clean:
 build:
 	mkdir -p build
 
+build/password.o: lib/Security/password.cpp lib/Security/password.h
+	g++ -Wall -Werror -pedantic -g -c lib/Security/password.cpp -I ./lib -o build/password.o
+
+build/libpassword.a: build/password.o
+	ar crs build/libpassword.a build/password.o
+
 build/BDD.o: lib/DB/BDD.cpp lib/DB/BDD.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h | build
 	g++ -Wall -Werror -pedantic -g -c lib/DB/BDD.cpp -I ./lib -o build/BDD.o
 
@@ -37,23 +43,23 @@ build/libdb.a: build/BDD.o
 build/libpeople.a: build/Company.o build/Employee.o build/Job.o build/JobSeeker.o
 	ar crs build/libpeople.a build/Company.o build/Employee.o build/Job.o build/JobSeeker.o
 
-build/test.o: test/main.cpp lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h lib/DB/BDD.h lib/Journal/journal.h | build
+build/test.o: test/main.cpp lib/Security/password.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h lib/DB/BDD.h lib/Journal/journal.h | build
 	g++ -Wall -Werror -pedantic -g -c test/main.cpp -I ./lib -o build/test.o
 
-build/test: build/test.o build/libpeople.a build/libdb.a build/libjournal.a | build
-	g++ build/test.o build/libpeople.a build/libdb.a build/libjournal.a -Lbuild/ -lpeople -ldb -o build/test
+build/test: build/test.o build/libpeople.a build/libdb.a build/libjournal.a build/libpassword.a | build
+	g++ build/test.o build/libpeople.a build/libdb.a build/libjournal.a -Lbuild/ -lpeople -ldb -lpassword -o build/test
 
-build/cli.o: lib/UI/CLI/cli.cpp lib/UI/CLI/cli.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h lib/Journal/journal.h | build
+build/cli.o: lib/UI/CLI/cli.cpp  lib/Security/password.h lib/UI/CLI/cli.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h lib/Journal/journal.h | build
 	g++ -Wall -Werror -pedantic -g -c lib/UI/CLI/cli.cpp -I ./lib -o build/cli.o
 
 build/libcli.a: build/cli.o
 	ar crs build/libcli.a build/cli.o
 	
-build/luminin.o: application/main.cpp lib/UI/CLI/cli.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h lib/DB/BDD.h lib/Journal/journal.h| build
+build/luminin.o: application/main.cpp lib/UI/CLI/cli.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h lib/DB/BDD.h lib/Journal/journal.h lib/Security/password.h | build
 	g++ -Wall -Werror -pedantic -g -c application/main.cpp -I ./lib -o build/luminin.o
 	
-build/luminin: build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a | build
-	g++ build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a -Lbuild/ -lpeople -ldb -lcli -o build/luminin
+build/luminin: build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a build/libpassword.a | build
+	g++ build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a -Lbuild/ -lpeople -ldb -lcli -lpassword -ljournal -o build/luminin
 
 # S'assure de l'existence tout les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli

@@ -7,10 +7,11 @@
 
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 using namespace std ;
 
-Company::Company(string name, string zipcode, string email) : _name(name), _zipcode(zipcode), _email(email)
+Company::Company(string name, string zipcode, string email, string hashedPassword) : _name(name), _zipcode(zipcode), _email(email), _hashedPassword(hashedPassword)
 {
     
 }
@@ -86,6 +87,11 @@ string Company::getEmail ()
     return _email ;
 }
 
+string Company::getHashedPassword() 
+{
+    return _hashedPassword ;
+}
+
 void Company::setId(vector<Company*> &list)
 {
     _id = (int)list.size() + 1;
@@ -96,10 +102,17 @@ void Company::setId(int id)
     _id = id;
 }
 
-void Company::createProfile(vector<Company*> &list) 
+void Company::createProfile(vector<Company*> &list, string password) 
 {
+    hash<string> passwordHash ;
+    stringstream ss ;
+
     // Set a unique ID
     setId(list);
+
+    // Hash password and converting size_t into string
+    ss << passwordHash(password) ;
+    _hashedPassword = ss.str() ;
 
     // Add the profile to the vector
     list.push_back(this);
@@ -126,7 +139,6 @@ void Company::deleteProfile(vector<Company*> &list, vector<Job*> &jobs, vector<E
     auto it = list.begin() + Company::getIndex(_id, list) ;
     delete * it ;
     list.erase(it) ;
-    cout << "test" << endl ;
 }
 
 void Company::createJob(vector<Job*> &list, string title, const vector<string> skills)
@@ -214,6 +226,7 @@ Company& Company::operator= (const Company &company)
     _name = company._name ;
     _zipcode = company._zipcode ;
     _email = company._email ;
+    _hashedPassword= company._hashedPassword ;
 
     return *this ;
 }

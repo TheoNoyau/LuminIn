@@ -5,6 +5,7 @@
 #include "People/JobSeeker.h"
 #include "People/Job.h"
 #include "Journal/journal.h"
+#include "Security/password.h"
 
 #include <iostream>
 #include <vector>
@@ -148,6 +149,7 @@ void Cli::printLogin()
 	cout << BOLD(FWHT("* Login *")) << endl << endl ;
     int id, flag;
 	char choice;
+	string password ;
     cout << "You are:" << endl;
     cout << "1. A Company" << endl;
     cout << "2. An Employee" << endl;
@@ -156,7 +158,7 @@ void Cli::printLogin()
 	cout << "Your choice: ";
     cin >> choice;
 	if (choice != 'r' && choice != 'q') {
-		cout << "Please enter your ID" << endl;
+		cout << "Please enter your ID: " << endl;
 		cin >> id;
 	}
 	switch (choice) {
@@ -167,7 +169,20 @@ void Cli::printLogin()
 				cout << BOLD(FRED("No company corresponding to ID given, please try again")) << endl;
 				wait();
 				printLogin();
-			} else printMenuCompany(id); 
+			} else {
+				cout << endl ;
+				cout << "Password: " << endl ;
+				cin.ignore() ;
+				getline(cin, password) ;
+
+				if (!checkPassword(_companies[flag]->getHashedPassword(), password)) {
+					cout << endl << BOLD(FRED("Wrong password, please try again!")) << endl;
+					wait();
+					printLogin();
+				}
+
+				printMenuCompany(id); 
+			}
 			break;
 		}
 		case '2': {
@@ -177,7 +192,21 @@ void Cli::printLogin()
 				cout << BOLD(FRED("No employee corresponding to ID given, please try again")) << endl;
 				wait();
 				printLogin();
-			} else printMenuEmployee(id); 
+			} else 
+				{
+					cout << endl ;
+					cout << "Password: " << endl ;
+					cin.ignore() ;
+					getline(cin, password) ;
+
+					if (!checkPassword(_employees[flag]->getHashedPassword(), password)) {
+						cout << endl << BOLD(FRED("Wrong password, please try again!")) << endl;
+						wait();
+						printLogin();
+					}
+
+					printMenuEmployee(id);
+				} 
 			break;
 		}
 		case '3': {
@@ -187,7 +216,20 @@ void Cli::printLogin()
 				cout << BOLD(FRED("No jobseeker corresponding to ID given, please try again")) << endl;
 				wait();
 				printLogin();
-			} else printMenuJobSeeker(id); 
+			} else {
+				cout << endl ;
+				cout << "Password: " << endl ;
+				cin.ignore() ;
+				getline(cin, password) ;
+
+				if (!checkPassword(_jobSeekers[flag]->getHashedPassword(), password)) {
+					cout << endl << BOLD(FRED("Wrong password, please try again!")) << endl;
+					wait();
+					printLogin();
+				}
+
+				printMenuJobSeeker(id); 
+			}
 			break;
 		}
 		case 'q':
@@ -242,7 +284,7 @@ void Cli::printMenuCreateProfile()
 
 void Cli::printMenuCreateProfileComp() 
 {
-	char name[100], zipcode[10], email[100] ;
+	char name[100], zipcode[10], email[100], password[100] ;
 	system("clear") ;
 	printHeader() ;
 	cin.ignore();
@@ -253,6 +295,8 @@ void Cli::printMenuCreateProfileComp()
 	cin.getline(zipcode, 10);
 	cout << "E-mail adress: " ;
 	cin.getline(email, 100);
+	cout << "Password: " ;
+	cin.getline(password, 100) ;
 
 	Company *c = new Company(name, zipcode, email) ;
 
@@ -260,13 +304,13 @@ void Cli::printMenuCreateProfileComp()
 	vector<string> args{"vector<Company*> _companies"};
 	logger(_logpath, "Company.createProfile", args);
 
-	c->createProfile(_companies) ;
+	c->createProfile(_companies, password) ;
 	printMenuCompany(c->getId());
 }
 
 void Cli::printMenuCreateProfileEmp() 
 {
-	string name, firstname, email, zipcode, skill ;
+	string name, firstname, email, zipcode, skill, password ;
 	int idCompany, companyIndex;
 	vector<string> skills ;
 	vector<Employee*> colleagues ;
@@ -279,6 +323,9 @@ void Cli::printMenuCreateProfileEmp()
 	cin >> firstname ;
 	cout << "E-mail adress: " ;
 	cin >> email ;
+	cout << "Password: " ;
+	cin.ignore() ;
+	getline(cin, password) ;
 	cout << "Zipcode: " ;
 	cin >> zipcode ;
 	cout << "Enter a list of skills: (type 'end' to finish)" << endl;
@@ -303,14 +350,14 @@ void Cli::printMenuCreateProfileEmp()
 	vector<string> args{"vector<Employee*> _employees"};
 	logger(_logpath, "Employee.createProfile", args);
 
-	e->createProfile(_employees) ;
+	e->createProfile(_employees, password) ;
 	printMenuEmployee(e->getId()) ;
 }
 
 void Cli::printMenuCreateProfileJS() 
 {
 	system("clear");
-	string name, firstname, email, zipcode, skill;
+	string name, firstname, email, zipcode, skill, password;
 	vector<string> skills;
 	vector<Employee*> colleagues ;
 	printHeader() ;
@@ -321,6 +368,9 @@ void Cli::printMenuCreateProfileJS()
 	cin >> firstname;
 	cout << "Email: ";
 	cin >> email;
+	cout << "Password: " ;
+	cin.ignore();
+	getline(cin, password) ;
 	cout << "Zipcode: ";
 	cin >> zipcode;
 	cout << "Enter a list of skills: (type 'end' to finish)" << endl;
@@ -333,7 +383,7 @@ void Cli::printMenuCreateProfileJS()
 	logger(_logpath, "JobSeeker.createProfile", args);
 
 	JobSeeker *js = new JobSeeker(name, firstname, email, zipcode, skills, colleagues);
-	js->createProfile(_jobSeekers);
+	js->createProfile(_jobSeekers, password);
 	printMenuJobSeeker(js->getId());
 }
 

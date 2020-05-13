@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <functional>
+#include <sstream>
 
 #include "JobSeeker.h"
 
@@ -10,7 +12,7 @@
 
 using namespace std;
 
-JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &colleagues) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues)
+JobSeeker::JobSeeker(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &colleagues, string hashedPassword) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(colleagues), _hashedPassword(hashedPassword)
 {
 
 }
@@ -61,6 +63,11 @@ vector<Employee*> &JobSeeker::getColleagues()
     return _oldColleagues;
 }
 
+string JobSeeker::getHashedPassword()
+{
+    return _hashedPassword ;
+}
+
 void JobSeeker::setId(int id)
 {
     _id = id;
@@ -76,10 +83,22 @@ void JobSeeker::setZipcode(string zipcode)
     _zipcode = zipcode ;
 }
 
-void JobSeeker::createProfile(vector<JobSeeker*> &list)
+void JobSeeker::setHashedPassword(string hashedPassword) 
 {
+    _hashedPassword = hashedPassword ;
+}
+
+void JobSeeker::createProfile(vector<JobSeeker*> &list, string password)
+{
+    hash<string> passwordHash ;
+    stringstream ss ;
+
     // Giving an id to the object
     setId(list) ;
+
+    // Hash password and converting size_t into string
+    ss << passwordHash(password) ;
+    _hashedPassword = ss.str() ;
 
     // Adding to the global vector of JobSeekers of the app
     list.push_back(this) ;
@@ -102,7 +121,12 @@ int JobSeeker::addColleague(Employee &e)
 Employee* JobSeeker::jobSeekerToEmployee(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers, Company& company)
 {
     Employee* employee = new Employee (_name, _firstname, _email, _zipcode, _skills, _oldColleagues, company) ;
-    employee->createProfile(employees) ;
+
+    // We give empty password as password parameter because we don't have access to clear password in this situation
+    employee->createProfile(employees, "") ;
+
+    // Whe then need this function call
+    employee->setHashedPassword(_hashedPassword) ;
 
     this->deleteProfile(jobseekers) ;
 

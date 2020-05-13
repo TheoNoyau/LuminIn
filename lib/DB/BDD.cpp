@@ -43,11 +43,11 @@ vector<Company*> getCompanies()
         }
 
         // Concatenate the fields corresponding to company's name (which were separated with a comma) => Ex: Google, Inc.
-        for (unsigned int i = 2; i < dataLine.size() - 2; i++) {
+        for (unsigned int i = 2; i < dataLine.size() - 3; i++) {
             dataLine[1] = dataLine[1] + "," + dataLine[i] ;
         }
 
-        Company *company = new Company(dataLine[1], dataLine[dataLine.size() - 2], dataLine[dataLine.size() - 1]) ;
+        Company *company = new Company(dataLine[1], dataLine[dataLine.size() - 3], dataLine[dataLine.size() - 2], dataLine[dataLine.size() - 1]) ;
 
         companyId = stoi(dataLine[0]) ;
         company->setId(companyId) ;
@@ -110,7 +110,7 @@ vector<JobSeeker*> getJobSeekers()
             colleagues.push_back(employees[colleagueId - 1]) ;
         }
 
-        JobSeeker* js = new JobSeeker(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues) ;
+        JobSeeker* js = new JobSeeker(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, dataLine[7]) ;
 
         jobseekerId = stoi(dataLine[0]) ;
         js->setId(jobseekerId) ;
@@ -235,7 +235,7 @@ vector<Employee*> getEmployees()
 
         }
 
-        Employee *emp = new Employee(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, *company) ;
+        Employee *emp = new Employee(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, *company, dataLine[8]) ;
 
         employeeId = stoi(dataLine[0]) ;
         emp->setId(employeeId) ;
@@ -278,7 +278,14 @@ Company* getCompany(int const id)
 
         companyId = stoi(dataLine[0]) ;
         if (companyId == id) {
-            Company *company = new Company(dataLine[1], dataLine[2], dataLine[3]) ;
+
+            // Concatenate the fields corresponding to company's name (which were separated with a comma) => Ex: Google, Inc.
+            for (unsigned int i = 2; i < dataLine.size() - 3; i++) {
+                dataLine[1] = dataLine[1] + "," + dataLine[i] ;
+            }
+
+            Company *company = new Company(dataLine[1], dataLine[dataLine.size() - 3], dataLine[dataLine.size() - 2], dataLine[dataLine.size() - 1]) ;
+
             company->setId(companyId) ;
             db.close();
             return company ;
@@ -296,7 +303,7 @@ void createEntry (Company &c)
     db.open(dbPath + "/companies.csv", ios::in | ios::app);
 
     // Enter Company info
-    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
+    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "," << c.getHashedPassword() << "\n";
 
     db.close();
 }
@@ -320,8 +327,7 @@ void createEntry (JobSeeker &js)
         db << js.getColleagues()[i]->getId();
         if (i < sizeColleagues) db << ";";
     }
-    db << ",";
-    db << "\n";
+    db << "," << js.getHashedPassword() << "\n";
 
     db.close();
 }
@@ -348,7 +354,7 @@ void createEntry (Employee &e)
     }
     db << ",";
 
-    db << e.getCompany().getId() << "\n";
+    db << e.getCompany().getId() << "," << e.getHashedPassword() << "\n";
 
     db.close();
 }
@@ -375,7 +381,7 @@ void updateEntry(vector<Company*> &list)
 {
     fstream db;
     db.open(dbPath + "/companies.csv", ios::out);
-    db << "id,nom,code postal,mail\n";
+    db << "id,nom,code postal,mail,password\n";
     db.close();
  
     int size = list.size();
@@ -390,7 +396,7 @@ void updateEntry(vector<JobSeeker*> &list)
 {
     fstream db;
     db.open(dbPath + "/jobseekers.csv", ios::out);
-    db << "id,nom,prenom,mail,code postal,competences,collegues\n";
+    db << "id,nom,prenom,mail,code postal,competences,collegues,password\n";
     db.close();
 
     int size = list.size();
@@ -404,7 +410,7 @@ void updateEntry(vector<Employee*> &list)
 {
     fstream db;
     db.open(dbPath + "/employees.csv", ios::out);
-    db << "id,nom,prenom,mail,code postal,competences,collegues,entreprise\n";
+    db << "id,nom,prenom,mail,code postal,competences,collegues,entreprise,password\n";
     db.close();
 
     int size = list.size();

@@ -4,6 +4,7 @@
 #include "People/Company.h"
 #include "DB/BDD.h"
 #include "Journal/journal.h"
+#include "Security/password.h"
 
 #include <vector>
 #include <string>
@@ -114,7 +115,7 @@ int main()
 
         // Tests comapany names with comma(s) (other functions are already tested below)
         Company* googleInc = new Company("Google, Inc.", "09700", "contact@google.fr") ;
-        googleInc->createProfile(companies) ;
+        googleInc->createProfile(companies, "") ;
 
         
         updateEntry(companies) ;
@@ -175,7 +176,7 @@ int main()
         JobSeeker* js = new JobSeeker("BERNARD", "Jean", "jean@bernard.fr", "13009", {"C++", "Java"}, jsColleagues) ;
 
         // createProfile
-        js->createProfile(jobSeekers);
+        js->createProfile(jobSeekers, "");
 
         // Get the index in the vector of JobSeekers of the JobSeeker created with createProfile()
         int jsIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
@@ -203,7 +204,7 @@ int main()
 
         // jobSeekerToEmployee
         JobSeeker* js2 = new JobSeeker("AHOUI", "Jean", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-        js2->createProfile(jobSeekers) ;
+        js2->createProfile(jobSeekers, "") ;
     
         Employee* e = js2->jobSeekerToEmployee(employees, jobSeekers, *(companies[1])) ;
         jsIndex = Employee::getIndex(e->getId(), employees) ;
@@ -213,7 +214,7 @@ int main()
 
         // searchForJobs with skills
         JobSeeker* js3 = new JobSeeker("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, jsColleagues) ;
-        js3->createProfile(jobSeekers) ;
+        js3->createProfile(jobSeekers, "") ;
 
         vector<Job*> resJobs1 = js3->searchForJobs(jobs, {"Python", "SQL", "C", "C++"}) ;
         vector<Job*> resJobs2 = js3->searchForJobs(jobs, {"Python"}) ;
@@ -233,7 +234,7 @@ int main()
 
         // Tests to check order: the jobs having the most skills in common must be in the first indexes
         Company* compTest = new Company("Company Test", "09700", "company-test@test.fr") ;
-        compTest->createProfile(companies) ;
+        compTest->createProfile(companies, "") ;
 
         compTest->createJob(jobs, "JobTest1", {"B", "E"}) ;
         compTest->createJob(jobs, "JobTest2", {"D", "B", "A"}) ;
@@ -275,7 +276,7 @@ int main()
         Employee* e = new Employee("KERNEVES", "Theo", "tkerneves@gmail.com", "13006", {"C++", "C"}, colleagues, *(companies[1])) ;
 
         // createProfile
-        e->createProfile(employees);
+        e->createProfile(employees, "");
         int eIndex = Employee::getIndex(e->getId(), employees) ;
 
         TEST (!employees[eIndex]->getName().compare("KERNEVES")) ;
@@ -306,7 +307,7 @@ int main()
 
         // employeeToJobSeeker
         Employee* e2 = new Employee("Blerfood", "Tagliatelle", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[0])) ;
-        e2->createProfile(employees) ;
+        e2->createProfile(employees, "") ;
     
         JobSeeker* js = e2->employeeToJobSeeker(employees, jobSeekers) ;
         eIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
@@ -316,7 +317,7 @@ int main()
 
         // searchForJobs with skills
         Employee* e3 = new Employee("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[1])) ;
-        e3->createProfile(employees) ;
+        e3->createProfile(employees, "") ;
 
         vector<Job*> resJobs1 = e3->searchForJobs(jobs, {"Python", "SQL", "C", "C++"}) ;
         vector<Job*> resJobs2 = e3->searchForJobs(jobs, {"Python"}) ;
@@ -336,7 +337,7 @@ int main()
 
         // Tests to check order: the jobs having the most skills in common must be in the first indexes
         Company* compTest = new Company("Company Test", "09700", "company-test@test.fr") ;
-        compTest->createProfile(companies) ;
+        compTest->createProfile(companies, "") ;
 
         compTest->createJob(jobs, "JobTest1", {"B", "E"}) ;
         compTest->createJob(jobs, "JobTest2", {"D", "B", "A"}) ;
@@ -374,7 +375,7 @@ int main()
     {
         // createProfile
         Company* polytech = new Company("Polytech","13009","polytech@univ-amu.fr");
-        polytech->createProfile(companies);
+        polytech->createProfile(companies, "");
         int polytechIndex = Company::getIndex(polytech->getId(), companies);
 
         TEST(!companies[polytechIndex]->getName().compare("Polytech"));
@@ -436,13 +437,13 @@ int main()
         jsColleagues.push_back(employees[0]) ;
 
         JobSeeker* jsTest1 = new JobSeeker("TEST1", "t1", "test@test.fr", "09100", {"A"}, jsColleagues) ;
-        jsTest1->createProfile(jobSeekers);
+        jsTest1->createProfile(jobSeekers, "");
 
         JobSeeker* jsTest2 = new JobSeeker("TEST2", "t2", "test@test.fr", "09100", {"A", "D", "B"}, jsColleagues) ;
-        jsTest2->createProfile(jobSeekers);
+        jsTest2->createProfile(jobSeekers, "");
 
         JobSeeker* jsTest3 = new JobSeeker("TEST3", "t3", "test@test.fr", "09100", {"D", "B"}, jsColleagues) ;
-        jsTest3->createProfile(jobSeekers);
+        jsTest3->createProfile(jobSeekers, "");
 
         relevantJs = polytech->searchForJobSeekers(jobSeekers, {"A", "B", "D"});
         TEST(relevantJs.size() == 3) ;
@@ -462,6 +463,45 @@ int main()
         logger("test/log/log.txt", "getTimeAndDate", args2);
         vector<string> args3{"banane"};
         logger("test/log/log.txt", "getTimeAndDate", args3);
+    }
+
+    // Password handling testing
+    {
+        // Company password
+        Company* compTest = new Company("Company Test", "75100", "company@test.fr") ;
+        compTest->createProfile(companies, "MotDePasse123") ;
+
+        TEST(compTest->getHashedPassword().compare("MotDePasse123")) ;
+        TEST(checkPassword(compTest->getHashedPassword(),"Abdsgf") == false) ;
+        TEST(checkPassword(compTest->getHashedPassword(), "MotDePasse123") == true);
+
+        // Employee password
+        vector<Employee*> colleagues ;
+        Employee* empTest = new Employee("EMPLOYEE", "Test", "Test@employee.com", "13006", {"C++", "C"}, colleagues, *(companies[1])) ;
+        empTest->createProfile(employees, "PaSsWord$123") ;
+
+        TEST(empTest->getHashedPassword().compare("PaSsWord$123")) ;
+        TEST(checkPassword(empTest->getHashedPassword(),"abcdertze*$5") == false) ;
+        TEST(checkPassword(empTest->getHashedPassword(), "PaSsWord$123") == true);
+
+        // Job Seeker password
+        JobSeeker* jsTest = new JobSeeker("JOBSEEKER", "Test", "job@seeker.fr", "13009", {"C++", "Java"}, colleagues) ;
+        jsTest->createProfile(jobSeekers, "choucroute64") ;
+
+        TEST(jsTest->getHashedPassword().compare("choucroute64")) ;
+        TEST(checkPassword(jsTest->getHashedPassword(),"abcdertze*$5") == false) ;
+        TEST(checkPassword(jsTest->getHashedPassword(), "choucroute64") == true);
+
+        // Transitions
+        JobSeeker *jsEmp = empTest->employeeToJobSeeker(employees, jobSeekers) ;
+        TEST(checkPassword(jsEmp->getHashedPassword(), "PaSsWord$123") == true) ;
+
+        Employee *empJs = jsTest->jobSeekerToEmployee(employees, jobSeekers, *companies[0]) ;
+        TEST(checkPassword(empJs->getHashedPassword(), "choucroute64") == true) ;
+
+        jsEmp->deleteProfile(jobSeekers) ;
+        empJs->deleteProfile(employees, jobSeekers) ;
+        compTest->deleteProfile(companies, jobs, employees, jobSeekers) ;
     }
 
     // Save data to make it persistent
