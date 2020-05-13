@@ -148,6 +148,7 @@ void Cli::printLogin()
 	cout << BOLD(FWHT("* Login *")) << endl << endl ;
     int id, flag;
 	char choice;
+	string password ;
     cout << "You are:" << endl;
     cout << "1. A Company" << endl;
     cout << "2. An Employee" << endl;
@@ -156,7 +157,7 @@ void Cli::printLogin()
 	cout << "Your choice: ";
     cin >> choice;
 	if (choice != 'r' && choice != 'q') {
-		cout << "Please enter your ID" << endl;
+		cout << "Please enter your ID: " << endl;
 		cin >> id;
 	}
 	switch (choice) {
@@ -167,7 +168,20 @@ void Cli::printLogin()
 				cout << BOLD(FRED("No company corresponding to ID given, please try again")) << endl;
 				wait();
 				printLogin();
-			} else printMenuCompany(id); 
+			} else {
+				cout << endl ;
+				cout << "Password: " << endl ;
+				cin.ignore() ;
+				getline(cin, password) ;
+
+				if (!_companies[flag]->checkPassword(password)) {
+					cout << endl << BOLD(FRED("Wrong password, please try again!")) << endl;
+					wait();
+					printLogin();
+				}
+
+				printMenuCompany(id); 
+			}
 			break;
 		}
 		case '2': {
@@ -242,7 +256,7 @@ void Cli::printMenuCreateProfile()
 
 void Cli::printMenuCreateProfileComp() 
 {
-	char name[100], zipcode[10], email[100] ;
+	char name[100], zipcode[10], email[100], password[100] ;
 	system("clear") ;
 	printHeader() ;
 	cin.ignore();
@@ -253,6 +267,8 @@ void Cli::printMenuCreateProfileComp()
 	cin.getline(zipcode, 10);
 	cout << "E-mail adress: " ;
 	cin.getline(email, 100);
+	cout << "Password: " ;
+	cin.getline(password, 100) ;
 
 	Company *c = new Company(name, zipcode, email) ;
 
@@ -260,7 +276,7 @@ void Cli::printMenuCreateProfileComp()
 	vector<string> args{"vector<Company*> _companies"};
 	logger(_logpath, "Company.createProfile", args);
 
-	c->createProfile(_companies) ;
+	c->createProfile(_companies, password) ;
 	printMenuCompany(c->getId());
 }
 
