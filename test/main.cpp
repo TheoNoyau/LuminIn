@@ -276,7 +276,7 @@ int main()
         Employee* e = new Employee("KERNEVES", "Theo", "tkerneves@gmail.com", "13006", {"C++", "C"}, colleagues, *(companies[1])) ;
 
         // createProfile
-        e->createProfile(employees);
+        e->createProfile(employees, "");
         int eIndex = Employee::getIndex(e->getId(), employees) ;
 
         TEST (!employees[eIndex]->getName().compare("KERNEVES")) ;
@@ -307,7 +307,7 @@ int main()
 
         // employeeToJobSeeker
         Employee* e2 = new Employee("Blerfood", "Tagliatelle", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[0])) ;
-        e2->createProfile(employees) ;
+        e2->createProfile(employees, "") ;
     
         JobSeeker* js = e2->employeeToJobSeeker(employees, jobSeekers) ;
         eIndex = JobSeeker::getIndex(js->getId(), jobSeekers) ;
@@ -317,7 +317,7 @@ int main()
 
         // searchForJobs with skills
         Employee* e3 = new Employee("TEST", "Kevin", "undefined@test.fr", "13009", {"C++", "Java"}, colleagues, *(companies[1])) ;
-        e3->createProfile(employees) ;
+        e3->createProfile(employees, "") ;
 
         vector<Job*> resJobs1 = e3->searchForJobs(jobs, {"Python", "SQL", "C", "C++"}) ;
         vector<Job*> resJobs2 = e3->searchForJobs(jobs, {"Python"}) ;
@@ -474,6 +474,15 @@ int main()
         TEST(compTest->getHashedPassword().compare("MotDePasse123")) ;
         TEST(checkPassword(compTest->getHashedPassword(),"Abdsgf") == false) ;
         TEST(checkPassword(compTest->getHashedPassword(), "MotDePasse123") == true);
+
+        // Employee password
+        vector<Employee*> colleagues ;
+        Employee* empTest = new Employee("EMPLOYEE", "Test", "Test@employee.com", "13006", {"C++", "C"}, colleagues, *(companies[1])) ;
+        empTest->createProfile(employees, "PaSsWord$123") ;
+
+        TEST(empTest->getHashedPassword().compare("PaSsWord$123")) ;
+        TEST(checkPassword(empTest->getHashedPassword(),"abcdertze*$5") == false) ;
+        TEST(checkPassword(empTest->getHashedPassword(), "PaSsWord$123") == true);
     }
 
     // Save data to make it persistent
