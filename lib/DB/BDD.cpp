@@ -43,11 +43,11 @@ vector<Company*> getCompanies()
         }
 
         // Concatenate the fields corresponding to company's name (which were separated with a comma) => Ex: Google, Inc.
-        for (unsigned int i = 2; i < dataLine.size() - 2; i++) {
+        for (unsigned int i = 2; i < dataLine.size() - 3; i++) {
             dataLine[1] = dataLine[1] + "," + dataLine[i] ;
         }
-
-        Company *company = new Company(dataLine[1], dataLine[dataLine.size() - 2], dataLine[dataLine.size() - 1]) ;
+        
+        Company *company = new Company(dataLine[1], dataLine[dataLine.size() - 3], dataLine[dataLine.size() - 2], dataLine[dataLine.size() - 1]) ;
 
         companyId = stoi(dataLine[0]) ;
         company->setId(companyId) ;
@@ -278,7 +278,14 @@ Company* getCompany(int const id)
 
         companyId = stoi(dataLine[0]) ;
         if (companyId == id) {
-            Company *company = new Company(dataLine[1], dataLine[2], dataLine[3]) ;
+
+            // Concatenate the fields corresponding to company's name (which were separated with a comma) => Ex: Google, Inc.
+            for (unsigned int i = 2; i < dataLine.size() - 3; i++) {
+                dataLine[1] = dataLine[1] + "," + dataLine[i] ;
+            }
+
+            Company *company = new Company(dataLine[1], dataLine[dataLine.size() - 3], dataLine[dataLine.size() - 2], dataLine[dataLine.size() - 1]) ;
+
             company->setId(companyId) ;
             db.close();
             return company ;
@@ -296,7 +303,7 @@ void createEntry (Company &c)
     db.open(dbPath + "/companies.csv", ios::in | ios::app);
 
     // Enter Company info
-    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "\n";
+    db << c.getId() << "," << c.getName() << "," << c.getZipcode() << "," << c.getEmail() << "," << c.getHashedPassword() << "\n";
 
     db.close();
 }
@@ -375,7 +382,7 @@ void updateEntry(vector<Company*> &list)
 {
     fstream db;
     db.open(dbPath + "/companies.csv", ios::out);
-    db << "id,nom,code postal,mail\n";
+    db << "id,nom,code postal,mail,password\n";
     db.close();
  
     int size = list.size();

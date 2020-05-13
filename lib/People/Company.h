@@ -14,7 +14,7 @@ class Company
     public:
     // Class contructor
     // A Company needs a name, zipcode and email     
-    Company(std::string name, std::string zipcode, std::string email, std::string hashedPassword = "");
+    Company(std::string name, std::string zipcode, std::string email, std::string hashedPassword = "000");
     Company();
 
     // Accessors

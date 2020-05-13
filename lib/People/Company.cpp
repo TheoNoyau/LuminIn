@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 using namespace std ;
 
@@ -103,8 +104,15 @@ void Company::setId(int id)
 
 void Company::createProfile(vector<Company*> &list, string password) 
 {
+    hash<string> passwordHash ;
+    stringstream ss ;
+
     // Set a unique ID
     setId(list);
+
+    // Hash password and converting size_t into string
+    ss << passwordHash(password) ;
+    _hashedPassword = ss.str() ;
 
     // Add the profile to the vector
     list.push_back(this);
@@ -223,6 +231,14 @@ Company& Company::operator= (const Company &company)
     return *this ;
 }
 
-bool Company::checkPassword(std::string password) {
-    return false;
+bool Company::checkPassword(std::string password) 
+{
+    hash<string> passwordHash ;
+    size_t convertedHash ;
+    stringstream ss(_hashedPassword) ;
+    
+    // Converts _hashedPassword in size_t
+    ss >> convertedHash ;
+
+    return passwordHash(password) == convertedHash ;
 }
