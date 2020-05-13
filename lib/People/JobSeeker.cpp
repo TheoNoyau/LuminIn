@@ -102,7 +102,7 @@ int JobSeeker::addColleague(Employee &e)
 Employee* JobSeeker::jobSeekerToEmployee(vector<Employee*> &employees, vector<JobSeeker*> &jobseekers, Company& company)
 {
     Employee* employee = new Employee (_name, _firstname, _email, _zipcode, _skills, _oldColleagues, company) ;
-    employee->createProfile(employees) ;
+    employee->createProfile(employees, "") ;
 
     this->deleteProfile(jobseekers) ;
 

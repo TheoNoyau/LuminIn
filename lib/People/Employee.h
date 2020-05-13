@@ -15,7 +15,7 @@ class Employee
 
     // Class constructor
     // An employee needs an id as PK, a name, a firstname, an email, a zipcode, a liste of skills, a list of colleagues
-    Employee(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee*> &list, Company &c);
+    Employee(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee*> &list, Company &c, std::string hashedPassword = "0000");
     Employee(Company &c) ;
     Employee(const Employee &copy) ;
 
@@ -28,6 +28,7 @@ class Employee
     std::vector<std::string> getSkills() ;
     std::vector<Employee*> &getColleagues() ;
     Company &getCompany();
+    std::string getHashedPassword() ;
 
     // Setter
     void setId(int id);
@@ -44,7 +45,9 @@ class Employee
     static std::vector<Employee*> getEmployees(std::string name, std::vector<Employee*> &employees) ;
 
     // Creates Employee profile and adds it to the list and DB
-    void createProfile(std::vector<Employee*> &list) ;
+    // Password is the password which will be needed to log in
+    // Password is hashed before being put in the global vector
+    void createProfile(std::vector<Employee*> &list, std::string password) ;
 
     // Adds a profile to the list of skills 
     void addSkills (std::vector<std::string> skills) ;
@@ -92,6 +95,7 @@ class Employee
     std::vector<std::string> _skills ;
     std::vector<Employee*> _oldColleagues ;
     Company *_company ;
+    std::string _hashedPassword ;
 };
 
 #endif

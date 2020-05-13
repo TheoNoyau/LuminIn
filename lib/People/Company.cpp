@@ -227,6 +227,7 @@ Company& Company::operator= (const Company &company)
     _name = company._name ;
     _zipcode = company._zipcode ;
     _email = company._email ;
+    _hashedPassword= company._hashedPassword ;
 
     return *this ;
 }

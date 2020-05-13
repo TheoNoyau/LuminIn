@@ -5,10 +5,12 @@
 #include "Company.h"
 
 #include <algorithm>
+#include <functional>
+#include <sstream>
 
 using namespace std;
 
-Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &list, Company &c) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(&c)
+Employee::Employee(string name, string firstname, string email, string zipcode, vector<string> skills, vector<Employee*> &list, Company &c, string hashedPassword) : _name(name), _firstname(firstname), _email(email), _zipcode(zipcode), _skills(skills), _oldColleagues(list), _company(&c), _hashedPassword(hashedPassword)
 {
 
 }
@@ -18,7 +20,7 @@ Employee::Employee(Company &c) : _name("undefined"), _firstname("undefined"), _e
     _id = -1 ;
 }
 
-Employee::Employee(const Employee &copy) : _id(copy._id), _name(copy._name), _firstname(copy._firstname), _email(copy._email), _zipcode(copy._zipcode), _skills(copy._skills), _oldColleagues(copy._oldColleagues), _company(copy._company)
+Employee::Employee(const Employee &copy) : _id(copy._id), _name(copy._name), _firstname(copy._firstname), _email(copy._email), _zipcode(copy._zipcode), _skills(copy._skills), _oldColleagues(copy._oldColleagues), _company(copy._company), _hashedPassword("0000")
 {
 
 }
@@ -85,6 +87,11 @@ Company &Employee::getCompany()
     return *_company;
 }
 
+string Employee::getHashedPassword()
+{
+    return _hashedPassword ;
+}
+
 void Employee::setId(int id)
 {
     _id = id;
@@ -105,10 +112,17 @@ void Employee::setCompany(Company &c)
     _company = &c ;
 }
 
-void Employee::createProfile(vector<Employee*> &list)
+void Employee::createProfile(vector<Employee*> &list, string password)
 {
+    hash<string> passwordHash ;
+    stringstream ss ;
+
     // Giving an id to the object
     setId(list) ;
+
+    // Hash password and converting size_t into string
+    ss << passwordHash(password) ;
+    _hashedPassword = ss.str() ;
 
     // Adding to the global vector of JobSeekers of the app
     list.push_back(this) ;
@@ -283,6 +297,7 @@ Employee& Employee::operator= (const Employee &employee)
     _skills = employee._skills ;
     _oldColleagues = employee._oldColleagues ;
     _company = employee._company ;
+    _hashedPassword = employee._hashedPassword ;
 
     return *this ;
 }
