@@ -46,7 +46,7 @@ vector<Company*> getCompanies()
         for (unsigned int i = 2; i < dataLine.size() - 3; i++) {
             dataLine[1] = dataLine[1] + "," + dataLine[i] ;
         }
-        
+
         Company *company = new Company(dataLine[1], dataLine[dataLine.size() - 3], dataLine[dataLine.size() - 2], dataLine[dataLine.size() - 1]) ;
 
         companyId = stoi(dataLine[0]) ;
@@ -235,7 +235,7 @@ vector<Employee*> getEmployees()
 
         }
 
-        Employee *emp = new Employee(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, *company) ;
+        Employee *emp = new Employee(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, *company, dataLine[8]) ;
 
         employeeId = stoi(dataLine[0]) ;
         emp->setId(employeeId) ;
@@ -355,7 +355,7 @@ void createEntry (Employee &e)
     }
     db << ",";
 
-    db << e.getCompany().getId() << "\n";
+    db << e.getCompany().getId() << "," << e.getHashedPassword() << "\n";
 
     db.close();
 }
@@ -411,7 +411,7 @@ void updateEntry(vector<Employee*> &list)
 {
     fstream db;
     db.open(dbPath + "/employees.csv", ios::out);
-    db << "id,nom,prenom,mail,code postal,competences,collegues,entreprise\n";
+    db << "id,nom,prenom,mail,code postal,competences,collegues,entreprise,password\n";
     db.close();
 
     int size = list.size();

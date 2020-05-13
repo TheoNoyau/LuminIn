@@ -192,7 +192,21 @@ void Cli::printLogin()
 				cout << BOLD(FRED("No employee corresponding to ID given, please try again")) << endl;
 				wait();
 				printLogin();
-			} else printMenuEmployee(id); 
+			} else 
+				{
+					cout << endl ;
+					cout << "Password: " << endl ;
+					cin.ignore() ;
+					getline(cin, password) ;
+
+					if (!checkPassword(_employees[flag]->getHashedPassword(), password)) {
+						cout << endl << BOLD(FRED("Wrong password, please try again!")) << endl;
+						wait();
+						printLogin();
+					}
+
+					printMenuEmployee(id);
+				} 
 			break;
 		}
 		case '3': {
@@ -283,7 +297,7 @@ void Cli::printMenuCreateProfileComp()
 
 void Cli::printMenuCreateProfileEmp() 
 {
-	string name, firstname, email, zipcode, skill ;
+	string name, firstname, email, zipcode, skill, password ;
 	int idCompany, companyIndex;
 	vector<string> skills ;
 	vector<Employee*> colleagues ;
@@ -296,6 +310,9 @@ void Cli::printMenuCreateProfileEmp()
 	cin >> firstname ;
 	cout << "E-mail adress: " ;
 	cin >> email ;
+	cout << "Password: " ;
+	cin.ignore() ;
+	getline(cin, password) ;
 	cout << "Zipcode: " ;
 	cin >> zipcode ;
 	cout << "Enter a list of skills: (type 'end' to finish)" << endl;
@@ -320,7 +337,7 @@ void Cli::printMenuCreateProfileEmp()
 	vector<string> args{"vector<Employee*> _employees"};
 	logger(_logpath, "Employee.createProfile", args);
 
-	e->createProfile(_employees) ;
+	e->createProfile(_employees, password) ;
 	printMenuEmployee(e->getId()) ;
 }
 
