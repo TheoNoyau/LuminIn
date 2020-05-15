@@ -189,6 +189,7 @@ vector<Employee*> getEmployees()
     vector<string> dataLine;
     string row, data, temp;
     unsigned int employeeId, colleagueId, companyId ;
+    int colleagueIndex ;
 
     // Ignore first line of csv file
     getline(db, temp) ;
@@ -224,12 +225,12 @@ vector<Employee*> getEmployees()
         while (getline(s, data, ';')) {
             colleagueId = stoi(data) ;
 
-            if (colleagueId >= employees.size()) {
+            colleagueIndex = Employee::getIndex(colleagueId, employees) ;
+            if (colleagueIndex == -1) {
                 Employee *e = new Employee(*company) ;
                 e->setId(colleagueId) ;
                 colleagues.push_back(e) ;
-            } else {
-                int colleagueIndex = Employee::getIndex(colleagueId, employees) ;
+            } else { ;
                 colleagues.push_back(employees[colleagueIndex]) ;
             }
 
