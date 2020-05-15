@@ -115,7 +115,65 @@ std::vector<Company*> getCompanies()
 
 std::vector<JobSeeker*> getJobSeekers() 
 {
+    sqlite3* DB ;
+    sqlite3_stmt *stmt ;
+
     vector<JobSeeker*> jobSeekers ;
+    vector<Employee*> employees ;
+    vector<Employee*> colleagues ;
+    vector<string> skills ;
+
+    string sql, data ;
+    vector<string> dataLine ;
+    stringstream s ;
+    unsigned int colleagueId, jobseekerId ;
+    
+    employees = getEmployees() ;
+
+    sqlite3_open(dbPath.c_str(), &DB) ;
+    
+    sql = "SELECT * FROM JOBSEEKER ;" ;
+    sqlite3_prepare(DB, sql.c_str(), -1, &stmt, NULL) ;
+    sqlite3_step(stmt) ;
+
+    // Getting every row of request result
+    while (sqlite3_column_text(stmt, 0)) {
+        dataLine.clear();
+        skills.clear();
+        colleagues.clear();
+
+        // Getting every column of row
+        for (int i = 0; i < 8; i++) {
+            dataLine.push_back(string((char*)sqlite3_column_text(stmt, i))) ;
+        }
+
+        // Reading of the skills
+        s.clear();
+        s << dataLine[5] ;
+        while (getline(s, data, ';')) {
+            skills.push_back(data) ;
+        }
+
+        // Set colleagues
+        s.clear();
+        s << dataLine[6] ;
+        while (getline(s, data, ';')) {
+            colleagueId = stoi(data) ;
+            colleagues.push_back(employees[Employee::getIndex(colleagueId, employees)]) ;
+        }
+
+        JobSeeker* js = new JobSeeker(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, dataLine[7]) ;
+
+        jobseekerId = stoi(dataLine[0]) ;
+        js->setId(jobseekerId) ;
+
+        jobSeekers.push_back(js) ;
+
+        sqlite3_step(stmt) ;
+    }
+
+    sqlite3_finalize(stmt) ;
+    sqlite3_close(DB) ; 
 
     return jobSeekers ;
 }
