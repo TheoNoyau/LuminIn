@@ -417,7 +417,21 @@ void createEntry (Employee &e)
 
 void createEntry (Job &j) 
 {
+    sqlite3 *DB ;
+    string sql = "INSERT INTO JOB VALUES(" + to_string(j.getId()) + ",'" + j.getTitle() + "','" ;
 
+    int sizeSkills = j.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++) {
+        sql = sql + j.getSkills()[i];
+        if (i < sizeSkills) sql = sql + ";";
+    }
+    sql = sql + "'," + to_string(j.getCompany().getId()) + ");";
+
+    sqlite3_open(dbPath.c_str(), &DB) ;
+
+    sqlite3_exec(DB, sql.c_str(), NULL, 0, NULL) ;
+
+    sqlite3_close(DB) ;
 }
 
 
@@ -483,7 +497,22 @@ void updateEntry (std::vector<Employee*> &list)
 
 void updateEntry (std::vector<Job*> &list) 
 {
+    sqlite3 *DB ;
+    int size = list.size();
 
+    sqlite3_open(dbPath.c_str(), &DB) ;
+
+    // We remove the DB's content to fill it with the new values
+    sqlite3_exec(DB, "DELETE FROM JOB; VACUUM", NULL, 0, NULL) ;
+
+    // We then add the objects of list
+    for (int i = 0; i < size; i++){
+        // Enter new Company info
+        Job *j = list[i];
+        createEntry(*j);
+    }
+
+    sqlite3_close(DB) ;
 }
 
 void clearVector (std::vector<Company*> &list) 
