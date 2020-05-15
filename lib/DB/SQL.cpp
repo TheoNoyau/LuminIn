@@ -315,7 +315,28 @@ void createEntry (Company &c)
 
 void createEntry (JobSeeker &js) 
 {
+    sqlite3 *DB ;
+    string sql = "INSERT INTO JOBSEEKER VALUES(" + to_string(e.getId()) + ",'" + e.getName() + "','" + e.getFirstname() + "','" + e.getEmail() + "','" + e.getZipcode() + "','" ;
 
+    int sizeSkills = e.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++) {
+        sql = sql + e.getSkills()[i];
+        if (i < sizeSkills) sql = sql + ";";
+    }
+    sql = sql + "','";
+
+    int sizeColleagues = e.getColleagues().size();
+    for (int i = 0; i < sizeColleagues; i++){
+        sql = sql + to_string(e.getColleagues()[i]->getId());
+        if (i < sizeColleagues) sql = sql + ";";
+    }
+    sql = sql + "','" + e.getHashedPassword() + "');";
+
+    sqlite3_open(dbPath.c_str(), &DB) ;
+
+    sqlite3_exec(DB, sql.c_str(), NULL, 0, NULL) ;
+
+    sqlite3_close(DB) ;
 }
 
 void createEntry (Employee &e) 
@@ -335,7 +356,7 @@ void createEntry (Employee &e)
         sql = sql + to_string(e.getColleagues()[i]->getId());
         if (i < sizeColleagues) sql = sql + ";";
     }
-    sql = sql + "');";
+    sql = sql + "'," + e.getCompany().getId() + ",'" e.getHashedPassword() + "');";
 
     sqlite3_open(dbPath.c_str(), &DB) ;
 
@@ -372,7 +393,22 @@ void updateEntry (std::vector<Company*> &list)
 
 void updateEntry (std::vector<JobSeeker*> &list) 
 {
+    sqlite3 *DB ;
+    int size = list.size();
 
+    sqlite3_open(dbPath.c_str(), &DB) ;
+
+    // We remove the DB's content to fill it with the new values
+    sqlite3_exec(DB, "DELETE FROM JOBSEEKER; VACUUM", NULL, 0, NULL) ;
+
+    // We then add the objects of list
+    for (int i = 0; i < size; i++){
+        // Enter new Company info
+        JobSeeker *js = list[i];
+        createEntry(*js);
+    }
+
+    sqlite3_close(DB) ;
 }
 
 void updateEntry (std::vector<Employee*> &list) 
