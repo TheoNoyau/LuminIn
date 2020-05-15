@@ -180,7 +180,57 @@ std::vector<JobSeeker*> getJobSeekers()
 
 std::vector<Job*> getJobs ()
 {
+    sqlite3* DB ;
+    sqlite3_stmt *stmt ;
+    string sql, data ;
+    stringstream s ;
+
     vector<Job*> jobs ;
+    vector<string> skills ;
+    vector<Company*> companies ;
+
+    vector<string> dataLine ;
+    int companyId, jobId ;
+
+    companies = getCompanies() ;
+
+    sqlite3_open(dbPath.c_str(), &DB) ;
+    
+    sql = "SELECT * FROM JOB ;" ;
+    sqlite3_prepare(DB, sql.c_str(), -1, &stmt, NULL) ;
+    sqlite3_step(stmt) ;
+
+    // Getting every row of request result
+    while (sqlite3_column_text(stmt, 0)) {
+        dataLine.clear() ;
+        skills.clear() ;
+
+        // Getting every column of row
+        for (int i = 0; i < 4; i++) {
+            dataLine.push_back(string((char*)sqlite3_column_text(stmt, i))) ;
+        }
+
+        // Reading of the skills
+        s.clear();
+        s << dataLine[2] ;
+        while (getline(s, data, ';')) {
+            skills.push_back(data) ;
+        }
+
+        companyId = stoi(dataLine[3]) ;
+        Company *company = companies[Company::getIndex(companyId, companies)] ;
+
+        Job *job = new Job(dataLine[1], skills, *company) ;
+        jobId = stoi(dataLine[0]) ;
+        job->setId(jobId) ;
+
+        jobs.push_back(job) ;
+
+        sqlite3_step(stmt) ;
+    }
+
+    sqlite3_finalize(stmt) ;
+    sqlite3_close(DB) ; 
 
     return jobs ;
 }
@@ -316,21 +366,21 @@ void createEntry (Company &c)
 void createEntry (JobSeeker &js) 
 {
     sqlite3 *DB ;
-    string sql = "INSERT INTO JOBSEEKER VALUES(" + to_string(e.getId()) + ",'" + e.getName() + "','" + e.getFirstname() + "','" + e.getEmail() + "','" + e.getZipcode() + "','" ;
+    string sql = "INSERT INTO JOBSEEKER VALUES(" + to_string(js.getId()) + ",'" + js.getName() + "','" + js.getFirstname() + "','" + js.getEmail() + "','" + js.getZipcode() + "','" ;
 
-    int sizeSkills = e.getSkills().size();
+    int sizeSkills = js.getSkills().size();
     for (int i = 0; i < sizeSkills; i++) {
-        sql = sql + e.getSkills()[i];
+        sql = sql + js.getSkills()[i];
         if (i < sizeSkills) sql = sql + ";";
     }
     sql = sql + "','";
 
-    int sizeColleagues = e.getColleagues().size();
+    int sizeColleagues = js.getColleagues().size();
     for (int i = 0; i < sizeColleagues; i++){
-        sql = sql + to_string(e.getColleagues()[i]->getId());
+        sql = sql + to_string(js.getColleagues()[i]->getId());
         if (i < sizeColleagues) sql = sql + ";";
     }
-    sql = sql + "','" + e.getHashedPassword() + "');";
+    sql = sql + "','" + js.getHashedPassword() + "');";
 
     sqlite3_open(dbPath.c_str(), &DB) ;
 
@@ -356,7 +406,7 @@ void createEntry (Employee &e)
         sql = sql + to_string(e.getColleagues()[i]->getId());
         if (i < sizeColleagues) sql = sql + ";";
     }
-    sql = sql + "'," + e.getCompany().getId() + ",'" e.getHashedPassword() + "');";
+    sql = sql + "'," + to_string(e.getCompany().getId()) + ",'" + e.getHashedPassword() + "');";
 
     sqlite3_open(dbPath.c_str(), &DB) ;
 
