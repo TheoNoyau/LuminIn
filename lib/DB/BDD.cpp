@@ -162,7 +162,7 @@ vector<Job*> getJobs()
         }
 
         companyId = stoi(dataLine[3]) ;
-        Company *company = companies[companyId - 1] ;
+        Company *company = companies[Company::getIndex(companyId, companies)] ;
 
         Job *job = new Job(dataLine[1], skills, *company) ;
         jobId = stoi(dataLine[0]) ;
