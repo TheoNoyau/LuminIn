@@ -91,8 +91,11 @@ std::vector<Company*> getCompanies()
     sqlite3_prepare(DB, sql.c_str(), -1, &stmt, NULL) ;
     sqlite3_step(stmt) ;
 
+    // Getting every row of request result
     while (sqlite3_column_text(stmt, 0)) {
         dataLine.clear() ;
+
+        // Getting every column of row
         for (int i = 0; i < 5; i++) {
             dataLine.push_back(string((char*)sqlite3_column_text(stmt, i))) ;
         }
@@ -103,8 +106,6 @@ std::vector<Company*> getCompanies()
 
         sqlite3_step(stmt) ;
     }
-
-
 
     sqlite3_finalize(stmt) ;
     sqlite3_close(DB) ; 
@@ -128,7 +129,86 @@ std::vector<Job*> getJobs ()
 
 std::vector<Employee*> getEmployees () 
 {
+    sqlite3* DB ;
+    sqlite3_stmt *stmt ;
+
     vector<Employee*> employees ;
+    vector<Employee*> colleagues ;
+    vector<string> skills ;
+
+    string sql, data ;
+    vector<string> dataLine ;
+    stringstream s ;
+    unsigned int colleagueId, companyId, employeeId ;
+    int colleagueIndex ;
+
+    sqlite3_open(dbPath.c_str(), &DB) ;
+    
+    sql = "SELECT * FROM EMPLOYEE ;" ;
+    sqlite3_prepare(DB, sql.c_str(), -1, &stmt, NULL) ;
+    sqlite3_step(stmt) ;
+
+    // Getting every row of request result
+    while (sqlite3_column_text(stmt, 0)) {
+        dataLine.clear();
+        skills.clear();
+        colleagues.clear();
+
+        // Getting every column of row
+        for (int i = 0; i < 9; i++) {
+            dataLine.push_back(string((char*)sqlite3_column_text(stmt, i))) ;
+        }
+
+        // Setting of the company
+        companyId = stoi(dataLine[7]) ;
+        Company *company = getCompany(companyId) ;
+
+        // Reading of the skills
+        s.clear();
+        s << dataLine[5] ;
+        while (getline(s, data, ';')) {
+            skills.push_back(data) ;
+        }
+
+        // Reading of the colleagues IDs to add them to the colleague tab
+        s.clear();
+        s << dataLine[6] ;
+        
+        while (getline(s, data, ';')) {
+            colleagueId = stoi(data) ;
+            
+            colleagueIndex = Employee::getIndex(colleagueId, employees) ;
+            if (colleagueIndex == -1) {
+                Employee *e = new Employee(*company) ;
+                e->setId(colleagueId) ;
+                colleagues.push_back(e) ;
+            } else {
+                colleagues.push_back(employees[colleagueIndex]) ;
+            }
+
+        }
+
+        Employee *emp = new Employee(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, *company, dataLine[8]) ;
+
+        employeeId = stoi(dataLine[0]) ;
+        emp->setId(employeeId) ;
+
+        employees.push_back(emp) ;
+
+        sqlite3_step(stmt) ;
+    }
+
+    sqlite3_finalize(stmt) ;
+    sqlite3_close(DB) ; 
+
+    // Filling of all the colleagues that may not be initialized yet
+    for (unsigned int i = 0; i < employees.size(); i++) {
+        for (unsigned int j = 0; j < employees[i]->getColleagues().size(); j++) {
+            if (!employees[i]->getColleagues()[j]->getName().compare("undefined")) {
+                employees[i]->getColleagues()[j] = employees[Employee::getIndex(employees[i]->getColleagues()[j]->getId(), employees)] ;
+            }
+        }
+    }
 
     return employees ;
 }
