@@ -176,7 +176,7 @@ std::vector<Employee*> getEmployees ()
         
         while (getline(s, data, ';')) {
             colleagueId = stoi(data) ;
-            
+
             colleagueIndex = Employee::getIndex(colleagueId, employees) ;
             if (colleagueIndex == -1) {
                 Employee *e = new Employee(*company) ;
@@ -262,7 +262,28 @@ void createEntry (JobSeeker &js)
 
 void createEntry (Employee &e) 
 {
+    sqlite3 *DB ;
+    string sql = "INSERT INTO EMPLOYEE VALUES(" + to_string(e.getId()) + ",'" + e.getName() + "','" + e.getFirstname() + "','" + e.getEmail() + "','" + e.getZipcode() + "','" ;
 
+    int sizeSkills = e.getSkills().size();
+    for (int i = 0; i < sizeSkills; i++) {
+        sql = sql + e.getSkills()[i];
+        if (i < sizeSkills) sql = sql + ";";
+    }
+    sql = sql + "','";
+
+    int sizeColleagues = e.getColleagues().size();
+    for (int i = 0; i < sizeColleagues; i++){
+        sql = sql + to_string(e.getColleagues()[i]->getId());
+        if (i < sizeColleagues) sql = sql + ";";
+    }
+    sql = sql + "');";
+
+    sqlite3_open(dbPath.c_str(), &DB) ;
+
+    sqlite3_exec(DB, sql.c_str(), NULL, 0, NULL) ;
+
+    sqlite3_close(DB) ;
 }
 
 void createEntry (Job &j) 
@@ -298,7 +319,22 @@ void updateEntry (std::vector<JobSeeker*> &list)
 
 void updateEntry (std::vector<Employee*> &list) 
 {
+    sqlite3 *DB ;
+    int size = list.size();
 
+    sqlite3_open(dbPath.c_str(), &DB) ;
+
+    // We remove the DB's content to fill it with the new values
+    sqlite3_exec(DB, "DELETE FROM EMPLOYEE; VACUUM", NULL, 0, NULL) ;
+
+    // We then add the objects of list
+    for (int i = 0; i < size; i++){
+        // Enter new Company info
+        Employee *e = list[i];
+        createEntry(*e);
+    }
+
+    sqlite3_close(DB) ;
 }
 
 void updateEntry (std::vector<Job*> &list) 
