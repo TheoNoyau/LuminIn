@@ -59,7 +59,7 @@ build/luminin.o: application/main.cpp lib/UI/CLI/cli.h lib/People/Company.h lib/
 	g++ -Wall -Werror -pedantic -g -c application/main.cpp -I ./lib -o build/luminin.o
 	
 build/luminin: build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a build/libpassword.a | build
-	g++ build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a -Lbuild/ -lpeople -ldb -lcli -lpassword -ljournal -o build/luminin
+	g++ build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a -Lbuild/ -lpeople -ldb -lcli -lpassword -ljournal -l sqlite3 -o build/luminin
 
 # S'assure de l'existence tout les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli

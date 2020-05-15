@@ -142,7 +142,6 @@ int main()
     // getEmployees
     employees = getEmployees() ;
     {
-        // cout << employees[0].getColleagues()[0].getId() << endl ;
         TEST (!employees[0]->getName().compare("Untel")) ;
         TEST (!employees[0]->getSkills()[0].compare("C++")) ;
 

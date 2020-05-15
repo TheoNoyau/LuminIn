@@ -24,14 +24,14 @@ void sqlInit()
 {
     sqlite3* DB ;
     string sql ;
-    sqlite3_open(dbPath.c_str(), &DB) ;
+    sqlite3_open_v2(dbPath.c_str(), &DB, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL) ;
 
     // Company table
     sql = "CREATE TABLE IF NOT EXISTS COMPANY("
                  "ID INT PRIMARY KEY NOT NULL,"
                  "NAME TEXT NOT NULL,"
-                 "CP CHAR(5) NOT NULL,"
-                 "MAIL CHAR(50) NOT NULL,"
+                 "CP TEXT NOT NULL,"
+                 "MAIL TEXT NOT NULL,"
                  "PASSWORD TEXT);" ;
 
     sqlite3_exec(DB, sql.c_str(), NULL, 0, NULL) ;
@@ -41,8 +41,8 @@ void sqlInit()
                  "ID INT PRIMARY KEY NOT NULL,"
                  "NAME TEXT NOT NULL,"
                  "FIRSTNAME TEXT NOT NULL,"
-                 "MAIL CHAR(50) NOT NULL,"
-                 "CP CHAR(5) NOT NULL,"
+                 "MAIL TEXT NOT NULL,"
+                 "CP TEXT NOT NULL,"
                  "SKILLS TEXT,"
                  "COLLEAGUES TEXT,"
                  "COMPANY_ID INT NOT NULL,"
@@ -66,8 +66,8 @@ void sqlInit()
                  "ID INT PRIMARY KEY NOT NULL,"
                  "NAME TEXT NOT NULL,"
                  "FIRSTNAME TEXT NOT NULL,"
-                 "MAIL CHAR(50) NOT NULL,"
-                 "CP CHAR(5) NOT NULL,"
+                 "MAIL TEXT NOT NULL,"
+                 "CP TEXT NOT NULL,"
                  "SKILLS TEXT,"
                  "COLLEAGUES TEXTL,"
                  "PASSWORD TEXT);" ;
@@ -515,22 +515,34 @@ void updateEntry (std::vector<Job*> &list)
     sqlite3_close(DB) ;
 }
 
-void clearVector (std::vector<Company*> &list) 
+void clearVector (std::vector<Company*> &list)
 {
-
+    for (Company* c : list) {
+        delete c ;
+    }
+    list.clear() ;
 }
 
-void clearVector (std::vector<JobSeeker*> &list) 
+void clearVector (std::vector<JobSeeker*> &list)
 {
-
+    for (JobSeeker* js : list) {
+        delete js ;
+    }
+    list.clear() ;
 }
 
-void clearVector (std::vector<Employee*> &list) 
+void clearVector (std::vector<Employee*> &list)
 {
-
+    for (Employee* e : list) {
+        delete e ;
+    }
+    list.clear() ;
 }
 
 void clearVector (std::vector<Job*> &list)
 {
-
+    for (Job* j : list) {
+        delete j ;
+    }
+    list.clear() ;
 }
