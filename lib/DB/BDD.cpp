@@ -107,7 +107,7 @@ vector<JobSeeker*> getJobSeekers()
         s << dataLine[6] ;
         while (getline(s, data, ';')) {
             colleagueId = stoi(data) ;
-            colleagues.push_back(employees[colleagueId - 1]) ;
+            colleagues.push_back(employees[Employee::getIndex(colleagueId, employees)]) ;
         }
 
         JobSeeker* js = new JobSeeker(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, dataLine[7]) ;
