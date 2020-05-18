@@ -107,7 +107,7 @@ vector<JobSeeker*> getJobSeekers()
         s << dataLine[6] ;
         while (getline(s, data, ';')) {
             colleagueId = stoi(data) ;
-            colleagues.push_back(employees[colleagueId - 1]) ;
+            colleagues.push_back(employees[Employee::getIndex(colleagueId, employees)]) ;
         }
 
         JobSeeker* js = new JobSeeker(dataLine[1], dataLine[2], dataLine[3], dataLine[4], skills, colleagues, dataLine[7]) ;
@@ -162,7 +162,7 @@ vector<Job*> getJobs()
         }
 
         companyId = stoi(dataLine[3]) ;
-        Company *company = companies[companyId - 1] ;
+        Company *company = companies[Company::getIndex(companyId, companies)] ;
 
         Job *job = new Job(dataLine[1], skills, *company) ;
         jobId = stoi(dataLine[0]) ;
@@ -189,6 +189,7 @@ vector<Employee*> getEmployees()
     vector<string> dataLine;
     string row, data, temp;
     unsigned int employeeId, colleagueId, companyId ;
+    int colleagueIndex ;
 
     // Ignore first line of csv file
     getline(db, temp) ;
@@ -224,12 +225,12 @@ vector<Employee*> getEmployees()
         while (getline(s, data, ';')) {
             colleagueId = stoi(data) ;
 
-            if (colleagueId >= employees.size()) {
+            colleagueIndex = Employee::getIndex(colleagueId, employees) ;
+            if (colleagueIndex == -1) {
                 Employee *e = new Employee(*company) ;
                 e->setId(colleagueId) ;
                 colleagues.push_back(e) ;
-            } else {
-                int colleagueIndex = Employee::getIndex(colleagueId, employees) ;
+            } else { ;
                 colleagues.push_back(employees[colleagueIndex]) ;
             }
 

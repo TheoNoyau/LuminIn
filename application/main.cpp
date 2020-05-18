@@ -10,7 +10,9 @@ using namespace std ;
 int main ()
 {
     // Set path to the database
-    setPath("application/data/csv");
+    // setPath("application/data/csv");
+    setPath("application/data/sql/db_luminin.db") ;
+    sqlInit() ;
 
     // Fetch all the objects
     vector<Company*> companies = getCompanies() ;

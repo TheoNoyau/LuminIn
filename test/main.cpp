@@ -43,12 +43,15 @@ int main()
     // TEST(!c.getEmail().compare("pro@gmail.com"));
 
     // Sets the path to csv files
-    setPath("test/data/csv");
+    // setPath("test/data/csv");
+    setPath("test/data/sql/db_luminin_test.db") ;
+    sqlInit() ;
 
     vector<Company*> companies ;
     vector<Employee*> employees ;
     vector<Job*> jobs ;
     vector<JobSeeker*> jobSeekers ;
+    
 
     // // DB Test -> updateEntry for each file
     // // updateEntry for Company
@@ -116,7 +119,7 @@ int main()
         // Tests comapany names with comma(s) (other functions are already tested below)
         Company* googleInc = new Company("Google, Inc.", "09700", "contact@google.fr") ;
         googleInc->createProfile(companies, "") ;
-
+   
         
         updateEntry(companies) ;
         companies = getCompanies() ;
@@ -139,7 +142,6 @@ int main()
     // getEmployees
     employees = getEmployees() ;
     {
-        // cout << employees[0].getColleagues()[0].getId() << endl ;
         TEST (!employees[0]->getName().compare("Untel")) ;
         TEST (!employees[0]->getSkills()[0].compare("C++")) ;
 

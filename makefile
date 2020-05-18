@@ -16,8 +16,8 @@ build/password.o: lib/Security/password.cpp lib/Security/password.h
 build/libpassword.a: build/password.o
 	ar crs build/libpassword.a build/password.o
 
-build/BDD.o: lib/DB/BDD.cpp lib/DB/BDD.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h | build
-	g++ -Wall -Werror -pedantic -g -c lib/DB/BDD.cpp -I ./lib -o build/BDD.o
+build/BDD.o: lib/DB/SQL.cpp lib/DB/BDD.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h | build
+	g++ -Wall -Werror -pedantic -g -c lib/DB/SQL.cpp -I ./lib -o build/BDD.o
 
 build/journal.o: lib/Journal/journal.cpp lib/Journal/journal.h
 	g++ -Wall -Werror -pedantic -g -c lib/Journal/journal.cpp -I ./lib -o build/journal.o
@@ -47,7 +47,7 @@ build/test.o: test/main.cpp lib/Security/password.h lib/People/Company.h lib/Peo
 	g++ -Wall -Werror -pedantic -g -c test/main.cpp -I ./lib -o build/test.o
 
 build/test: build/test.o build/libpeople.a build/libdb.a build/libjournal.a build/libpassword.a | build
-	g++ build/test.o build/libpeople.a build/libdb.a build/libjournal.a -Lbuild/ -lpeople -ldb -lpassword -o build/test
+	g++ build/test.o build/libpeople.a build/libdb.a build/libjournal.a -Lbuild/ -lpeople -ldb -lpassword -l sqlite3 -o build/test
 
 build/cli.o: lib/UI/CLI/cli.cpp  lib/Security/password.h lib/UI/CLI/cli.h lib/People/Company.h lib/People/JobSeeker.h lib/People/Employee.h lib/People/Job.h lib/Journal/journal.h | build
 	g++ -Wall -Werror -pedantic -g -c lib/UI/CLI/cli.cpp -I ./lib -o build/cli.o
@@ -59,7 +59,7 @@ build/luminin.o: application/main.cpp lib/UI/CLI/cli.h lib/People/Company.h lib/
 	g++ -Wall -Werror -pedantic -g -c application/main.cpp -I ./lib -o build/luminin.o
 	
 build/luminin: build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a build/libpassword.a | build
-	g++ build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a -Lbuild/ -lpeople -ldb -lcli -lpassword -ljournal -o build/luminin
+	g++ build/luminin.o build/libpeople.a build/libdb.a build/libcli.a build/libjournal.a -Lbuild/ -lpeople -ldb -lcli -lpassword -ljournal -l sqlite3 -o build/luminin
 
 # S'assure de l'existence tout les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli

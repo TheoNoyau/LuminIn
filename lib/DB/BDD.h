@@ -14,6 +14,10 @@ class Employee ;
 // Sets the path to DB files
 void setPath(std::string path);
 
+// Initialize the sqlite DB
+// Will create tables of all objects if they don't exist
+void sqlInit() ;
+
 // Reads all the companies from the companies database table
 // Returns a vector of those Companies
 std::vector<Company*> getCompanies() ;
