@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: sudo apt-get install -y -qq libsqlite3-dev
     - name: Build all
       run: make all
     - name: Test
