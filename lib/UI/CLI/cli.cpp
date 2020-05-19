@@ -594,6 +594,7 @@ void Cli::printMenuEmployee(int id)
 	system("clear");
 	printHeader() ;
 	char choice;
+	int res ;
 	cout << BOLD(FBLU("* Employee - Menu *")) << endl << endl ;
 	printInfoEmp(id);
 	cout << UNDL("Your profile:") << endl;
@@ -659,7 +660,15 @@ void Cli::printMenuEmployee(int id)
 						logger(_logpath, "Employee.addColleague", args);
 					}
 
-					_employees[Employee::getIndex(id, _employees)]->addColleague(*e);
+					res = _employees[Employee::getIndex(id, _employees)]->addColleague(*e);
+
+					if (res == -1) {
+						cout << endl;
+						cout << BOLD(FRED("Colleague already added!")) << endl;
+						wait();
+						printMenuEmployee(id);
+					}
+
 					cout << endl;
 					cout << BOLD(FGRN("Successfuly added ")) << "\x1B[1m" << e->getFirstname() << RST << " " << "\x1B[1m" << e->getName() << RST << BOLD(FGRN(" as a colleague")) << endl;
 				}
@@ -1007,7 +1016,7 @@ void Cli::printMenuJobSeeker(int id)
 		case '2':{
 			system("clear");
 			string ename;
-			int colleagueId, flag;
+			int colleagueId, flag, res;
 			vector<Employee*> employees;
 			cout << BOLD(FMAG("* Jobseeker - Add Colleague *")) << endl << endl ;
 			cout << "Search for the lastname of your colleague: ";
@@ -1030,7 +1039,16 @@ void Cli::printMenuJobSeeker(int id)
 						logger(_logpath, "JobSeeker.addColleague", args);
 					}
 
-					_jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->addColleague(*e);
+					res = _jobSeekers[JobSeeker::getIndex(id, _jobSeekers)]->addColleague(*e);
+
+					if (res == -1) {
+						cout << endl;
+						cout << BOLD(FRED("Colleague already added!")) << endl;
+
+						wait();
+						printMenuJobSeeker(id);
+					}
+
 					cout << endl;
 					cout << BOLD(FGRN("Successfuly added ")) << "\x1B[1m" <<e->getFirstname() << RST << " " << "\x1B[1m" << e->getName() << RST << BOLD(FGRN(" as a colleague")) << endl;
 				}	
