@@ -3,7 +3,7 @@
 
 #include <string>
 
-// Returns whether the password given in parameters matches the hashed password stored in the DB
-bool checkPassword(std::string hash1, std::string hash2) ;
+// Returns whether the password hashedPassword matches the clear password given
+bool checkPassword(std::string hashedPassword, std::string clearPassword) ;
 
 #endif
