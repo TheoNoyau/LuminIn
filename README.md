@@ -15,24 +15,24 @@ LuminIn est une réplique du fameux site LinkedIn, en ligne de commande qui poss
     - [Fonctionnalités pour un employé](#fonctionnalités-pour-un-employé)
 - [Support](#support)
 
-# Fonctionnement {: #fonctionnement }
+# Fonctionnement
 
 Pour une utilisation de la version 1.2.0 ou supérieur, installez sqlite3 : `sudo apt-get install sqlite3`
 
 Pour compiler et executer, utilisez : `make app`
 
 Au lancement de l'application, vous vous trouverez sur le menu principal. Plusieurs choix s'offrent à vous :
-    - Si vous êtes nouveau sur l'application, vous pouvez créer votre profil. 
-    :warning: **Attention à bien vous souvenir de votre identifiant pour une prochaine utilisation!**
-    - Si vous êtes déjà inscrit, vous pouvez vous connecter.
+- Si vous êtes nouveau sur l'application, vous pouvez créer votre profil. 
+:warning: **Attention à bien vous souvenir de votre identifiant pour une prochaine utilisation!**
+- Si vous êtes déjà inscrit, vous pouvez vous connecter.
 
 Si vous ne trouvez pas l'entreprise pour laquelle vous travaillez, [contactez nous](#support) 
 
-# Spécifications pour chaque status {: #spécifications-pour-chaque-status}
+# Spécifications pour chaque status
 
 Dans cette section, vous pouvez retrouver les différentes fonctionnalités disponibles à chaque status.
 
-## Fonctionalités pour une entreprise {: #fonctionnalités-pour-une-entreprise}
+## Fonctionalités pour une entreprise 
 
 Vous êtes une entreprise, vous pourrez :
 
@@ -43,7 +43,7 @@ Vous êtes une entreprise, vous pourrez :
 - [ ] Supprimer le profil d'un poste pourvu
 - [ ] Rechercher parmi les chercheurs d'emploi 
 
-## Fonctionalités pour un chercheur d'emploi {: #fonctionnalités-pour-un-chercheur-demploi}
+## Fonctionalités pour un chercheur d'emploi 
 
 Vous êtes en recherche d'emploi, vous pourrez :
 
@@ -57,7 +57,7 @@ Vous êtes en recherche d'emploi, vous pourrez :
 - [ ] Rechercher parmi les postes à pourvoir qui correspondent à votre profil
 - [ ] Rechercher parmi vos anciens collègues
 
-## Fonctionalités pour un employé {: #fonctionnalités-pour-un-employé}
+## Fonctionalités pour un employé 
 
 Vous êtes un employé, vous pourrez :
 
@@ -74,7 +74,7 @@ Vous êtes un employé, vous pourrez :
 
 Lorsque vous quittez une entreprise, les personnes travaillant à cette entreprise seront ajoutés à votre liste de collègues
 
-# Support {: #support}
+# Support 
 
 - [ ] Pour toutes questions ou problèmes, veuillez contacter notre service support : [kerlav@gmail.com](mailto:kerlav@gmail.com?subject=[GitHub]%LumiIn)
 
