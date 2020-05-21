@@ -15,6 +15,7 @@ class JobSeeker
 
     // Class constructor
     // A JobSeeker needs and id as PK, a name, a firstname, an email, a zipcode, a vector of skills and a vector of old colleagues from old jobs
+    // From version 1.2.0 it needs a hashed password (default set to 0000 to avoid bugs when users didn't have passwords from previous versions)
     JobSeeker(std::string name, std::string firstname, std::string email, std::string zipcode, std::vector<std::string> skills, std::vector<Employee*> &colleagues, std::string hashedPassword = "0000");
 
     // Accessors
