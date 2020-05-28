@@ -33,9 +33,12 @@ class Job ;
 
 class Cli {
     public:
+        // A Cli object takes the global vectors of the app as references
         Cli(std::vector<Company*> &companies, std::vector<Employee*> &employees, std::vector<JobSeeker*> &jobSeekers, std::vector<Job*> &jobs) ;
 
+        // Init path for log file
         void setLogPath(std::string path);
+
         // Waits for input from user before going on
         void wait();
         void printHeader() ;
@@ -61,34 +64,14 @@ class Cli {
         void printLogin();
 
         
-        // Company Menus
+        // Company Menu
         void printMenuCompany(int id);
-        void printUpdateProfileComp(int id);
-        void printDeleteProfileMenuComp(int id) ;
-        void printCreateJobMenu(int id);
-        void printDeleteJob(int id);
-        void printSearchForJS(int id);
-        void printSearchByS(int id);
-        void printSearchBySandZ(int id);
-        void printAvailableJobsComp();
         
-        
-        // JobSeeker Menus
+        // JobSeeker Menu
         void printMenuJobSeeker(int id);
-        void printUpdateProfile(int id);
-        void printJobFoundMenu(int id);
-        void printSearchForJobsMenu(int id);
-        void printSearchForOldColleaguesMenuJS (int id) ;
-        // Shows available jobs for specific JS
-        void printAvailableJobsJS();
 
-        // Employee Menus
+        // Employee Menu
         void printMenuEmployee(int id) ;
-        void printUpdateProfileMenuEmp(int id);
-        void printJobQuitMenu(int id);
-        void printDeleteProfileMenuEmp(int id) ;
-        void printSearchForJobsMenuEmp(int id) ;
-        void printSearchForOldColleaguesMenuEmp (int id) ;
         
 
     private:

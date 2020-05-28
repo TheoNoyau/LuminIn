@@ -13,7 +13,8 @@ class Company
 {
     public:
     // Class contructor
-    // A Company needs a name, zipcode and email     
+    // A Company needs a name, zipcode and email 
+    // From version 1.2.0 it needs a hashed password (default set to 0000 to avoid bugs when users didn't have passwords from previous versions)    
     Company(std::string name, std::string zipcode, std::string email, std::string hashedPassword = "0000");
     Company();
 

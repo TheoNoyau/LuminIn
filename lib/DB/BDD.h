@@ -12,6 +12,9 @@ class Job ;
 class Employee ;
 
 // Sets the path to DB files
+// CSV module: you don't have to put file name. Ex: "test/csv/"
+// SQL module: put file name. Ex: "test/sql/database.db"
+// SQL module: the file will automatically be created if doesn't exist but not the folder!
 void setPath(std::string path);
 
 // Initialize the sqlite DB
@@ -38,7 +41,7 @@ std::vector<Employee*> getEmployees () ;
 Company* getCompany(int const id) ;
 
 // Creates a line in the database table
-// The database file will differ according to the object given
+// The database file/table will differ according to the object given
 void createEntry (Company &c) ;
 void createEntry (JobSeeker &js) ;
 void createEntry (Employee &e) ;
