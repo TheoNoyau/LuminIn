@@ -43,6 +43,18 @@ Vous êtes une entreprise, vous pourrez :
 - [ ] Supprimer le profil d'un poste pourvu
 - [ ] Rechercher parmi les chercheurs d'emploi 
 
+#### Fonctionnement de la recherche
+
+Lorsque vous souhaitez rechercher un chercheur d'emploi, vous aurez différents choix.
+- [ ] Rechercher par compétences :
+    - Vous entrez les compétences que vous recherchez chez un chercheur d'emploi
+
+- [ ] Rechercher par compétences et code postal :
+    - Vous entrez les compétences que vous recherchez chez un chercheur d'emploi mais également un code postal.
+
+Vous obtiendrez ainsi une liste de personnes correspondant à vos critères classé par pertinence.
+
+
 ## Fonctionalités pour un chercheur d'emploi 
 
 Vous êtes en recherche d'emploi, vous pourrez :
@@ -56,6 +68,24 @@ Vous êtes en recherche d'emploi, vous pourrez :
 - [ ] Supprimer votre profil
 - [ ] Rechercher parmi les postes à pourvoir qui correspondent à votre profil
 - [ ] Rechercher parmi vos anciens collègues
+
+#### Fonctionnement de la recherche
+
+Lorsque vous souhaitez rechercher un emploi, vous aurez différents choix.
+- [ ] Rechercher par compétences :
+    - Vous entrez les compétences que vous avez qui correspondent à une offre d'emploi.
+
+- [ ] Rechercher par compétences et code postal :
+    - Vous entrez les compétences que vous avez qui correspondent à une offre d'emploi mais également un code postal.
+
+Vous obtiendrez ainsi une liste de personnes correspondant à vos critères classé par pertinence.
+
+Lorsque vous souhaitez rechercher un ancien collègue, vous aurez également différent choix.
+- [ ] Rechercher par entreprise :
+    - Vous entrez le nom d'une entreprise et vous obtiendrez la liste de vos anciens collègues qui travaillent maintenant à ladite entreprise.
+
+- [ ] Rechercher par compétences :
+    - Vous entrez les compétences que vous avez et vous obtiendrez la liste de vos anciens collègues qui travaillent à une entreprise ayant une offre d'emploi correspondant à vos compétences.
 
 ## Fonctionalités pour un employé 
 
@@ -73,6 +103,25 @@ Vous êtes un employé, vous pourrez :
 - [ ] Rechercher parmi vos anciens collègues
 
 Lorsque vous quittez une entreprise, les personnes travaillant à cette entreprise seront ajoutés à votre liste de collègues
+
+#### Fonctionnement de la recherche
+
+Lorsque vous souhaitez rechercher un emploi, vous aurez différents choix.
+- [ ] Rechercher par compétences :
+    - Vous entrez les compétences que vous avez qui correspondent à une offre d'emploi.
+
+- [ ] Rechercher par compétences et code postal :
+    - Vous entrez les compétences que vous avez qui correspondent à une offre d'emploi mais également un code postal.
+
+Vous obtiendrez ainsi une liste de personnes correspondant à vos critères classé par pertinence.
+
+Lorsque vous souhaitez rechercher un ancien collègue, vous aurez également différent choix.
+- [ ] Rechercher par entreprise :
+    - Vous entrez le nom d'une entreprise et vous obtiendrez la liste de vos anciens collègues qui travaillent maintenant à ladite entreprise.
+
+- [ ] Rechercher par compétences :
+    - Vous entrez les compétences que vous avez et vous obtiendrez la liste de vos anciens collègues qui travaillent à une entreprise ayant une offre d'emploi correspondant à vos compétences.
+
 
 # Support 
 

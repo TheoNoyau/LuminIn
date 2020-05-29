@@ -334,24 +334,31 @@ void Cli::printMenuCreateProfileEmp()
 		skills.push_back(skill);
 	}
 	printCompanies(_companies);
-	cout << "Id of the company you are working for (see above): ";
+	cout << "Id of the company you are working for or '-1' if you don't find your company (see above): ";
 	cin >> idCompany ;
-	while (Company::getIndex(idCompany, _companies) == -1) {
-		cout << "Wrong company id" << endl ;
-		cout << "Id of the company you are working for (see above): ";
-		cin >> idCompany ;
+	if (idCompany != -1){
+		while (Company::getIndex(idCompany, _companies) == -1) {
+			cout << "Wrong company id" << endl ;
+			cout << "Id of the company you are working for (see above): ";
+			cin >> idCompany ;
+			companyIndex = Company::getIndex(idCompany, _companies) ;
+			Company *c = _companies[companyIndex] ;
+			Employee *e = new Employee(name, firstname, email, zipcode, skills, colleagues, *c) ;
+
+			// Logging action 
+			vector<string> args{"vector<Employee*> _employees"};
+			logger(_logpath, "Employee.createProfile", args);
+
+			e->createProfile(_employees, password) ;
+			printMenuEmployee(e->getId()) ;
+		}
+	} else {
+		cout << endl << BOLD(FRED("Sorry, the company you work for hasn't registered yet.")) << endl;
+		wait();
+		printMenu();
 	}
 
-	companyIndex = Company::getIndex(idCompany, _companies) ;
-	Company *c = _companies[companyIndex] ;
-	Employee *e = new Employee(name, firstname, email, zipcode, skills, colleagues, *c) ;
-
-	// Logging action 
-	vector<string> args{"vector<Employee*> _employees"};
-	logger(_logpath, "Employee.createProfile", args);
-
-	e->createProfile(_employees, password) ;
-	printMenuEmployee(e->getId()) ;
+	
 }
 
 void Cli::printMenuCreateProfileJS() 
